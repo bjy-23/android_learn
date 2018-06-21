@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,12 +61,15 @@ public class MainActivity extends AppCompatActivity {
 //                Set set1 = SpUtil.get("set");
 //                System.out.println(set1.toString());
 
-                Gson gson = new Gson();
+                List<List> list = new ArrayList<>();
+                List<TestBean> list1 = new ArrayList<>();
+                list1.add(new TestBean("bjy", 26));
+                list.add(list1);
 
-                List<TestBean> list = new ArrayList<>();
-                list.add(new TestBean("bjy", 22));
+                System.out.println(new Gson().toJson(list));
+                Hawk.put("1", list);
 
-                System.out.println(gson.toJson(list));
+                List list2 = Hawk.get("1");
             }
         });
     }
