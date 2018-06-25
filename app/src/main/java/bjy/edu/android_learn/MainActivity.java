@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.orhanobut.hawk.Hawk;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Hawk.put("1", list);
 
                 List list2 = Hawk.get("1");
+
             }
         });
     }

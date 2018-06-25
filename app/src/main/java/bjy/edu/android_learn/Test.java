@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.hawk.Hawk;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,5 +37,6 @@ public class Test {
         String json = "[{\"name\":\"bjy\",\"age\":22}]";
         List list1 = gson.fromJson(json, new TypeToken<ArrayList<TestBean>>(){}.getType());
 
+        Field
     }
 }
