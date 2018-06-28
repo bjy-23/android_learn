@@ -37,6 +37,5 @@ public class Test {
         String json = "[{\"name\":\"bjy\",\"age\":22}]";
         List list1 = gson.fromJson(json, new TypeToken<ArrayList<TestBean>>(){}.getType());
 
-        Field
     }
 }

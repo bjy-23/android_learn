@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.util.SpUtil;
+import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //viewpager测试
-//                startActivity(new Intent(MainActivity.this, ViewPagerActivity.class));
+//                test_1();
+
+                //recyclerView
+                test_2();
 
                 //webView测试
 //                startActivity(new Intent(MainActivity.this, WebViewActivity.class));
@@ -62,17 +67,25 @@ public class MainActivity extends AppCompatActivity {
 //                Set set1 = SpUtil.get("set");
 //                System.out.println(set1.toString());
 
-                List<List> list = new ArrayList<>();
-                List<TestBean> list1 = new ArrayList<>();
-                list1.add(new TestBean("bjy", 26));
-                list.add(list1);
-
-                System.out.println(new Gson().toJson(list));
-                Hawk.put("1", list);
-
-                List list2 = Hawk.get("1");
+//                List<List> list = new ArrayList<>();
+//                List<TestBean> list1 = new ArrayList<>();
+//                list1.add(new TestBean("bjy", 26));
+//                list.add(list1);
+//
+//                System.out.println(new Gson().toJson(list));
+//                Hawk.put("1", list);
+//
+//                List list2 = Hawk.get("1");
 
             }
         });
+    }
+
+    public void test_1(){
+        startActivity(new Intent(MainActivity.this, ViewPagerActivity.class));
+    }
+
+    public void test_2(){
+        startActivity(new Intent(MainActivity.this, RvActivity.class));
     }
 }
