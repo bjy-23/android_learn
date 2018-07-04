@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
+import bjy.edu.android_learn.widget.ViewActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +39,13 @@ public class MainActivity extends AppCompatActivity {
 //                test_1();
 
                 //recyclerView
-                test_2();
+//                test_2();
 
+                //自定义View
+//                test_3();
+
+                //http测试
+                test_4();
                 //webView测试
 //                startActivity(new Intent(MainActivity.this, WebViewActivity.class));
 
@@ -87,5 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_2(){
         startActivity(new Intent(MainActivity.this, RvActivity.class));
+    }
+
+    private void test_3(){
+        startActivity(new Intent(MainActivity.this, ViewActivity.class));
+    }
+
+    public void test_4(){
+        startActivity(new Intent(MainActivity.this, HttpActivity.class));
     }
 }

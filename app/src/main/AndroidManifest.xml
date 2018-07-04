@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bjy.edu.android_learn">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -19,7 +21,9 @@
         </activity>
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity android:name=".webView.WebViewActivity" />
-        <activity android:name=".recyclerView.RvActivity"></activity>
+        <activity android:name=".recyclerView.RvActivity" />
+        <activity android:name=".widget.ViewActivity" />
+        <activity android:name=".http.HttpActivity"></activity>
     </application>
 
 </manifest>
