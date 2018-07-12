@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bjy.edu.android_learn">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -23,7 +23,10 @@
         <activity android:name=".webView.WebViewActivity" />
         <activity android:name=".recyclerView.RvActivity" />
         <activity android:name=".widget.ViewActivity" />
-        <activity android:name=".http.HttpActivity"></activity>
+        <activity android:name=".http.HttpActivity" />
+        <activity
+            android:name=".toolbar.ToolbarActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>

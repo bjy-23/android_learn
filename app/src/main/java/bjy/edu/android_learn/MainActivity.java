@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.orhanobut.hawk.Hawk;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +21,7 @@ import java.util.Set;
 
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
+import bjy.edu.android_learn.toolbar.ToolbarActivity;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
@@ -45,44 +48,16 @@ public class MainActivity extends AppCompatActivity {
 //                test_3();
 
                 //http测试
-                test_4();
-                //webView测试
-//                startActivity(new Intent(MainActivity.this, WebViewActivity.class));
+//                test_4();
 
-//                List<TestBean> list = new ArrayList<>();
-//                list.add(new TestBean("路飞", 17));
-//                list.add(new TestBean("索隆", 19));
-//                SpUtil.put("list", list);
-//
-//                List list1 = SpUtil.get("list");
-//                System.out.println(list1.size());
-//
-//                Map<String, String> map = new HashMap<>();
-//                map.put("路飞", "17");
-//                map.put("索隆", "19");
-//
-//                SpUtil.put("map", map);
-//
-//                Map map1 = SpUtil.get("map");
-//                System.out.println(map1.toString());
-//
-//                Set<TestBean> set = new HashSet<>();
-//                set.add(new TestBean("路飞", 17));
-//                set.add(new TestBean("索隆", 19));
-//                SpUtil.put("set", set);
-//
-//                Set set1 = SpUtil.get("set");
-//                System.out.println(set1.toString());
+                //toolbar
+//                test_5();
 
-//                List<List> list = new ArrayList<>();
-//                List<TestBean> list1 = new ArrayList<>();
-//                list1.add(new TestBean("bjy", 26));
-//                list.add(list1);
-//
-//                System.out.println(new Gson().toJson(list));
-//                Hawk.put("1", list);
-//
-//                List list2 = Hawk.get("1");
+                //webView
+//                test_6();
+
+                //sharedprefrence
+                test_7();
 
             }
         });
@@ -102,5 +77,60 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_4(){
         startActivity(new Intent(MainActivity.this, HttpActivity.class));
+    }
+
+    public void test_5(){
+        startActivity(new Intent(MainActivity.this, ToolbarActivity.class));
+    }
+
+    public void test_6(){
+        startActivity(new Intent(MainActivity.this, WebViewActivity.class));
+    }
+
+    public void test_7(){
+//        List<TestBean> list = new ArrayList<>();
+//        list.add(new TestBean("路飞", 17));
+//        list.add(new TestBean("索隆", 19));
+//        SpUtil.put("list", list);
+//
+//        List list1 = SpUtil.get("list");
+//        System.out.println(list1.size());
+//
+//        Map<String, String> map = new HashMap<>();
+//        map.put("路飞", "17");
+//        map.put("索隆", "19");
+//
+//        SpUtil.put("map", map);
+//
+//        Map map1 = SpUtil.get("map");
+//        System.out.println(map1.toString());
+//
+//        Set<TestBean> set = new HashSet<>();
+//        set.add(new TestBean("路飞", 17));
+//        set.add(new TestBean("索隆", 19));
+//        SpUtil.put("set", set);
+//
+//        Set set1 = SpUtil.get("set");
+//        System.out.println(set1.toString());
+//
+        List<List> list_ = new ArrayList<>();
+        List<TestBean> list__ = new ArrayList<>();
+        list__.add(new TestBean("bjy", 26));
+        list_.add(list__);
+
+        System.out.println(new Gson().toJson(list_));
+        Hawk.put("1", list_);
+
+        List list2 = Hawk.get("1");
+
+        List<String> list = new ArrayList<>();
+        TypeVariable[] array = list.getClass().getTypeParameters();
+        Type type = list.getClass().getGenericSuperclass();
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        Type[] type_array = parameterizedType.getActualTypeArguments();
+        Class c = (Class<String>) type_array[0];
+        System.out.println(type_array[0]);
+
+//        GenericParent<String, Integer> genericParent = new GenericParent<>();
     }
 }
