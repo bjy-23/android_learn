@@ -1,5 +1,6 @@
 package bjy.edu.android_learn.recyclerView;
 
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,6 +34,15 @@ public class RvActivity extends AppCompatActivity {
 //        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.VERTICAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.HORIZONTAL, false));
 //        recyclerView.setLayoutManager(new MyLayoutManager());
+
+        //ItemDecoration
+//        recyclerView.addItemDecoration(new MyItemDecoration());
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.set(0, 0, 0, 10);
+            }
+        });
 
         //滑动监听
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

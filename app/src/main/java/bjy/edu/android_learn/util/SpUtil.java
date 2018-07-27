@@ -16,10 +16,12 @@ import bjy.edu.android_learn.App;
  */
 
 public class SpUtil {
+    // TODO: 2018/7/26 map需要保存
     public static Map<String, Class> map = new HashMap<>();//保存key对应的class
+    public static final String NAME = "sharedPreference";
 
     public static <T> Boolean put(String key, T value){
-        SharedPreferences sp = App.getInstance().getSharedPreferences("11", Context.MODE_PRIVATE);
+        SharedPreferences sp = App.getInstance().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         Gson gson = new Gson();
         String s = gson.toJson(value);
@@ -30,11 +32,17 @@ public class SpUtil {
     }
 
     public static <T> T get(String key){
-        SharedPreferences sp = App.getInstance().getSharedPreferences("11", Context.MODE_PRIVATE);
+        if (map.get(key) == null)
+            return null;
+
+        SharedPreferences sp = App.getInstance().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         String s = sp.getString(key, null);
         Gson gson = new Gson();
 
-        // TODO: 2018/6/14 判空 
-        return (T)gson.fromJson(s , map.get(key));
+        // TODO: 2018/6/14 判空
+        if (gson.fromJson(s , map.get(key)) != null)
+            return (T)gson.fromJson(s , map.get(key));
+        else
+            return null;
     }
 }

@@ -26,7 +26,8 @@
         <activity android:name=".http.HttpActivity" />
         <activity
             android:name=".toolbar.ToolbarActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".imageview.ImageViewActivity"></activity>
     </application>
 
 </manifest>

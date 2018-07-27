@@ -1,9 +1,12 @@
 package bjy.edu.android_learn;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,8 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import bjy.edu.android_learn.http.HttpActivity;
+import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
+import bjy.edu.android_learn.util.DisplayUtil;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_1();
 
                 //recyclerView
-//                test_2();
+                test_2();
 
                 //自定义View
 //                test_3();
@@ -57,10 +62,21 @@ public class MainActivity extends AppCompatActivity {
 //                test_6();
 
                 //sharedprefrence
-                test_7();
+//                test_7();
+
+                //imageview
+//                test_8();
 
             }
         });
+
+        //statusBar 隐藏
+
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//        DisplayUtil.setStatusBarColor(this, Color.TRANSPARENT);
+
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
     }
 
     public void test_1(){
@@ -133,4 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        GenericParent<String, Integer> genericParent = new GenericParent<>();
     }
+
+    private void test_8(){
+        startActivity(new Intent(this, ImageViewActivity.class));
+    }
+
 }
