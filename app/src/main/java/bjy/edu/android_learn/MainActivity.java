@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 //                test_1();
 
                 //recyclerView
-                test_2();
+//                test_2();
 
                 //自定义View
-//                test_3();
+                test_3();
 
                 //http测试
 //                test_4();
@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //imageview
 //                test_8();
+
+                //screen
+//                test_9();
 
             }
         });
@@ -152,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_8(){
         startActivity(new Intent(this, ImageViewActivity.class));
+    }
+
+    public void test_9(){
+        startActivity(new Intent(this, FullScreenActivity.class));
     }
 
 }
