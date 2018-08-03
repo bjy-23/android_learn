@@ -24,7 +24,9 @@
             android:name=".webView.WebViewActivity"
             android:hardwareAccelerated="true" />
         <activity android:name=".recyclerView.RvActivity" />
-        <activity android:name=".widget.ViewActivity" />
+        <activity
+            android:name=".widget.ViewActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".http.HttpActivity" />
         <activity
             android:name=".toolbar.ToolbarActivity"

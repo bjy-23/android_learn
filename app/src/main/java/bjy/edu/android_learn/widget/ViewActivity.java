@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import bjy.edu.android_learn.R;
 
 public class ViewActivity extends AppCompatActivity {
     SixDimensionIndicator sixDimensionIndicator;
+    private int count = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,26 +51,14 @@ public class ViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_2);
 
         final LineView lineView = findViewById(R.id.line_view);
-        lineView.postDelayed(new Runnable() {
+        final TextView tv_add = findViewById(R.id.tv_add);
+        tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                final ImageView imageView = new ImageView(ViewActivity.this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(20, 20);
-                imageView.setLayoutParams(layoutParams);
-                imageView.setImageResource(R.color.colorAccent);
-//                imageView.setLeft(290);
-//                imageView.setRight(310);
-//                imageView.setTop(290);
-//                imageView.setBottom(310);
-                lineView.addView(imageView);
-
-                imageView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageView.layout(290, 290, 310, 310);
-                    }
-                },1000);
+            public void onClick(View v) {
+                count++;
+                lineView.addDraw();
+                tv_add.setText("2个canvas");
             }
-        }, 2000);
+        });
     }
 }

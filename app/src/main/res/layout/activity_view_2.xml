@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bjy.edu.android_learn.widget.LineView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/line_view"
-    android:layout_width="match_parent"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="#453838">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="1个canvas"
+        android:textSize="18sp"
+        android:gravity="center"/>
 
+    <bjy.edu.android_learn.widget.LineView
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+        
+    </bjy.edu.android_learn.widget.LineView>
 
-</bjy.edu.android_learn.widget.LineView>
+</LinearLayout>
