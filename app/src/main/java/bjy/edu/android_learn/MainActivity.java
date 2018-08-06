@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.orhanobut.hawk.Hawk;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //screen
 //                test_9();
+
+                //动态代理
+//                test_10();
 
             }
         });
@@ -159,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_9(){
         startActivity(new Intent(this, FullScreenActivity.class));
+    }
+
+    public void test_10(){
+        class ProxyImpl implements InvocationHandler{
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                return null;
+            }
+        }
     }
 
 }

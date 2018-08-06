@@ -48,6 +48,7 @@ public class RvActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Log.e("onScrollStateChanged", newState + "");
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
