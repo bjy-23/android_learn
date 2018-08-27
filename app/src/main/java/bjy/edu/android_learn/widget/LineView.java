@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -28,7 +29,6 @@ import bjy.edu.android_learn.R;
 
 public class LineView extends FrameLayout {
     private Context context;
-    private Path path;
     private int pointWidth = 20;//线两端点view的宽度
     private int validLength = 50;//有效距离；在初始点有效距离内可以画线
     private int parallel_space = 100;//平行线的间距
@@ -125,6 +125,14 @@ public class LineView extends FrameLayout {
         lines.remove(position);
     }
 
+    public List<LineViewItem> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<LineViewItem> lines) {
+        this.lines = lines;
+    }
+
     public interface Callback{
         void drawSuccess();
     }
@@ -139,7 +147,7 @@ public class LineView extends FrameLayout {
         this.callback = callback;
     }
 
-    private class LineViewItem extends FrameLayout {
+    public class LineViewItem extends FrameLayout {
         private Context context;
         private Bitmap bitmap;
         private Canvas canvas;
@@ -536,14 +544,13 @@ public class LineView extends FrameLayout {
                         }
                     }
 
-                    //选中平行线
+                    //选中副线
                     if (pointToline(x1, y1+parallel_space, x2, y2+parallel_space, xDown, yDown) < validLength) {
                         if ((x1<xDown && xDown<x2)
                                 || (x2<xDown && xDown<x1)
                                 || (y1<yDown && yDown<y2)
                                 || (y2<yDown && yDown<y1)){
                             state = STATE_DRAG_PARALLEL;
-                            Log.e("1", "11111");
                             return true;
                         }
                     }
@@ -640,6 +647,22 @@ public class LineView extends FrameLayout {
                 return true;
 
             return false;
+        }
+
+        public Canvas getCanvas() {
+            return canvas;
+        }
+
+        public void setCanvas(Canvas canvas) {
+            this.canvas = canvas;
+        }
+
+        public Bitmap getBitmap() {
+            return bitmap;
+        }
+
+        public void setBitmap(Bitmap bitmap) {
+            this.bitmap = bitmap;
         }
     }
 }

@@ -1,12 +1,9 @@
 package bjy.edu.android_learn;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,18 +15,14 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import bjy.edu.android_learn.drawable.DrawableActivity;
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
+import bjy.edu.android_learn.json.TestBean;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
-import bjy.edu.android_learn.util.DisplayUtil;
-import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
@@ -52,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
 //                test_2();
 
                 //自定义View
-                test_3();
+//                test_3();
 
                 //http测试
-//                test_4();
+                test_4();
 
                 //toolbar
 //                test_5();
@@ -74,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //动态代理
 //                test_10();
+
+                //drawable
+//                test_11();
 
             }
         });
@@ -176,4 +172,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void test_11(){
+        startActivity(new Intent(this, DrawableActivity.class));
+    }
+
+    public static void main(String[] args) {
+
+    }
 }

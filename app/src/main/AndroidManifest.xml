@@ -27,7 +27,7 @@
         <activity
             android:name=".widget.ViewActivity"
             android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true" />
         <activity android:name=".http.HttpActivity" />
         <activity
             android:name=".toolbar.ToolbarActivity"
@@ -35,7 +35,9 @@
         <activity android:name=".imageview.ImageViewActivity" />
         <activity
             android:name=".FullScreenActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".drawable.DrawableActivity" />
     </application>
 
 </manifest>
