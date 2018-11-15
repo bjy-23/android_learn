@@ -246,11 +246,17 @@ public class LineView2 extends View {
             x1 = x;
             y1 = y;
             drawHolder.focus_state = DrawHolder.FOCUS;
+
+            Log.e("x1", x1+"");
+            Log.e("y1", y1+"");
+            Log.e("VALID", dp2px(8)+"");
         }
 
         @Override
         boolean pointMove(float x, float y) {
             if (x2 == -1){
+                Log.e("x", x+"");
+                Log.e("y", y+"");
                 if (lineSpace(x1, y1, x, y) > validLength) {
                     x2 = x;
                     y2 = y;
@@ -648,6 +654,7 @@ public class LineView2 extends View {
 
     //两点之间的距离
     public double lineSpace(double x1, double y1, double x2, double y2) {
+        Log.e("lineSpace", Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))+"");
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 

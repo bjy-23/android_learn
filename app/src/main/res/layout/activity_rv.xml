@@ -5,7 +5,7 @@
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#666666"
+    android:background="#ffffff"
     tools:context="bjy.edu.android_learn.recyclerView.RvActivity">
 
 </android.support.v7.widget.RecyclerView>

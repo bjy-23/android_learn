@@ -5,9 +5,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +29,26 @@ public class ViewActivity extends AppCompatActivity {
 //        view_1();
 
 //        view_2();
-        view_2_1();
+//        view_2_1();
 
 //        view_3();
 
 //        view_4();
 
+        //可拖拽view
+//        view_5();
+
+        //波浪
+//        view_6();
+
+        //圆环
+//        view_7();
+
+        //visible 和 clickable 关系
+//        view_8();
+
+        //dragIndicator
+        view_9();
     }
 
     private void view_1() {
@@ -274,10 +292,53 @@ public class ViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_4);
     }
 
+    public void view_5(){
+        setContentView(R.layout.activity_view_5);
+
+        DragView dragView = findViewById(R.id.dragView);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(0, 0);
+        lp.gravity = Gravity.BOTTOM|Gravity.RIGHT;
+//        dragView.setX(300);
+//        dragView.setY(300);
+    }
+
+    public void view_6(){
+        setContentView(R.layout.activity_view_6);
+
+        final CircleWaveView circleWaveView = findViewById(R.id.circleWaveView);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                circleWaveView.setHeightBase(300);
+            }
+        }, 3000);
+    }
+
+    public void view_7(){
+        setContentView(R.layout.activity_view_7);
+    }
+
     public void changeState(List<TextView> tvs){
         for (TextView tv : tvs){
             tv.setTag("0");
             tv.setBackgroundColor(Color.WHITE);
         }
+    }
+
+    public void view_8(){
+        setContentView(R.layout.activity_view_8);
+
+        Button button = findViewById(R.id.btn_invisible);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ViewActivity.this, "点我点我", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void view_9(){
+        setContentView(R.layout.activity_view_9);
     }
 }

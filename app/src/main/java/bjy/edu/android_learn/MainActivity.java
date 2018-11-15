@@ -1,8 +1,12 @@
 package bjy.edu.android_learn;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,24 +21,44 @@ import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
+import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
+import bjy.edu.android_learn.dialog.DialogActivity;
 import bjy.edu.android_learn.drawable.DrawableActivity;
+import bjy.edu.android_learn.fragment.FragmentActivity;
+import bjy.edu.android_learn.fragment.FragmentContainerActivity;
+import bjy.edu.android_learn.fragment.Fragment_1;
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.json.TestBean;
+import bjy.edu.android_learn.notification.NotifyActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
+import bjy.edu.android_learn.service.ServiceActivity;
+import bjy.edu.android_learn.service.ServiceUtil;
+import bjy.edu.android_learn.service.TestService;
+import bjy.edu.android_learn.stackoverflow.StackActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
+import bjy.edu.android_learn.viewflipper.ViewFlipperActivity;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
 
 public class MainActivity extends AppCompatActivity {
+    public static final List<Activity> activities = new ArrayList<>();
+    public  static int notif_id = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView textView = findViewById(R.id.text);
+        activities.add(this);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            boolean hh = bundle.getBoolean("hh");
+        }
+
+        final TextView textView = findViewById(R.id.text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_3();
 
                 //http测试
-                test_4();
+//                test_4();
 
                 //toolbar
 //                test_5();
@@ -71,15 +95,43 @@ public class MainActivity extends AppCompatActivity {
                 //drawable
 //                test_11();
 
+                //嵌套滑动
+//                test_12();
+
+                //dialog
+//                test_13();
+
+                //view_flipper
+//                test_14();
+
+                //fragment
+                test_15();
+
+                //stackoverflow
+//                test_16();
+
+                //broadcastReceiver
+//                test_17();
+
+                //service
+//                test_18();
+
+                //notification
+//                test_19();
             }
         });
 
         //statusBar 隐藏
 
-//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
 //        DisplayUtil.setStatusBarColor(this, Color.TRANSPARENT);
 
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        String[] array = Build.SUPPORTED_ABIS;
+        for (String s: array){
+            Log.e("abi", s+"\n");
+        }
 
     }
 
@@ -176,6 +228,43 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, DrawableActivity.class));
     }
 
+    public void test_12(){
+        startActivity(new Intent(this, ScrollActivity.class));
+    }
+
+    public void test_13(){
+        startActivity(new Intent(this, DialogActivity.class));
+    }
+
+    public void test_14(){
+        startActivity(new Intent(this, ViewFlipperActivity.class));
+    }
+
+    public void test_15(){
+        Intent intent = new Intent(this, FragmentContainerActivity.class);
+        intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
+//        startActivity(intent);
+
+        startActivity(new Intent(this, FragmentActivity.class));
+    }
+
+    public void test_16(){
+        startActivity(new Intent(this, StackActivity.class));
+    }
+
+    public void test_17(){
+        startActivity(new Intent(this, ReceiverActivity.class));
+    }
+
+    public void test_18(){
+        startActivity(new Intent(this, ServiceActivity.class));
+    }
+
+    public void test_19(){
+        startActivity(new Intent(this, NotifyActivity.class));
+        notif_id ++;
+
+    }
     public static void main(String[] args) {
 
     }

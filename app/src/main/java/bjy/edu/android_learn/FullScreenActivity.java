@@ -32,6 +32,33 @@ public class FullScreenActivity extends AppCompatActivity {
             }
         });
 
+        //activity 对应的布局从statusBar左上方开始，statusBar覆盖在上
+        TextView tv_5 = findViewById(R.id.tv_5);
+        tv_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            }
+        });
+
+        //回到正常布局，status在上，activity布局在下
+        TextView tv_6 = findViewById(R.id.tv_6);
+        tv_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+        });
+
+        TextView tv_7 = findViewById(R.id.tv_7);
+        tv_7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //api 23 以下没效果
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        });
+
         //横屏
         TextView tv_3 = findViewById(R.id.tv_3);
         tv_3.setOnClickListener(new View.OnClickListener() {
@@ -49,5 +76,6 @@ public class FullScreenActivity extends AppCompatActivity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
         });
+
     }
 }

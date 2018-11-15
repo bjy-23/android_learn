@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ public class ToolbarActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //左边图标
+        //toolbar的返回键；false:隐藏
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //隐藏标题和副标题
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -35,5 +36,11 @@ public class ToolbarActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

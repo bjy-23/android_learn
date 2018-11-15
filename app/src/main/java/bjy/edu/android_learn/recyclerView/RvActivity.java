@@ -1,8 +1,10 @@
 package bjy.edu.android_learn.recyclerView;
 
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,7 @@ import bjy.edu.android_learn.R;
 
 public class RvActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,7 @@ public class RvActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(new Adapter());
-        recyclerView.setLayoutManager(new LinearLayoutManager(RvActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new SmoothScrollLayoutManager(RvActivity.this));
 //        recyclerView.setLayoutManager(new LinearLayoutManager(RvActivity.this, LinearLayoutManager.HORIZONTAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.VERTICAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.HORIZONTAL, false));
@@ -44,6 +47,12 @@ public class RvActivity extends AppCompatActivity {
             }
         });
 
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.rect_red));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setNestedScrollingEnabled(false);
         //滑动监听
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -61,9 +70,21 @@ public class RvActivity extends AppCompatActivity {
             }
         });
 
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.smoothScrollToPosition(position);
+
+                position++;
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.post(runnable);
     }
 
-    class Adapter extends CommonAdapter{
+    class Adapter extends RecyclerView.Adapter{
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(RvActivity.this).inflate(R.layout.rv_, parent, false));
@@ -71,7 +92,8 @@ public class RvActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+            ViewHolder viewHolder = (ViewHolder) holder;
+            viewHolder.textView.setText("哎呀， " + position);
         }
 
         @Override
@@ -80,8 +102,11 @@ public class RvActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
+            TextView textView;
             public ViewHolder(View itemView) {
                 super(itemView);
+
+                textView = itemView.findViewById(R.id.tv);
             }
         }
     }

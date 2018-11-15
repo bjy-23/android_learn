@@ -3,6 +3,7 @@
     package="bjy.edu.android_learn">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".App"
@@ -12,17 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name=".broadcastreceiver.TestReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.TestService" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="bbbjy"/>
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity
             android:name=".webView.WebViewActivity"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true" >
+        </activity>
         <activity android:name=".recyclerView.RvActivity" />
         <activity
             android:name=".widget.ViewActivity"
@@ -36,8 +47,19 @@
         <activity
             android:name=".FullScreenActivity"
             android:configChanges="orientation|screenSize" />
+        <activity android:name=".drawable.DrawableActivity" />
+        <activity android:name=".ScrollActivity" />
+        <activity android:name=".dialog.DialogActivity" />
+        <activity android:name=".viewflipper.ViewFlipperActivity" />
+        <activity android:name=".fragment.FragmentContainerActivity" />
+        <activity android:name=".fragment.FragmentActivity" />
+        <activity android:name=".stackoverflow.StackActivity" />
+        <activity android:name=".broadcastreceiver.ReceiverActivity" />
+        <activity android:name=".service.ServiceActivity" />
         <activity
-            android:name=".drawable.DrawableActivity" />
+            android:name=".dialog.DialogThemeActivity"
+            android:theme="@style/dialogActivity" />
+        <activity android:name=".notification.NotifyActivity"></activity>
     </application>
 
 </manifest>
