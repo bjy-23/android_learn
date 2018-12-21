@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,11 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import bjy.edu.android_learn.R;
 
@@ -30,11 +34,20 @@ public class RvActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv);
 
+
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setAdapter(new Adapter());
-        recyclerView.setLayoutManager(new SmoothScrollLayoutManager(RvActivity.this));
+        List<String> data = new ArrayList<>();
+        for (int i=0; i< 30; i++){
+            data.add("hh:   " + i);
+        }
+        Adapter adapter = new Adapter(data);
+        ItemDragCallback itemDragCallback = new ItemDragCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new SmoothScrollLayoutManager(RvActivity.this));
 //        recyclerView.setLayoutManager(new LinearLayoutManager(RvActivity.this, LinearLayoutManager.HORIZONTAL, false));
-//        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.VERTICAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(RvActivity.this, 3, LinearLayoutManager.HORIZONTAL, false));
 //        recyclerView.setLayoutManager(new MyLayoutManager());
 
@@ -85,6 +98,16 @@ public class RvActivity extends AppCompatActivity {
     }
 
     class Adapter extends RecyclerView.Adapter{
+        private List<String> data;
+
+        public Adapter(List<String> data) {
+            this.data = data;
+        }
+
+        public List<String> getData() {
+            return data;
+        }
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(RvActivity.this).inflate(R.layout.rv_, parent, false));
@@ -93,12 +116,12 @@ public class RvActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ViewHolder viewHolder = (ViewHolder) holder;
-            viewHolder.textView.setText("哎呀， " + position);
+            viewHolder.textView.setText(data.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return 100;
+            return data.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
@@ -108,6 +131,52 @@ public class RvActivity extends AppCompatActivity {
 
                 textView = itemView.findViewById(R.id.tv);
             }
+        }
+    }
+
+    class ItemDragCallback extends ItemTouchHelper.Callback {
+        private Adapter adapter;
+
+        public ItemDragCallback(Adapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+                final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                final int swipeFlags = 0;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            } else {
+                final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                final int swipeFlags = 0;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            //得到当拖拽的viewHolder的Position
+            int fromPosition = viewHolder.getAdapterPosition();
+            //拿到当前拖拽到的item的viewHolder
+            int toPosition = target.getAdapterPosition();
+            if (fromPosition < toPosition) {
+                for (int i = fromPosition; i < toPosition; i++) {
+                    Collections.swap(adapter.getData(), i, i + 1);
+                }
+            } else {
+                for (int i = fromPosition; i > toPosition; i--) {
+                    Collections.swap(adapter.getData(), i, i - 1);
+                }
+            }
+            adapter.notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
         }
     }
 }

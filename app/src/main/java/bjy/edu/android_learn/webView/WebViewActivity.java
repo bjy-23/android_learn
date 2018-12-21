@@ -22,11 +22,25 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         WebView webView = findViewById(R.id.webView);
-        webView.loadUrl(URL);
+//        webView.loadUrl(URL);
         //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
-        webView.loadData("<html>", "text/html", "UTF-8");
-        webView.loadData("<html>", "text/html; charset=UTF-8", null);
-        webView.loadDataWithBaseURL(null, "<html>", "text/html", "UTF-8", null);//
+        webView.loadData("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "<meta charset=\"UTF-8\">\n" +
+                "<title>Insert title here</title>\n" +
+                "<style>\n" +
+                "a{\n" +
+                "    font-size: 50px;\n" +
+                "}\n" +
+                "</style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <a href=\"sougukj://hello\"\">App</a>\n" +
+                "</body>\n" +
+                "</html>\n", "text/html", "UTF-8");
+//        webView.loadData("<html>", "text/html; charset=UTF-8", null);
+//        webView.loadDataWithBaseURL(null, "<html>", "text/html", "UTF-8", null);//
 
         WebSettings webSettings = webView.getSettings();
 

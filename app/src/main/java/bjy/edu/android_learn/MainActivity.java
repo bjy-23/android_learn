@@ -2,6 +2,7 @@ package bjy.edu.android_learn;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -30,13 +31,16 @@ import bjy.edu.android_learn.fragment.Fragment_1;
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.json.TestBean;
+import bjy.edu.android_learn.memory.MemoryActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
 import bjy.edu.android_learn.service.TestService;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
+import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
+import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.viewflipper.ViewFlipperActivity;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
@@ -44,7 +48,7 @@ import bjy.edu.android_learn.widget.ViewActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final List<Activity> activities = new ArrayList<>();
-    public  static int notif_id = 1;
+    public static int notif_id = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_6();
 
                 //sharedprefrence
-//                test_7();
+                test_7();
 
                 //imageview
 //                test_8();
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_14();
 
                 //fragment
-                test_15();
+//                test_15();
 
                 //stackoverflow
 //                test_16();
@@ -118,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
 
                 //notification
 //                test_19();
+
+                //memory
+//                test_20();
+
+                //timer
+//                test_21();
             }
         });
 
@@ -129,37 +139,55 @@ public class MainActivity extends AppCompatActivity {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         String[] array = Build.SUPPORTED_ABIS;
-        for (String s: array){
-            Log.e("abi", s+"\n");
+        for (String s : array) {
+            Log.e("abi", s + "\n");
         }
 
+        //隐式启动app
+//        Intent intent = new Intent();
+////        intent.setAction("stockalert");
+//        intent.setData(Uri.parse("sogukj://stockalert"));
+//        startActivity(intent);
     }
 
-    public void test_1(){
+    public void test_1() {
         startActivity(new Intent(MainActivity.this, ViewPagerActivity.class));
     }
 
-    public void test_2(){
+    public void test_2() {
         startActivity(new Intent(MainActivity.this, RvActivity.class));
     }
 
-    private void test_3(){
+    private void test_3() {
         startActivity(new Intent(MainActivity.this, ViewActivity.class));
     }
 
-    public void test_4(){
+    public void test_4() {
         startActivity(new Intent(MainActivity.this, HttpActivity.class));
     }
 
-    public void test_5(){
+    public void test_5() {
         startActivity(new Intent(MainActivity.this, ToolbarActivity.class));
     }
 
-    public void test_6(){
+    public void test_6() {
         startActivity(new Intent(MainActivity.this, WebViewActivity.class));
     }
 
-    public void test_7(){
+    public void test_7() {
+        //非集合类对象，对应JSONObject
+        TestBean testBean0 = SpUtil.get("luffy");
+        TestBean testBean1 = new TestBean("路飞", 17);
+        SpUtil.put("luffy", testBean1);
+        TestBean testBean2  = SpUtil.get("luffy");
+        System.out.println("luffy" +testBean2.getName());
+
+        List list = new ArrayList();
+        list.add(testBean1);
+        list.add(testBean2);
+        SpUtil.put("list", list);
+
+
 //        List<TestBean> list = new ArrayList<>();
 //        list.add(new TestBean("路飞", 17));
 //        list.add(new TestBean("索隆", 19));
@@ -185,37 +213,37 @@ public class MainActivity extends AppCompatActivity {
 //        Set set1 = SpUtil.get("set");
 //        System.out.println(set1.toString());
 //
-        List<List> list_ = new ArrayList<>();
-        List<TestBean> list__ = new ArrayList<>();
-        list__.add(new TestBean("bjy", 26));
-        list_.add(list__);
-
-        System.out.println(new Gson().toJson(list_));
-        Hawk.put("1", list_);
-
-        List list2 = Hawk.get("1");
-
-        List<String> list = new ArrayList<>();
-        TypeVariable[] array = list.getClass().getTypeParameters();
-        Type type = list.getClass().getGenericSuperclass();
-        ParameterizedType parameterizedType = (ParameterizedType) type;
-        Type[] type_array = parameterizedType.getActualTypeArguments();
-        Class c = (Class<String>) type_array[0];
-        System.out.println(type_array[0]);
+//        List<List> list_ = new ArrayList<>();
+//        List<TestBean> list__ = new ArrayList<>();
+//        list__.add(new TestBean("bjy", 26));
+//        list_.add(list__);
+//
+//        System.out.println(new Gson().toJson(list_));
+//        Hawk.put("1", list_);
+//
+//        List list2 = Hawk.get("1");
+//
+//        List<String> list = new ArrayList<>();
+//        TypeVariable[] array = list.getClass().getTypeParameters();
+//        Type type = list.getClass().getGenericSuperclass();
+//        ParameterizedType parameterizedType = (ParameterizedType) type;
+//        Type[] type_array = parameterizedType.getActualTypeArguments();
+//        Class c = (Class<String>) type_array[0];
+//        System.out.println(type_array[0]);
 
 //        GenericParent<String, Integer> genericParent = new GenericParent<>();
     }
 
-    private void test_8(){
+    private void test_8() {
         startActivity(new Intent(this, ImageViewActivity.class));
     }
 
-    public void test_9(){
+    public void test_9() {
         startActivity(new Intent(this, FullScreenActivity.class));
     }
 
-    public void test_10(){
-        class ProxyImpl implements InvocationHandler{
+    public void test_10() {
+        class ProxyImpl implements InvocationHandler {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
@@ -224,23 +252,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void test_11(){
+    public void test_11() {
         startActivity(new Intent(this, DrawableActivity.class));
     }
 
-    public void test_12(){
+    public void test_12() {
         startActivity(new Intent(this, ScrollActivity.class));
     }
 
-    public void test_13(){
+    public void test_13() {
         startActivity(new Intent(this, DialogActivity.class));
     }
 
-    public void test_14(){
+    public void test_14() {
         startActivity(new Intent(this, ViewFlipperActivity.class));
     }
 
-    public void test_15(){
+    public void test_15() {
         Intent intent = new Intent(this, FragmentContainerActivity.class);
         intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
 //        startActivity(intent);
@@ -248,23 +276,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, FragmentActivity.class));
     }
 
-    public void test_16(){
+    public void test_16() {
         startActivity(new Intent(this, StackActivity.class));
     }
 
-    public void test_17(){
+    public void test_17() {
         startActivity(new Intent(this, ReceiverActivity.class));
     }
 
-    public void test_18(){
+    public void test_18() {
         startActivity(new Intent(this, ServiceActivity.class));
     }
 
-    public void test_19(){
+    public void test_19() {
         startActivity(new Intent(this, NotifyActivity.class));
-        notif_id ++;
+        notif_id++;
 
     }
+
+    private void test_20() {
+        startActivity(new Intent(this, MemoryActivity.class));
+    }
+
+    private void test_21(){
+        startActivity(new Intent(this, TimerActivity.class));
+    }
+
     public static void main(String[] args) {
 
     }

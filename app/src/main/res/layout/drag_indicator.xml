@@ -3,24 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipChildren="false">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="20fc"/>
+        android:text="0Fc"
+        android:layout_marginLeft="15dp"
+        android:textColor="#ffffff"/>
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/layout_drag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:clipChildren="false"
+        android:background="@drawable/rect_white_2">
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:background="@drawable/rect_red_2"/>
+            android:id="@+id/view_left"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:background="@drawable/rect_red_1"/>
 
-    </FrameLayout>
+        <view class="bjy.edu.android_learn.widget.DragIndicator$DragView"
+            android:id="@+id/drag_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="-15dp"
+            android:background="@drawable/drag_fc"/>
 
+    </LinearLayout>
 
 </LinearLayout>

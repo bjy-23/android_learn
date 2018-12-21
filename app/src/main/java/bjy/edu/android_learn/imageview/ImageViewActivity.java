@@ -40,6 +40,7 @@ public class ImageViewActivity extends AppCompatActivity {
 //        imageView.setImageResource(R.color.colorPrimary);
 
         //color -> colorDrawable
-        imageView.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.statusBarColor)));
+//        imageView.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.statusBarColor)));
+        imageView.setImageResource(0);
     }
 }

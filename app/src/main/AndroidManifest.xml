@@ -24,16 +24,16 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="bbbjy"/>
+                <action android:name="bbbjy" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity
             android:name=".webView.WebViewActivity"
-            android:hardwareAccelerated="true" >
-        </activity>
+            android:hardwareAccelerated="true" />
         <activity android:name=".recyclerView.RvActivity" />
         <activity
             android:name=".widget.ViewActivity"
@@ -59,7 +59,9 @@
         <activity
             android:name=".dialog.DialogThemeActivity"
             android:theme="@style/dialogActivity" />
-        <activity android:name=".notification.NotifyActivity"></activity>
+        <activity android:name=".notification.NotifyActivity" />
+        <activity android:name=".memory.MemoryActivity" />
+        <activity android:name=".time.TimerActivity"></activity>
     </application>
 
 </manifest>
