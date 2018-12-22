@@ -1,6 +1,7 @@
 package bjy.edu.android_learn;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import bjy.edu.android_learn.memory_leak.MemoryLeakActivity;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.webView.WebViewActivity;
+import bjy.edu.android_learn.window.WindowActivity;
+import dalvik.system.DexClassLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,15 +65,22 @@ public class MainActivity extends AppCompatActivity {
 //                Set set1 = SpUtil.get("set");
 //                System.out.println(set1.toString());
 
-                List<List> list = new ArrayList<>();
-                List<TestBean> list1 = new ArrayList<>();
-                list1.add(new TestBean("bjy", 26));
-                list.add(list1);
+//                List<List> list = new ArrayList<>();
+//                List<TestBean> list1 = new ArrayList<>();
+//                list1.add(new TestBean("bjy", 26));
+//                list.add(list1);
+//
+//                System.out.println(new Gson().toJson(list));
+//                Hawk.put("1", list);
+//
+//                List list2 = Hawk.get("1");
 
-                System.out.println(new Gson().toJson(list));
-                Hawk.put("1", list);
+//                startActivity(new Intent(MainActivity.this, WindowActivity.class));
 
-                List list2 = Hawk.get("1");
+                //memory leak
+//                startActivity(new Intent(MainActivity.this, MemoryLeakActivity.class));
+
+                startActivity(new Intent(MainActivity.this, WidgetActivity.class));
             }
         });
     }
