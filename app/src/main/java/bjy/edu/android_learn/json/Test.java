@@ -1,4 +1,4 @@
-package bjy.edu.android_learn;
+package bjy.edu.android_learn.json;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +33,5 @@ public class Test {
 
         String json = "[{\"name\":\"bjy\",\"age\":22}]";
         List list1 = gson.fromJson(json, new TypeToken<ArrayList<TestBean>>(){}.getType());
-
     }
 }

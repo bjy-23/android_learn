@@ -1,8 +1,13 @@
 package bjy.edu.android_learn;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.orhanobut.hawk.Hawk;
+import com.squareup.leakcanary.LeakCanary;
+
+import bjy.edu.android_learn.service.TestService;
+import bjy.edu.android_learn.util.SpUtil;
 
 
 /**
@@ -19,6 +24,11 @@ public class App extends Application {
         app = this;
 
         Hawk.init(this).build();
+        SpUtil.init(this);
+
+//        LeakCanary.install(this);
+//        startForegroundService(new Intent(this, TestService.class));
+//        startService(new Intent(this, TestService.class));
     }
 
     public static App getInstance(){

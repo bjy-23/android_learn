@@ -1,4 +1,4 @@
-package bjy.edu.android_learn;
+package bjy.edu.android_learn.json;
 
 /**
  * Created by sogubaby on 2018/6/14.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line">
+
+    <!--两种方式显示虚线-->
+    <!--1.虚线不支持硬件加速，需要在activity中关闭-->
+    <!--2.view layerType : software-->
+
+    <!--使用的view的 height 需要 大于 这里的width-->
+    <stroke
+        android:color="#808080"
+        android:width="3dp"
+        android:dashGap="3dp"
+        android:dashWidth="3dp"/>
+</shape>
