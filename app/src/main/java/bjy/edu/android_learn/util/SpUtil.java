@@ -27,9 +27,9 @@ public class SpUtil {
     public static final String NAME = "sharedPreference";
     public static final String KEY = "key";
 
-    public static final String TAG_LIST_START = "&list[";
     public static final String TAG_LIST_ITEM = "list_item";
     public static final String TAG_OBJECT = "&O";
+
     //初始化，取出之前保存的所有类型信息
     public static void init(Context context) {
         if (context == null)
@@ -40,6 +40,8 @@ public class SpUtil {
 
         //获取类型信息
         for (String keyValue : keyValues.split("&&")) {
+            if (keyValue.equals(""))
+                continue;
             String[] key = keyValue.split("#");
             if (key.length == 2) {
                 Class clazz = null;
@@ -56,11 +58,18 @@ public class SpUtil {
     }
 
 
+    /** key相同时，sharedPreference会覆盖之前的值
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
     public static <T> Boolean put(String key, T value) {
         if (sp == null)
             throw new NullPointerException("SpUtil should not be null");
         Gson gson = new Gson();
         SharedPreferences.Editor editor = sp.edit();
+        String keyValue = sp.getString(KEY, "");
         if (value instanceof List){
             List list = (List) value;
             StringBuilder stringBuilder = new StringBuilder();
@@ -71,16 +80,37 @@ public class SpUtil {
             editor.putString(key, stringBuilder.toString());
             // TODO: 2018/12/23 list为空怎么获取class
             map.put(key+TAG_LIST_ITEM, list.get(0).getClass());
+
+            //已经包含了相同的key,移除之前的类型信息
+            if (keyValue.contains("&&"+key+TAG_LIST_ITEM)){
+                int start = keyValue.indexOf("&&"+key+TAG_LIST_ITEM);
+                int end = keyValue.indexOf("&&", start + 2);
+                if (end == -1)
+                    end = keyValue.length();
+                String replaced = keyValue.substring(start, end);
+                keyValue = keyValue.replace(replaced, "");
+            }
+            //保存类信息到本地
+            keyValue += "&&" + key+TAG_LIST_ITEM + "#" + list.get(0).getClass().getName();
+            editor.putString(KEY, keyValue);
+            editor.commit();
         }else {
             String s = gson.toJson(value);
             editor.putString(key, s);
         }
 
-        // todo 相同的key, 类型信息会被覆盖
         map.put(key, value.getClass());
 
+        //已经包含了相同的key,移除之前的类型信息
+        if (keyValue.contains("&&"+key)){
+            int start = keyValue.indexOf("&&"+key);
+            int end = keyValue.indexOf("&&", start + 2);
+            if (end == -1)
+                end = keyValue.length();
+            String replaced = keyValue.substring(start, end);
+            keyValue = keyValue.replace(replaced, "");
+        }
         //保存类信息到本地
-        String keyValue = sp.getString(KEY, "");
         keyValue += "&&" + key + "#" + value.getClass().getName();
         editor.putString(KEY, keyValue);
         return editor.commit();
@@ -100,7 +130,10 @@ public class SpUtil {
         if (map.get(key) == ArrayList.class){
             List list = new ArrayList();
             Class c = map.get(key+TAG_LIST_ITEM);
+            String[] a = s.split(TAG_OBJECT);
             for (String item: s.split(TAG_OBJECT)){
+                if (item.equals(""))
+                    continue;
                 list.add(gson.fromJson(item, c));
             }
 

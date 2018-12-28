@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -19,7 +20,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
@@ -33,6 +37,7 @@ import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.json.TestBean;
 import bjy.edu.android_learn.memory.MemoryActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
+import bjy.edu.android_learn.popupwindow.PopupwindowActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
@@ -49,6 +54,7 @@ import bjy.edu.android_learn.widget.ViewActivity;
 public class MainActivity extends AppCompatActivity {
     public static final List<Activity> activities = new ArrayList<>();
     public static int notif_id = 1;
+    private volatile int tag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_6();
 
                 //sharedprefrence
-                test_7();
+//                test_7();
 
                 //imageview
 //                test_8();
@@ -128,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
 
                 //timer
 //                test_21();
+
+                //hashmap
+//                test_22();
+
+                //popupWindow
+                test_23();
             }
         });
 
@@ -148,6 +160,24 @@ public class MainActivity extends AppCompatActivity {
 ////        intent.setAction("stockalert");
 //        intent.setData(Uri.parse("sogukj://stockalert"));
 //        startActivity(intent);
+
+        String s = "18616272196";
+
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            byte[] bytes = messageDigest.digest(s.getBytes());
+            StringBuilder result = new StringBuilder();
+            for (byte b : bytes) {
+                String temp = Integer.toHexString(b & 0xff);
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+                result.append(temp);
+            }
+            System.out.println("md5 加密值 " + result.toString());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     public void test_1() {
@@ -183,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("luffy" +testBean2.getName());
 
         List list = new ArrayList();
+        List list0 = SpUtil.get("list");
         TestBean testBean3 = new TestBean("索隆", 19);
         list.add(testBean1);
         list.add(testBean3);
@@ -302,6 +333,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_21(){
         startActivity(new Intent(this, TimerActivity.class));
+    }
+
+    private void test_22(){
+
+        //todo 初始化容量了，为什么性能没有提升
+        long t0 = System.nanoTime();
+        int capacity = 8192;
+        int num = 6000;
+
+
+        HashMap<Integer, String> hashMap2 = new HashMap<>(capacity);
+        long t3 = System.currentTimeMillis();
+        for (int i=0; i<num; i++){
+            hashMap2.put(i, i+"");
+        }
+        long t4 = System.currentTimeMillis();
+        System.out.println("时间 2  " + (t4-t3));
+
+        tag = 1;
+
+        HashMap<Integer, String> hashMap = new HashMap<>();
+        long t1 = System.currentTimeMillis();
+        for (int i=0; i<num; i++){
+            hashMap.put(i, i+"");
+        }
+        long t2 = System.currentTimeMillis();
+        System.out.println("时间 1  " + (t2-t1));
+
+    }
+
+    private void test_23(){
+        startActivity(new Intent(this, PopupwindowActivity.class));
     }
 
     public static void main(String[] args) {

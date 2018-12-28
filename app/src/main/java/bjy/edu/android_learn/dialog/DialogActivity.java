@@ -25,10 +25,15 @@ public class DialogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog);
 
         //style
-//        Dialog dialog = new Dialog(this, R.style.dialog);
-//        dialog.setContentView(R.layout.in_box_dialog);
-//        dialog.setCanceledOnTouchOutside(false);
-//        dialog.show();
+        Dialog dialog = new Dialog(this, R.style.dialog);
+        dialog.setContentView(R.layout.in_box_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        //宽度全屏
+        //1. style 里设置 android:windowBackground
+        //2. dialog.getWindow().getDecorView().setPadding(0, 0, 0, 0);
+
 
         TextView tv_1 = findViewById(R.id.tv_1);
         tv_1.setOnClickListener(new View.OnClickListener() {
