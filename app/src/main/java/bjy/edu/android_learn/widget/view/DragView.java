@@ -1,4 +1,4 @@
-package bjy.edu.android_learn.widget;
+package bjy.edu.android_learn.widget.view;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;

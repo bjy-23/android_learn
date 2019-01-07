@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bjy.edu.android_learn.widget.Clock
+<bjy.edu.android_learn.widget.view.Clock
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</bjy.edu.android_learn.widget.Clock>
+</bjy.edu.android_learn.widget.view.Clock>

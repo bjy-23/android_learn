@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import bjy.edu.android_learn.R;
-import bjy.edu.android_learn.widget.MyViewPager;
+import bjy.edu.android_learn.widget.view.MyViewPager;
 
 public class ViewPagerActivity extends AppCompatActivity {
     private MyViewPager viewPager;

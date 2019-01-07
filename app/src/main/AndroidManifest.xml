@@ -62,7 +62,8 @@
         <activity android:name=".notification.NotifyActivity" />
         <activity android:name=".memory.MemoryActivity" />
         <activity android:name=".time.TimerActivity" />
-        <activity android:name=".popupwindow.PopupwindowActivity"></activity>
+        <activity android:name=".popupwindow.PopupwindowActivity" />
+        <activity android:name=".textview.TextViewActivity"></activity>
     </application>
 
 </manifest>

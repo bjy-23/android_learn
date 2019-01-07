@@ -1,4 +1,4 @@
-package bjy.edu.android_learn.widget;
+package bjy.edu.android_learn.widget.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

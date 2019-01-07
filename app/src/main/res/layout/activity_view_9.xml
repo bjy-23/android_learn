@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bjy.edu.android_learn.widget.DragIndicator
+<bjy.edu.android_learn.widget.view.DragIndicator
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-</bjy.edu.android_learn.widget.DragIndicator>
+</bjy.edu.android_learn.widget.view.DragIndicator>

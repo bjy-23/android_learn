@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <bjy.edu.android_learn.widget.view.CircleWaveView
-        android:id="@+id/circleWaveView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@drawable/ring_green"
+    <bjy.edu.android_learn.widget.view.PickView
+        android:id="@+id/pickView"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

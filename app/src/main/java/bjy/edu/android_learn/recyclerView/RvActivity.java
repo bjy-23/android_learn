@@ -34,7 +34,6 @@ public class RvActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv);
 
-
         recyclerView = findViewById(R.id.recyclerView);
         List<String> data = new ArrayList<>();
         for (int i=0; i< 30; i++){
@@ -70,12 +69,19 @@ public class RvActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                // 0:   SCROLL_STATE_IDLE 已停止
+                // 1:   SCROLL_STATE_DRAGGING 正在被拖动
+                // 2:   SCROLL_STATE_SETTLING 不再被拖动，将要停止
+
                 Log.e("onScrollStateChanged", newState + "");
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                // dx：水平方向上的改变距离，当前的scrollX 与上一次记录的ScrollX的差值； >0 表示向右滑动
+
                 Log.e("onScrolled", "   dx: " + dx);
                 Log.e("onScrolled", "   dy: " + dy);
 

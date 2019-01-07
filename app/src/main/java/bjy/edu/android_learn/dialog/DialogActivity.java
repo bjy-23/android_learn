@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class DialogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog);
 
         //style
-        Dialog dialog = new Dialog(this, R.style.dialog);
+        final Dialog dialog = new Dialog(this, R.style.dialog);
         dialog.setContentView(R.layout.in_box_dialog);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -34,6 +35,22 @@ public class DialogActivity extends AppCompatActivity {
         //1. style 里设置 android:windowBackground
         //2. dialog.getWindow().getDecorView().setPadding(0, 0, 0, 0);
 
+
+        //获取dialog的高度 todo 通过window获取高度暂时获取不到
+        final View decorView = dialog.getWindow().getDecorView();
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (decorView.getHeight() > 0){
+                    decorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    //修改 dialog 高度
+                    WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+                    lp.height = 600;
+                    dialog.getWindow().setAttributes(lp);
+                }
+            }
+        });
 
         TextView tv_1 = findViewById(R.id.tv_1);
         tv_1.setOnClickListener(new View.OnClickListener() {

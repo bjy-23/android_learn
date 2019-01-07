@@ -3,6 +3,8 @@ package bjy.edu.android_learn.webView;
 import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -21,7 +23,7 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        WebView webView = findViewById(R.id.webView);
+        final WebView webView = findViewById(R.id.webView);
 //        webView.loadUrl(URL);
         //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
         webView.loadData("<!DOCTYPE html>\n" +
@@ -68,11 +70,34 @@ public class WebViewActivity extends AppCompatActivity {
 //        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
 
         webView.setWebViewClient(new WebViewClient(){
+            /**
+             * @param view  和 webView是一个对象
+             * @param request
+             * @return
+             */
             @Override
             @TargetApi(21)
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
+
+                //return false : 在当前webView继续加载新网址
+
+                //return true : 默认不处理，交给用户来处理
+
                 return super.shouldOverrideUrlLoading(view, request);
+            }
+        });
+
+        //响应按键回退网页
+        webView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //按返回键操作并且能回退网页
+                if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+                    //后退
+                    webView.goBack();
+                    return true;
+                }
+                return false;
             }
         });
     }

@@ -1,6 +1,7 @@
 package bjy.edu.android_learn.widget;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bjy.edu.android_learn.R;
+import bjy.edu.android_learn.widget.view.CircleWaveView;
+import bjy.edu.android_learn.widget.view.DragView;
+import bjy.edu.android_learn.widget.view.LineView;
+import bjy.edu.android_learn.widget.view.LineView2;
+import bjy.edu.android_learn.widget.view.PickView;
+import bjy.edu.android_learn.widget.view.SixDimensionIndicator;
 
 public class ViewActivity extends AppCompatActivity {
     SixDimensionIndicator sixDimensionIndicator;
@@ -26,6 +33,8 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //paint
+        base();
 //        view_1();
 
 //        view_2();
@@ -42,13 +51,26 @@ public class ViewActivity extends AppCompatActivity {
 //        view_6();
 
         //圆环
-//        view_7();
+        view_7();
 
         //visible 和 clickable 关系
 //        view_8();
 
         //dragIndicator
-        view_9();
+//        view_9();
+
+        //pickView
+//        view_10();
+    }
+
+    private void base(){
+        Paint paint = new Paint();
+
+        //设置线头的形状 Cap.ROUND(圆头) Cap.SQUARE(方头) Cap.BUTT(平头，默认设置)
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+        //设置线拐角的形状 Join.ROUND(圆角) Join.BEVEL(平角) Join.MITER(尖角)
+        paint.setStrokeJoin(Paint.Join.ROUND);
     }
 
     private void view_1() {
@@ -340,5 +362,19 @@ public class ViewActivity extends AppCompatActivity {
 
     public void view_9(){
         setContentView(R.layout.activity_view_9);
+    }
+
+    public void view_10(){
+        setContentView(R.layout.activity_view_10);
+
+        List<String> data = new ArrayList<>();
+        data.add("北京");
+        data.add("上海");
+        data.add("深证");
+        data.add("杭州");
+
+        PickView pickView = findViewById(R.id.pickView);
+        pickView.setData(data);
+        pickView.show();
     }
 }

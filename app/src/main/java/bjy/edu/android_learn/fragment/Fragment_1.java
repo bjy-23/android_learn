@@ -22,6 +22,13 @@ public class Fragment_1  extends Fragment{
 
     private Timer timer = new Timer();
 
+    public Fragment_1() {
+    }
+
+    public Fragment_1(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

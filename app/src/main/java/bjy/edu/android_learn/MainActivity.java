@@ -43,6 +43,7 @@ import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
 import bjy.edu.android_learn.service.TestService;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
+import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
 import bjy.edu.android_learn.util.SpUtil;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_2();
 
                 //自定义View
-//                test_3();
+                test_3();
 
                 //http测试
 //                test_4();
@@ -139,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
 //                test_22();
 
                 //popupWindow
-                test_23();
+//                test_23();
+
+                //textView
+//                test_24();
             }
         });
 
@@ -365,6 +369,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_23(){
         startActivity(new Intent(this, PopupwindowActivity.class));
+    }
+
+    private void test_24(){
+        startActivity(new Intent(this, TextViewActivity.class));
     }
 
     public static void main(String[] args) {

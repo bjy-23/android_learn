@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".textview.TextViewActivity">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:text="这个方法是View中定义的，TextView并没有重写。它设定当这个View在接收到用户触摸时是否能接收到焦点。"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -8,7 +8,7 @@
     tools:context=".fragment.FragmentActivity">
 
 
-    <bjy.edu.android_learn.widget.TabGroup
+    <bjy.edu.android_learn.widget.view.TabGroup
         android:id="@+id/tab_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>

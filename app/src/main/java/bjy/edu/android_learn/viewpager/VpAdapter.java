@@ -1,17 +1,14 @@
 package bjy.edu.android_learn.viewpager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import bjy.edu.android_learn.R;
-import bjy.edu.android_learn.widget.DragIndicator;
-import bjy.edu.android_learn.widget.MyViewPager;
+import bjy.edu.android_learn.widget.view.DragIndicator;
+import bjy.edu.android_learn.widget.view.MyViewPager;
 
 
 /**

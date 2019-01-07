@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bjy.edu.android_learn.widget.SixDimensionIndicator xmlns:android="http://schemas.android.com/apk/res/android"
+<bjy.edu.android_learn.widget.view.SixDimensionIndicator xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sixDimensionIndicator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</bjy.edu.android_learn.widget.SixDimensionIndicator>
+</bjy.edu.android_learn.widget.view.SixDimensionIndicator>
