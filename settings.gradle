@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':example', ':bbbjy_support'
 
 println "In posdevice, gradle id is " +gradle.hashCode()
 println "Home Dir:" + gradle.gradleHomeDir

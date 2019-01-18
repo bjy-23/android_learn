@@ -29,7 +29,9 @@ public class DialogActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this, R.style.dialog);
         dialog.setContentView(R.layout.in_box_dialog);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setDimAmount(0f);
         dialog.show();
+
 
         //宽度全屏
         //1. style 里设置 android:windowBackground

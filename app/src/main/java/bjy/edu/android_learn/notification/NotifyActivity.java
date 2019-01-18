@@ -38,6 +38,7 @@ public class NotifyActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         notificationManager.notify(1, getNotificationBuilder().build());
+        Notification notification = getNotificationBuilder().build();
     }
 
     private NotificationCompat.Builder getNotificationBuilder() {

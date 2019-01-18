@@ -20,10 +20,10 @@ public class Test {
 //        test1();
 
         //Observable
-//        test3();
+        test3();
 
         //map flatmap
-        test2();
+//        test2();
     }
 
     static void test1() {

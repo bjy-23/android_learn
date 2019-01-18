@@ -24,6 +24,7 @@ public class RingView extends View {
     int color0 = Color.parseColor("#9DB3FF");
     int color1 = Color.parseColor("#4A6AFF");
 
+    //[0, 1]
     float offset = 0.75f;
 
     public RingView(Context context) {
@@ -57,8 +58,12 @@ public class RingView extends View {
         //实际绘图时需要旋转，使实际起始位置和 position 0 相对应
         //paint的线头设置为圆头，考虑位置0线头的颜色，需要在position 0.99处设置 position 0的颜色值
         sweepGradient2 = new SweepGradient(width/2, height/2, new int[]{color0, color1, color0}, new float[]{0, offset, 0.99f});
-        paint2.setShader(sweepGradient2);
         paint2.setStrokeCap(Paint.Cap.ROUND);
+
+//        sweepGradient2 = new SweepGradient(width/2, height/2, new int[]{color0, color1}, new float[]{0, offset});
+
+        paint2.setShader(sweepGradient2);
+//
 
     }
 

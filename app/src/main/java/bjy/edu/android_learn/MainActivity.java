@@ -1,20 +1,41 @@
 package bjy.edu.android_learn;
 
+import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.orhanobut.hawk.Hawk;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -26,9 +47,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import bbbjy.edu.bbbjy_support.util.LoadingDialog;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
 import bjy.edu.android_learn.dialog.DialogActivity;
 import bjy.edu.android_learn.drawable.DrawableActivity;
+import bjy.edu.android_learn.edittext.EditTextActivity;
 import bjy.edu.android_learn.fragment.FragmentActivity;
 import bjy.edu.android_learn.fragment.FragmentContainerActivity;
 import bjy.edu.android_learn.fragment.Fragment_1;
@@ -46,11 +69,17 @@ import bjy.edu.android_learn.stackoverflow.StackActivity;
 import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
+import bjy.edu.android_learn.util.ResUtil;
 import bjy.edu.android_learn.util.SpUtil;
+import bjy.edu.android_learn.util.ToastUtil;
+import bjy.edu.android_learn.util.ToastUtil2;
 import bjy.edu.android_learn.viewflipper.ViewFlipperActivity;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     public static final List<Activity> activities = new ArrayList<>();
@@ -64,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         activities.add(this);
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             boolean hh = bundle.getBoolean("hh");
         }
@@ -73,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //viewpager测试
 //                test_1();
 
@@ -80,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_2();
 
                 //自定义View
-                test_3();
+//                test_3();
 
                 //http测试
 //                test_4();
@@ -110,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_12();
 
                 //dialog
-//                test_13();
+                test_13();
 
                 //view_flipper
 //                test_14();
@@ -144,6 +174,15 @@ public class MainActivity extends AppCompatActivity {
 
                 //textView
 //                test_24();
+
+                //editText
+//                test_25();
+
+                //toast
+//                test_26();
+
+                //io
+//                test_27();
             }
         });
 
@@ -164,24 +203,23 @@ public class MainActivity extends AppCompatActivity {
 ////        intent.setAction("stockalert");
 //        intent.setData(Uri.parse("sogukj://stockalert"));
 //        startActivity(intent);
+    }
 
-        String s = "18616272196";
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
 
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            byte[] bytes = messageDigest.digest(s.getBytes());
-            StringBuilder result = new StringBuilder();
-            for (byte b : bytes) {
-                String temp = Integer.toHexString(b & 0xff);
-                if (temp.length() == 1) {
-                    temp = "0" + temp;
-                }
-                result.append(temp);
-            }
-            System.out.println("md5 加密值 " + result.toString());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+
+        float x = ev.getRawX();
+        float y = ev.getRawY();
+
+        View decorView = getWindow().getDecorView();
+        ActionBar actionBar;
+        View child = decorView.findViewById(R.id.tv);
+        if (child != null) {
+
         }
+
+        return super.dispatchTouchEvent(ev);
     }
 
     public void test_1() {
@@ -213,8 +251,8 @@ public class MainActivity extends AppCompatActivity {
         TestBean testBean0 = SpUtil.get("luffy");
         TestBean testBean1 = new TestBean("路飞", 17);
         SpUtil.put("luffy", testBean1);
-        TestBean testBean2  = SpUtil.get("luffy");
-        System.out.println("luffy" +testBean2.getName());
+        TestBean testBean2 = SpUtil.get("luffy");
+        System.out.println("luffy" + testBean2.getName());
 
         List list = new ArrayList();
         List list0 = SpUtil.get("list");
@@ -335,11 +373,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, MemoryActivity.class));
     }
 
-    private void test_21(){
+    private void test_21() {
         startActivity(new Intent(this, TimerActivity.class));
     }
 
-    private void test_22(){
+    private void test_22() {
 
         //todo 初始化容量了，为什么性能没有提升
         long t0 = System.nanoTime();
@@ -349,33 +387,67 @@ public class MainActivity extends AppCompatActivity {
 
         HashMap<Integer, String> hashMap2 = new HashMap<>(capacity);
         long t3 = System.currentTimeMillis();
-        for (int i=0; i<num; i++){
-            hashMap2.put(i, i+"");
+        for (int i = 0; i < num; i++) {
+            hashMap2.put(i, i + "");
         }
         long t4 = System.currentTimeMillis();
-        System.out.println("时间 2  " + (t4-t3));
+        System.out.println("时间 2  " + (t4 - t3));
 
         tag = 1;
 
         HashMap<Integer, String> hashMap = new HashMap<>();
         long t1 = System.currentTimeMillis();
-        for (int i=0; i<num; i++){
-            hashMap.put(i, i+"");
+        for (int i = 0; i < num; i++) {
+            hashMap.put(i, i + "");
         }
         long t2 = System.currentTimeMillis();
-        System.out.println("时间 1  " + (t2-t1));
+        System.out.println("时间 1  " + (t2 - t1));
 
     }
 
-    private void test_23(){
+    private void test_23() {
         startActivity(new Intent(this, PopupwindowActivity.class));
     }
 
-    private void test_24(){
+    private void test_24() {
         startActivity(new Intent(this, TextViewActivity.class));
     }
 
-    public static void main(String[] args) {
+    private void test_25() {
+        startActivity(new Intent(this, EditTextActivity.class));
+    }
 
+    private void test_26() {
+        ToastUtil.show(this, "哈哈哈");
+
+        ToastUtil2.show(this, "不不不");
+    }
+
+    private void test_27(){
+        AssetManager assetManager = this.getAssets();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetManager.open("lixi")));
+            StringBuilder stringBuilder = new StringBuilder();
+            while (bufferedReader.read() != -1){
+                stringBuilder.append(bufferedReader.readLine());
+            }
+            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+            HashMap<Integer, Double> hashMap = new HashMap<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                hashMap.put(jsonObject.getInt("time"), jsonObject.getDouble("value"));
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (JSONException e){
+
+        }
+
+    }
+
+    public static void main(String[] args) {
+        char zc = '3';
+        System.out.println("zc = " + (int)zc);
     }
 }

@@ -1,5 +1,6 @@
 package bjy.edu.android_learn.widget;
 
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
@@ -14,7 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import bjy.edu.android_learn.R;
@@ -61,6 +70,26 @@ public class ViewActivity extends AppCompatActivity {
 
         //pickView
 //        view_10();
+
+        AssetManager assetManager = this.getAssets();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetManager.open("lixi")));
+            StringBuilder stringBuilder = new StringBuilder();
+            while (bufferedReader.read() != -1){
+                stringBuilder.append(bufferedReader.readLine());
+            }
+            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+            HashMap<Integer, Double> hashMap = new HashMap<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                hashMap.put(jsonObject.getInt("time"), jsonObject.getDouble("value"));
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     private void base(){

@@ -1,13 +1,12 @@
 package bjy.edu.android_learn;
 
 import android.app.Application;
-import android.content.Intent;
 
 import com.orhanobut.hawk.Hawk;
-import com.squareup.leakcanary.LeakCanary;
 
-import bjy.edu.android_learn.service.TestService;
+import bjy.edu.android_learn.util.DisplayUtil;
 import bjy.edu.android_learn.util.SpUtil;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -29,6 +28,12 @@ public class App extends Application {
 //        LeakCanary.install(this);
 //        startForegroundService(new Intent(this, TestService.class));
 //        startService(new Intent(this, TestService.class));
+
+        //极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+        System.out.println("deviceId    " + DisplayUtil.getDeviceId(this));
     }
 
     public static App getInstance(){
