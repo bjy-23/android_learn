@@ -57,6 +57,7 @@ import bjy.edu.android_learn.fragment.FragmentContainerActivity;
 import bjy.edu.android_learn.fragment.Fragment_1;
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
+import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
 import bjy.edu.android_learn.memory.MemoryActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_12();
 
                 //dialog
-                test_13();
+//                test_13();
 
                 //view_flipper
 //                test_14();
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_26();
 
                 //io
-//                test_27();
+                test_27();
             }
         });
 
@@ -424,26 +425,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test_27(){
-        AssetManager assetManager = this.getAssets();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(assetManager.open("lixi")));
-            StringBuilder stringBuilder = new StringBuilder();
-            while (bufferedReader.read() != -1){
-                stringBuilder.append(bufferedReader.readLine());
-            }
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            HashMap<Integer, Double> hashMap = new HashMap<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                hashMap.put(jsonObject.getInt("time"), jsonObject.getDouble("value"));
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }catch (JSONException e){
-
-        }
-
+        startActivity(new Intent(this, IOActivity.class));
     }
 
     public static void main(String[] args) {
