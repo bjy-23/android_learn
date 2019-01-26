@@ -218,7 +218,9 @@
         <activity
             android:name=".edittext.EditTextActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".io.IOActivity"></activity>
+        <activity android:name=".io.IOActivity" />
+        <activity android:name=".reflect.ReflectActivity" />
+        <activity android:name=".websocket.WebSocketActivity"></activity>
     </application>
 
 </manifest>

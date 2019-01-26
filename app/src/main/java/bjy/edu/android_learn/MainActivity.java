@@ -36,7 +36,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -63,6 +65,7 @@ import bjy.edu.android_learn.memory.MemoryActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
 import bjy.edu.android_learn.popupwindow.PopupwindowActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
+import bjy.edu.android_learn.reflect.ReflectActivity;
 import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
 import bjy.edu.android_learn.service.TestService;
@@ -77,6 +80,7 @@ import bjy.edu.android_learn.util.ToastUtil2;
 import bjy.edu.android_learn.viewflipper.ViewFlipperActivity;
 import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
+import bjy.edu.android_learn.websocket.WebSocketActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -183,7 +187,13 @@ public class MainActivity extends AppCompatActivity {
 //                test_26();
 
                 //io
-                test_27();
+//                test_27();
+
+                //reflect
+//                test_28();
+
+                //webSocket
+                test_29();
             }
         });
 
@@ -424,12 +434,20 @@ public class MainActivity extends AppCompatActivity {
         ToastUtil2.show(this, "不不不");
     }
 
-    private void test_27(){
+    private void test_27() {
         startActivity(new Intent(this, IOActivity.class));
+    }
+
+    private void test_28(){
+        startActivity(new Intent(this, ReflectActivity.class));
+    }
+
+    private void test_29(){
+        startActivity(new Intent(this, WebSocketActivity.class));
     }
 
     public static void main(String[] args) {
         char zc = '3';
-        System.out.println("zc = " + (int)zc);
+        System.out.println("zc = " + (int) zc);
     }
 }
