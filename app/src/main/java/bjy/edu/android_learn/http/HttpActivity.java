@@ -31,6 +31,9 @@ public class HttpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_http);
 
+
+        test_1();
+
 //        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new HttpLoggingInterceptor())
 //                .build();
@@ -88,5 +91,9 @@ public class HttpActivity extends AppCompatActivity {
                 Log.e("1", "onResponse");
             }
         });
+    }
+
+    private void test_1(){
+        new HttpHelper().get("/appConfig");
     }
 }
