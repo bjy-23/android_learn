@@ -110,11 +110,15 @@ public class MainActivity extends AppCompatActivity {
             boolean hh = bundle.getBoolean("hh");
         }
 
+        int a = 65;
+        char c = (char) a;
+        String s = new String(new char[]{c});
+        Log.e("65", s);
+
         final TextView textView = findViewById(R.id.text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 //viewpager测试
 //                test_1();
@@ -195,27 +199,21 @@ public class MainActivity extends AppCompatActivity {
 //                test_26();
 
                 //io
-                test_27();
+//                test_27();
 
                 //reflect
 //                test_28();
 
                 //webSocket
-//                test_29();
+                test_29();
             }
         });
 
-        //statusBar 隐藏
-
-
-//        DisplayUtil.setStatusBarColor(this, Color.TRANSPARENT);
-
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        String[] array = Build.SUPPORTED_ABIS;
-        for (String s : array) {
-            Log.e("abi", s + "\n");
-        }
+        //手机cpu架构
+//        String[] array = Build.SUPPORTED_ABIS;
+//        for (String s : array) {
+//            Log.e("abi", s + "\n");
+//        }
 
         //隐式启动app
 //        Intent intent = new Intent();

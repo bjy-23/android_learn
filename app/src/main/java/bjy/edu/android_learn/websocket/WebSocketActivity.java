@@ -61,7 +61,7 @@ public class WebSocketActivity extends AppCompatActivity {
             public void onMessage(ResponseBody message) throws IOException {
                 Log.i("WebSocketCall", "onMessage");
                 String msg = message.string();
-                Log.i("", msg);
+                Log.i("msg", msg);
             }
 
             @Override
