@@ -76,6 +76,7 @@ import bjy.edu.android_learn.reflect.ReflectActivity;
 import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
 import bjy.edu.android_learn.service.TestService;
+import bjy.edu.android_learn.socket.SocketActivity;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
 import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.time.TimerActivity;
@@ -205,7 +206,11 @@ public class MainActivity extends AppCompatActivity {
 //                test_28();
 
                 //webSocket
-                test_29();
+//                test_29();
+
+                //socket
+
+                test_30();
             }
         });
 
@@ -450,6 +455,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_29(){
         startActivity(new Intent(this, WebSocketActivity.class));
+    }
+
+    private void test_30(){
+        startActivity(new Intent(this, SocketActivity.class));
     }
 
     public static void main(String[] args) {

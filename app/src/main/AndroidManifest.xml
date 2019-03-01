@@ -220,7 +220,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".io.IOActivity" />
         <activity android:name=".reflect.ReflectActivity" />
-        <activity android:name=".websocket.WebSocketActivity"></activity>
+        <activity android:name=".websocket.WebSocketActivity" />
+        <activity android:name=".socket.SocketActivity"></activity>
     </application>
 
 </manifest>
