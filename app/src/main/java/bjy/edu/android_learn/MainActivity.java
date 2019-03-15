@@ -206,11 +206,10 @@ public class MainActivity extends AppCompatActivity {
 //                test_28();
 
                 //webSocket
-//                test_29();
+                test_29();
 
                 //socket
-
-                test_30();
+//                test_30();
             }
         });
 

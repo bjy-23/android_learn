@@ -1,29 +1,35 @@
 package bjy.edu.android_learn.rxjava;
 
+import org.reactivestreams.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableOperator;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okio.Source;
 
 public class Test {
     public static void main(String[] args) {
 
         // Observable Observer
-//        test1();
+        test1();
+
+        //map flatmap lift
+        test2();
 
         //Observable
-        test3();
+//        test3();
 
-        //map flatmap
-//        test2();
     }
 
     static void test1() {
@@ -47,8 +53,8 @@ public class Test {
             }
         })
 
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
 
                 // 拦截onNext事件, 在observer 的onNext回调之前, 和onNext保持在一个线程
                 .doOnNext(new Consumer<String>() {
@@ -93,6 +99,9 @@ public class Test {
     }
 
     static void test2() {
+        /**
+         * map 对Observable的事件对象进行转换 1:1的转换
+         */
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
@@ -107,7 +116,6 @@ public class Test {
                         return Integer.parseInt(s) + 10;
                     }
                 })
-
                 .subscribe(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer integer) throws Exception {
@@ -118,6 +126,9 @@ public class Test {
 
         System.out.println("");
 
+        /**
+         * flatmap 1:N 的转换
+         */
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
@@ -143,9 +154,25 @@ public class Test {
                         System.out.println("Consumer  " + s);
                     }
                 });
+
+        Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+            }
+        }).lift(new ObservableOperator<Object, String>() {
+            @Override
+            public Observer<? super String> apply(Observer<? super Object> observer) throws Exception {
+                return null;
+            }
+        });
+
     }
 
     static void test3() {
+        /**
+         *  just 把传入的参数依次发送出来
+         */
         List<String> list = new ArrayList<>();
         list.add("na");
         list.add("ruto");
@@ -178,6 +205,9 @@ public class Test {
 
         System.out.println("");
 
+        /**
+         * fromIterable fromArray; 将每个子元素发出来
+         */
         System.out.println("fromIterable");
         Observable.fromIterable(list)
                 .map(new Function<String, Integer>() {
@@ -193,5 +223,17 @@ public class Test {
                     }
                 })
         ;
+
+        System.out.println("");
+
+        System.out.println("array");
+        String[] strings = new String[]{"李嘉欣", "刘亦菲", "迪丽热巴"};
+        Observable.fromArray(strings)
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        System.out.println("Consumer  accept  " + s);
+                    }
+                });
     }
 }

@@ -22,7 +22,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
 
 public class HttpActivity extends AppCompatActivity {
 
@@ -38,7 +40,10 @@ public class HttpActivity extends AppCompatActivity {
 //        test_1();
 
         //同步调用
-        test_2();
+//        test_2();
+
+        //
+        test_3();
 
 //        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new HttpLoggingInterceptor())
@@ -108,5 +113,21 @@ public class HttpActivity extends AppCompatActivity {
         };
 
         new Thread(runnable).start();
+    }
+
+    private void test_3(){
+        RetrofitApi.Service service = RetrofitApi.getService();
+        retrofit2.Call<ResponseBody> call = service.dapanPredict("");
+        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(retrofit2.Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Log.i("1", "1");
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<ResponseBody> call, Throwable t) {
+                Log.i("0", "0");
+            }
+        });
     }
 }
