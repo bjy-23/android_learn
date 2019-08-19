@@ -48,8 +48,7 @@
     <uses-permission android:name="com.huawei.android.launcher3.permission.WRITE_SETTINGS" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
-        tools:ignore="ProtectedPermissions" />
-    <!-- 网易云信IM权限 -->
+        tools:ignore="ProtectedPermissions" /> <!-- 网易云信IM权限 -->
     <!-- 权限声明 -->
     <!-- 访问网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -63,6 +62,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".thread.ThreadActivity"></activity>
+        <activity android:name=".sqlite.SqliteActivity" />
+
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
@@ -92,9 +94,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <!-- Required SDK核心功能 -->
+        </activity> <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -106,9 +106,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="bjy.edu.android_learn" />
             </intent-filter>
-        </activity>
-
-        <!-- Required SDK 核心功能 -->
+        </activity> <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -120,16 +118,12 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-
-        <!-- since 3.0.9 Required SDK 核心功能 -->
+        </service> <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="bjy.edu.android_learn.DataProvider"
             android:exported="false"
-            android:process=":pushcore" />
-
-        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+            android:process=":pushcore" /> <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -140,13 +134,11 @@
 
                 <category android:name="bjy.edu.android_learn" />
             </intent-filter>
-        </service>
-        <!-- since 3.1.0 Required SDK 核心功能 -->
+        </service> <!-- since 3.1.0 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DownloadProvider"
             android:authorities="bjy.edu.android_learn.DownloadProvider"
-            android:exported="true" />
-        <!-- Required SDK核心功能 -->
+            android:exported="true" /> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
@@ -166,21 +158,16 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能 -->
+        </receiver> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-
-        <!-- Required  . Enable it you can get statistics data with channel -->
+            android:exported="false" /> <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="4f347c2308e81fe11ec6f4d8" /> <!-- </>值来自开发者平台取得的AppKey -->
-
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity
             android:name=".webView.WebViewActivity"
@@ -221,7 +208,7 @@
         <activity android:name=".io.IOActivity" />
         <activity android:name=".reflect.ReflectActivity" />
         <activity android:name=".websocket.WebSocketActivity" />
-        <activity android:name=".socket.SocketActivity"></activity>
+        <activity android:name=".socket.SocketActivity" />
     </application>
 
 </manifest>

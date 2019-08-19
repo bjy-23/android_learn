@@ -4,8 +4,6 @@
     android:versionCode="318"
     android:versionName="3.1.8"
     >
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
-
     <!-- Required -->
     <permission
         android:name="bjy.edu.android_learn.permission.JPUSH_MESSAGE"

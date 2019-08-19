@@ -33,7 +33,7 @@ public class TestService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.e("TestService", "onCreate");
+        Log.i("TestService", "onCreate");
 
         testReceiver = new TestReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -52,14 +52,13 @@ public class TestService extends Service {
                 .setButtontext("我知道了")
                 .build();
 
-
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("TestService", "onDestroy");
+        Log.i("TestService", "onDestroy");
 
         unregisterReceiver(testReceiver);
     }

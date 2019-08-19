@@ -22,9 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
 
 public class HttpActivity extends AppCompatActivity {
 
@@ -37,13 +35,14 @@ public class HttpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_http);
 
 
+        //httpUrlConnection
 //        test_1();
 
-        //同步调用
-//        test_2();
+        //okhttp 同步调用、异步调用
+        test_2();
 
-        //
-        test_3();
+        //retrofit
+//        test_3();
 
 //        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new HttpLoggingInterceptor())
@@ -92,7 +91,6 @@ public class HttpActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                        .addInterceptor(new NullResponseInterceptor())
                         .addInterceptor(new HttpLoggingInterceptor())
@@ -101,6 +99,7 @@ public class HttpActivity extends AppCompatActivity {
                 Request request = new Request.Builder()
                         .url("https://www.baidu.com")
                         .build();
+
                 Call call = okHttpClient.newCall(request);
                 try {
                     Response response = call.execute();
@@ -109,6 +108,19 @@ public class HttpActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                Call call2 = call.clone();
+                call2.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+
+                    }
+                });
             }
         };
 
@@ -116,17 +128,16 @@ public class HttpActivity extends AppCompatActivity {
     }
 
     private void test_3(){
-        RetrofitApi.Service service = RetrofitApi.getService();
-        retrofit2.Call<ResponseBody> call = service.dapanPredict("");
-        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+        Call call = HttpApi.getService().getName();
+        call.enqueue(new Callback() {
             @Override
-            public void onResponse(retrofit2.Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                Log.i("1", "1");
+            public void onFailure(Call call, IOException e) {
+
             }
 
             @Override
-            public void onFailure(retrofit2.Call<ResponseBody> call, Throwable t) {
-                Log.i("0", "0");
+            public void onResponse(Call call, Response response) throws IOException {
+
             }
         });
     }

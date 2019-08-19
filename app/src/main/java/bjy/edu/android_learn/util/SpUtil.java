@@ -2,6 +2,7 @@ package bjy.edu.android_learn.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 
 import com.google.gson.Gson;
 

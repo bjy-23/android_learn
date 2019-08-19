@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sqlite.SqliteActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="数据库" />
+
+    <Button
+        android:id="@+id/btn_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="insert：千手柱间 初代火影"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="query：第一条数据"
+        app:layout_constraintTop_toBottomOf="@+id/btn_insert"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="鸣人"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/btn_query"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_query"
+        app:layout_constraintTop_toTopOf="@id/btn_query"/>
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delete：表中所有数据"
+        app:layout_constraintTop_toBottomOf="@+id/btn_query"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_insert_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="insert：大量数据"
+        app:layout_constraintTop_toBottomOf="@+id/btn_delete"
+        android:layout_marginTop="10dp"/>
+</android.support.constraint.ConstraintLayout>

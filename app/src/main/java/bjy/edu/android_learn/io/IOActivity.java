@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import bjy.edu.android_learn.Manifest;
 import bjy.edu.android_learn.R;
 
 public class IOActivity extends AppCompatActivity {

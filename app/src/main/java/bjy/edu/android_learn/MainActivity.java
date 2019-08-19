@@ -16,6 +16,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +26,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.AtomicFile;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +39,7 @@ import com.orhanobut.hawk.Hawk;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +60,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import bbbjy.edu.bbbjy_support.util.LoadingDialog;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
@@ -69,6 +75,7 @@ import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
 import bjy.edu.android_learn.memory.MemoryActivity;
+import bjy.edu.android_learn.memory_leak.MemoryLeakActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
 import bjy.edu.android_learn.popupwindow.PopupwindowActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
@@ -77,6 +84,7 @@ import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.service.ServiceUtil;
 import bjy.edu.android_learn.service.TestService;
 import bjy.edu.android_learn.socket.SocketActivity;
+import bjy.edu.android_learn.sqlite.SqliteActivity;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
 import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.time.TimerActivity;
@@ -106,17 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
         activities.add(this);
 
-        final Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            boolean hh = bundle.getBoolean("hh");
-        }
-
         int a = 65;
         char c = (char) a;
         String s = new String(new char[]{c});
         Log.e("65", s);
 
-        final TextView textView = findViewById(R.id.text);
+        final TextView textView = findViewById(R.id .text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,10 +209,20 @@ public class MainActivity extends AppCompatActivity {
 //                test_28();
 
                 //webSocket
-                test_29();
+//                test_29();
 
                 //socket
+
 //                test_30();
+
+                //内存泄漏
+//                test_31();
+
+                //eventbus
+//                test_32();
+
+                //sqlite
+                test_33();
             }
         });
 
@@ -458,6 +471,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_30(){
         startActivity(new Intent(this, SocketActivity.class));
+    }
+
+    private void test_31(){
+        startActivity(new Intent(this, MemoryLeakActivity.class));
+    }
+
+    private void test_32(){
+        EventBus.getDefault().register(this);
+    }
+
+    private void test_33(){
+        startActivity(new Intent(this, SqliteActivity.class));
     }
 
     public static void main(String[] args) {
