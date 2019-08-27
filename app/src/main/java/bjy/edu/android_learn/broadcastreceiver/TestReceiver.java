@@ -10,7 +10,7 @@ public class TestReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)){
-            System.out.println("收到广播了");
+            System.out.println("收到广播：SCREEN_ON");
 //            context.startActivity(new Intent(context, ViewActivity.class));
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<bjy.edu.android_learn.recyclerView.LeftDragView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,8 +7,11 @@
 
     <TextView
         android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="国防部"/>
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="国防部"
+        android:background="#6F80E0"/>
 
-</android.support.constraint.ConstraintLayout>
+</bjy.edu.android_learn.recyclerView.LeftDragView>

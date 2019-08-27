@@ -20,7 +20,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.nio.charset.Charset;
 
 import bjy.edu.android_learn.R;
 
@@ -32,6 +35,13 @@ public class IOActivity extends AppCompatActivity {
         setContentView(R.layout.activity_io);
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+        Character character;
+        Charset charset;
+        InputStream inputStream;
+        OutputStream outputStream;
+        System.out.println("ok");
+        RandomAccessFile randomAccessFile;
 //        test_1();
 
 //        test_2();

@@ -16,9 +16,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -26,7 +23,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.AtomicFile;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +35,6 @@ import com.orhanobut.hawk.Hawk;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,10 +55,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import bbbjy.edu.bbbjy_support.util.LoadingDialog;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
+import bjy.edu.android_learn.contentprovider.ContentProviderActivity;
 import bjy.edu.android_learn.dialog.DialogActivity;
 import bjy.edu.android_learn.drawable.DrawableActivity;
 import bjy.edu.android_learn.edittext.EditTextActivity;
@@ -114,12 +109,65 @@ public class MainActivity extends AppCompatActivity {
 
         activities.add(this);
 
+        final Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            boolean hh = bundle.getBoolean("hh");
+        }
+
         int a = 65;
         char c = (char) a;
         String s = new String(new char[]{c});
         Log.e("65", s);
 
-        final TextView textView = findViewById(R.id .text);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                //true:获得权限；false:未获得权限
+                if (aBoolean){
+                    Log.i("permission", "yes");
+                }else {
+                    Log.i("permission", "no");
+                }
+            }
+        });
+
+//        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .subscribe(new Consumer<Boolean>() {
+//                    @Override
+//                    public void accept(Boolean aBoolean) throws Exception {
+//                        //true:获得所有权限；false:未获得所有
+//                        if (aBoolean) {
+//                            Log.i("permission", "yes");
+//                        } else {
+//                            Log.i("permission", "no");
+//                        }
+//                    }
+//                });
+
+//        rxPermissions.requestEach(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .subscribe(new Consumer<Permission>() {
+//                    @Override
+//                    public void accept(Permission permission) throws Exception {
+//                        switch (permission.name){
+//                            case Manifest.permission.CAMERA:
+//                                Log.i("permission", "CAMERA");
+//                                if (permission.granted){//获得权限
+//                                    Log.i("permission", "ok");
+//                                }else if (permission.shouldShowRequestPermissionRationale){//禁止权限
+//                                    Log.i("permission", "no");
+//                                }else {// 禁止权限并不再访问
+//                                    Log.i("permission", "never ask again");
+//                                }
+//                                break;
+//                            case Manifest.permission.READ_EXTERNAL_STORAGE:
+//                                Log.i("permission", "STORAGE");
+//                                break;
+//                        }
+//                    }
+//                });
+
+        final TextView textView = findViewById(R.id.text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_2();
 
                 //自定义View
-//                test_3();
+                test_3();
 
                 //http测试
 //                test_4();
@@ -212,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
 //                test_29();
 
                 //socket
-
 //                test_30();
 
                 //内存泄漏
@@ -222,7 +269,10 @@ public class MainActivity extends AppCompatActivity {
 //                test_32();
 
                 //sqlite
-                test_33();
+//                test_33();
+
+                //contentprovider
+//                test_40();
             }
         });
 
@@ -237,6 +287,14 @@ public class MainActivity extends AppCompatActivity {
 ////        intent.setAction("stockalert");
 //        intent.setData(Uri.parse("sogukj://stockalert"));
 //        startActivity(intent);
+
+        TextView text_2 = findViewById(R.id.text_2);
+        text_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PhonePropertyActivity.class));
+            }
+        });
     }
 
     @Override
@@ -478,11 +536,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test_32(){
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     private void test_33(){
         startActivity(new Intent(this, SqliteActivity.class));
+    }
+
+    private void test_40() {
+        startActivity(new Intent(this, ContentProviderActivity.class));
     }
 
     public static void main(String[] args) {

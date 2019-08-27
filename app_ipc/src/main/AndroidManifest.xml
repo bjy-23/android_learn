@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="bjy.edu.android_learn_ipc">
+
+    <!-- book provider 访问权限声明 -->
+    <uses-permission
+        android:name="bjy.book.READ_PERMISSION"
+        />
+    <uses-permission
+        android:name="bjy.book.WRITE_PERMISSION"
+        />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--<provider-->
+            <!--android:authorities="bjy.book"-->
+            <!--android:name=".contentprovider.BookProvider"-->
+            <!--android:readPermission="bjy.book.READ_PERMISSION"-->
+            <!--android:writePermission="bjy.book.WRITE_PERMISSION"/>-->
+        <activity android:name=".ContentProviderActivity"></activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -9,3 +9,33 @@
     tools:context="bjy.edu.android_learn.recyclerView.RvActivity">
 
 </android.support.v7.widget.RecyclerView>
+
+
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="#ffffff"-->
+    <!--tools:context="bjy.edu.android_learn.recyclerView.RvActivity">-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:background="#ffffff"-->
+        <!--tools:context="bjy.edu.android_learn.recyclerView.RvActivity">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:background="#ffffff"-->
+        <!--tools:context="bjy.edu.android_learn.recyclerView.RvActivity">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+<!--</ScrollView>-->

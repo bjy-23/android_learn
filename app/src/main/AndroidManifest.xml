@@ -52,7 +52,15 @@
     <!-- 权限声明 -->
     <!-- 访问网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- book provider 访问权限声明 -->
+    <permission
+        android:name="bjy.book.READ_PERMISSION"
+        android:label="read"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="bjy.book.WRITE_PERMISSION"
+        android:label="write"
+        android:protectionLevel="normal" />
 
     <application
         android:name=".App"
@@ -62,7 +70,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".thread.ThreadActivity"></activity>
+        <activity android:name=".PhonePropertyActivity"></activity>
+        <activity android:name=".contentprovider.ContentProviderActivity" />
+
+        <provider
+            android:name=".contentprovider.BookProvider"
+            android:authorities="bjy.book"
+            android:exported="true"
+            android:readPermission="@string/book_read_permission"
+            android:writePermission="bjy.book.WRITE_PERMISSION" />
+
+        <activity android:name=".thread.ThreadActivity" />
         <activity android:name=".sqlite.SqliteActivity" />
 
         <receiver

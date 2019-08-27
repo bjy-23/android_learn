@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -64,7 +65,7 @@ public class ViewActivity extends AppCompatActivity {
 //        view_6();
 
         //圆环
-        view_7();
+//        view_7();
 
         //visible 和 clickable 关系
 //        view_8();
@@ -74,6 +75,9 @@ public class ViewActivity extends AppCompatActivity {
 
         //pickView
 //        view_10();
+
+        //验证MotionEvent的传递机制
+        view_11();
     }
 
     private void base(){
@@ -107,6 +111,19 @@ public class ViewActivity extends AppCompatActivity {
             }
         }, 100);
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        Log.i("dispatchTouchEvent", "activity");
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+//        Log.i("onTouchEvent", "activity");
+        return super.onTouchEvent(event);
+    }
+
 
     private void view_2() {
         setContentView(R.layout.activity_view_2);
@@ -389,5 +406,9 @@ public class ViewActivity extends AppCompatActivity {
         PickView pickView = findViewById(R.id.pickView);
         pickView.setData(data);
         pickView.show();
+    }
+
+    public void view_11(){
+        setContentView(R.layout.activity_view_11);
     }
 }

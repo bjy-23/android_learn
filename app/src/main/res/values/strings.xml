@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android_learn</string>
+    <string name="book_read_permission">bjy.book.READ_PERMISSION</string>
+    <string name="authority_book">authority_book</string>
 </resources>
