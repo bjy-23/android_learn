@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 //                test_2();
 
                 //自定义View
-                test_3();
+//                test_3();
 
                 //http测试
 //                test_4();
@@ -270,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //sqlite
 //                test_33();
+
+                //camera
+                test_34();
 
                 //contentprovider
 //                test_40();
@@ -541,6 +544,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_33(){
         startActivity(new Intent(this, SqliteActivity.class));
+    }
+
+    private void test_34(){
+        startActivity(new Intent(new Intent(this, CameraActivity.class)));
     }
 
     private void test_40() {
