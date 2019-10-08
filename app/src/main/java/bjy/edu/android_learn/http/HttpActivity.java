@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.Proxy;
 
 import bjy.edu.android_learn.R;
 import okhttp3.Call;
@@ -45,9 +46,9 @@ public class HttpActivity extends AppCompatActivity {
         //
 //        test_3();
 
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .addInterceptor(new HttpLoggingInterceptor())
-//                .build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor())
+                .build();
 //        JSONObject jsonObject = new JSONObject();
 //        JSONArray jsonArray = new JSONArray();
 //        try {
@@ -94,18 +95,25 @@ public class HttpActivity extends AppCompatActivity {
             public void run() {
 
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .addInterceptor(new NullResponseInterceptor())
-                        .addInterceptor(new HttpLoggingInterceptor())
+                        //addInterceptor-->对发出去的请求做最初的处理，以及在拿到最后Reponse时候做最后的处理
+//                        .addInterceptor(new NullResponseInterceptor())
+//                        .addInterceptor(new HttpLoggingInterceptor())
+                        .addInterceptor(new OkHttpLogInterceptor())
+                        //addNetworkInterceptor -->对发出去的请求做最后的处理，以及在拿到结果时候做最初的处理
+//                        .addNetworkInterceptor(new MyNetWorkInterceptor())
+                        .addNetworkInterceptor(new OkRequestInterceptor())
                         .build();
 
                 Request request = new Request.Builder()
-                        .url("https://www.baidu.com")
+                        .url("http://pdtapi.sogukz.com")
                         .build();
                 Call call = okHttpClient.newCall(request);
                 try {
                     Response response = call.execute();
                     if (response != null)
                         Log.i("response", response.body().string());
+
+                    HttpHelper.get();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

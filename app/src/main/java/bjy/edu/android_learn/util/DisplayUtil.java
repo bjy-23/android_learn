@@ -29,6 +29,11 @@ import bjy.edu.android_learn.App;
 public class DisplayUtil {
     private static Context context = App.getInstance();
 
+    /**
+     * @param activity
+     * @param statusBarColor
+     * @param light
+     */
     @TargetApi(23)
     public static void setStatusBarColor(Activity activity, int statusBarColor, boolean light) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -1,7 +1,9 @@
 package bjy.edu.android_learn.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,12 +17,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import bjy.edu.android_learn.R;
+import bjy.edu.android_learn.socket.SocketActivity;
 
 public class Fragment_1  extends Fragment{
-    public static String TAG = "TAG";
+    public static final String TAG = Fragment_1.class.getSimpleName();
     String tag = "";
 
     private Timer timer = new Timer();
+
+    private TextView tv_1;
 
     public Fragment_1() {
     }
@@ -48,6 +53,23 @@ public class Fragment_1  extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //校验userVisibleHint属性
+        tv_1 = view.findViewById(R.id.tv_1);
+        tv_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "userVisibleHint: " + getUserVisibleHint());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "userVisibleHint: " + getUserVisibleHint());
+                    }
+                }, 3000);
+
+                startActivity(new Intent(getActivity(), SocketActivity.class));
+
+            }
+        });
         TextView tv = view.findViewById(R.id.tv);
 
         tv.setText("bbbjy" + tag);

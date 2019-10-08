@@ -4,13 +4,17 @@ import org.reactivestreams.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableOperator;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -20,24 +24,50 @@ import okio.Source;
 
 public class Test {
     public static void main(String[] args) {
+        int position = 2;
+        switch (position) {
+            case 4:
+                //flowable
+                test4();
+                break;
+            case 3:
+                // just、fromIterable、fromArray
+                test3();
+                break;
+            case 2:
+                //map flatmap lift
+                test2();
+                break;
+            case 1:
+                // Observable Observer
+                test1();
+                break;
+        }
+    }
 
-        // Observable Observer
-        test1();
-
-        //map flatmap lift
-        test2();
-
-        //Observable
-//        test3();
-
+    static void test4() {
+        Flowable.intervalRange(0, 10, 0, 1, TimeUnit.SECONDS)
+//                .observeOn(Schedulers.newThread())
+                .doOnNext(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        System.out.println("doOnNext: " + aLong);
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        System.out.println("doOnComplete");
+                    }
+                })
+                .subscribe();
     }
 
     static void test1() {
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                System.out.println("Observable  subscribe");
-                System.out.println("Observable  subscribe  线程  " + Thread.currentThread().getName());
+                System.out.println("Observable subscribe  线程: " + Thread.currentThread().getName());
 
                 System.out.println("发送1");
                 emitter.onNext("1");
@@ -53,18 +83,17 @@ public class Test {
             }
         })
 
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                //
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
 
                 // 拦截onNext事件, 在observer 的onNext回调之前, 和onNext保持在一个线程
-                .doOnNext(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        System.out.println("Consumer  accept  " + s);
-
-                        System.out.println("Consumer  accept  线程  " + Thread.currentThread().getName());
-                    }
-                })
+//                .doOnNext(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String s) throws Exception {
+//                        System.out.println("Consumer  accept:" + s + "线程: " + Thread.currentThread().getName());
+//                    }
+//                })
 
                 .subscribe(new Observer<String>() {
                     Disposable disposable;
@@ -77,23 +106,19 @@ public class Test {
 
                     @Override
                     public void onNext(String s) {
-                        System.out.println("Observer  onNext");
-                        System.out.println("Observer  onNext  线程" + Thread.currentThread().getName());
-
-                        System.out.println("Observer  接收" + s);
-
+                        System.out.println("Observer onNext: " + s + "  线程: " + Thread.currentThread().getName());
                         if (s.equals("2"))
                             disposable.dispose();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        System.out.println("Observer onError  线程：" + Thread.currentThread());
                     }
 
                     @Override
                     public void onComplete() {
-
+                        System.out.println("Observer onComplete  线程：" + Thread.currentThread());
                     }
                 });
     }
@@ -210,16 +235,10 @@ public class Test {
          */
         System.out.println("fromIterable");
         Observable.fromIterable(list)
-                .map(new Function<String, Integer>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public Integer apply(String s) throws Exception {
-                        return s.length();
-                    }
-                })
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer integer) throws Exception {
-                        System.out.println("Consumer  accept  " + integer);
+                    public void accept(String s) throws Exception {
+                        System.out.println("Consumer accept: " + s);
                     }
                 })
         ;

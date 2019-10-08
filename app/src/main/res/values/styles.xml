@@ -10,6 +10,8 @@
         <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
+    <style name="cc" parent="Theme.AppCompat"></style>
+
 
     <style name="dialog" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>

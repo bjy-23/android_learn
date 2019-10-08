@@ -1,10 +1,17 @@
 package bjy.edu.android_learn.webView;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -37,39 +44,9 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         final WebView webView = findViewById(R.id.webView);
-//        webView.loadUrl(URL);
 
-        String data = "<p> my name is bbbjy </p>";
-//        String data = "<!DOCTYPE html>\n" +
-//                "<html>\n" +
-//                "<head>\n" +
-//                "<meta charset=\"UTF-8\">\n" +
-//                "<title>Insert title here</title>\n" +
-//                "<style>\n" +
-//                "a{\n" +
-//                "    font-size: 50px;\n" +
-//                "}\n" +
-//                "</style>\n" +
-//                "</head>\n" +
-//                "<body>\n" +
-//                "    <a href=\"sougukj://hello\"\">App</a>\n" +
-//                "</body>\n" +
-//                "</html>\n";
-        htmlBuilder.append("<html>")
-                .append(headBuilder)
-                .append(style)
-                .append("<div style='width:100%'>")
-                .append(data)
-                .append("</div></body></html>");
-        webView.loadDataWithBaseURL(null, htmlBuilder.toString(), "text/html", "UTF-8", null);
-
-        //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
-//        webView.loadData(data, "text/html", "UTF-8");
-//        webView.loadData("<html>", "text/html; charset=UTF-8", null);
-//        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
-
-
-        WebSettings webSettings = webView.getSettings();
+        //1.websetting
+        final WebSettings webSettings = webView.getSettings();
 
         //如果访问的页面中要与Javascript交互（有<script>标签），则webview必须设置支持Javascript;)
         webSettings.setJavaScriptEnabled(true);
@@ -94,6 +71,71 @@ public class WebViewActivity extends AppCompatActivity {
 //        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
 //        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
 //        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
+
+
+
+//        String data = "<!DOCTYPE html>\n" +
+//                "<html>\n" +
+//                "<head>\n" +
+//                "<meta charset=\"UTF-8\">\n" +
+//                "<title>Insert title here</title>\n" +
+//                "<style>\n" +
+//                "a{\n" +
+//                "    font-size: 50px;\n" +
+//                "}\n" +
+//                "</style>\n" +
+//                "</head>\n" +
+//                "<body>\n" +
+//                "    <a href=\"sougukj://hello\"\">App</a>\n" +
+//                "</body>\n" +
+//                "</html>\n";
+
+
+
+        //webView js和android交互
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("<p> my name is <input type=\"text\" id=\"input_1\" value=\"bbbjy\"/> </p>")
+                    //js调用android
+                    .append("<input type=\"button\" value=\"点我\" onclick=\"android.clickNow2(333)\" />")
+                    .append("<script type=\"text/javascript\"> " +
+                            "function changeText(){ " +
+                            "document.getElementById(\"input_1\").value = \"jjjjjj\";" +
+                            "return \"修改成功了\"" +
+                            "} " +
+                            "</script>");
+        htmlBuilder.append("<html>")
+                .append(headBuilder)
+                .append(style)
+                .append("<div style='width:100%'>")
+                .append(bodyBuilder.toString())
+                .append("</div></body></html>");
+        webView.loadDataWithBaseURL(null, htmlBuilder.toString(), "text/html", "UTF-8", null);
+        //第二个参数name和onclick中的前缀保持一致
+        //安全原因，需要api在17以上
+        webView.addJavascriptInterface(new MyJs(WebViewActivity.this), "android");
+//        webView.addJavascriptInterface(new WebViewActivity(), "tag1"); todo 调用失败，alertdialog为什么弹出失败？？？
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //todo api 19
+                //webview主动调用js
+                webView.evaluateJavascript("javascript:changeText()", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.i("value", value);
+                    }
+                });
+            }
+        }, 3000);
+
+
+
+
+        //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
+//        webView.loadData(data, "text/html", "UTF-8");
+//        webView.loadData("<html>", "text/html; charset=UTF-8", null);
+//        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -137,5 +179,24 @@ public class WebViewActivity extends AppCompatActivity {
 
 //        final String url = "http://view.officeapps.live.com/op/view.aspx?src=http://sogu-kskd.oss-cn-hangzhou.aliyuncs.com/backend/home_file/lijiafei/07854a2d121096d42a9c6524e7618a3b.docx";
 //        webView.loadUrl(url);
+    }
+
+    @JavascriptInterface
+    public void clickNow(){
+        Log.i("clickNow", Thread.currentThread().getName());
+       new Handler(Looper.getMainLooper()).post(new Runnable() {
+           @Override
+           public void run() {
+               Context context = WebViewActivity.this;
+               if (context == null){
+                   Log.i("111", "context == null");
+                   return;
+               }
+               new AlertDialog.Builder(context)
+                       .setTitle("点我")
+                       .setMessage("来自html的点击事件")
+                       .show();
+           }
+       });
     }
 }

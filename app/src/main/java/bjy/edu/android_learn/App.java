@@ -30,10 +30,8 @@ public class App extends Application {
 //        startService(new Intent(this, TestService.class));
 
         //极光推送
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
-
-        System.out.println("deviceId    " + DisplayUtil.getDeviceId(this));
+//        JPushInterface.setDebugMode(true);
+//        JPushInterface.init(this);
     }
 
     public static App getInstance(){

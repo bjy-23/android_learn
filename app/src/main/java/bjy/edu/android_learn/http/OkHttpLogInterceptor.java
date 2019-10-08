@@ -44,7 +44,7 @@ public class OkHttpLogInterceptor implements Interceptor {
             sbRequest.append(buffer.readString(charset)).append("\n");
         }
         sbRequest.append("------------------ request ------------------ \n");
-        Log.i("okHttp", sbRequest.toString());
+        Log.i("okHttp", sbRequest.toString() + "\n");
 
         Response response = chain.proceed(request);
         MediaType mediaType = response.body().contentType();

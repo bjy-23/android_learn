@@ -23,7 +23,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import bjy.edu.android_learn.R;
 
@@ -56,6 +58,7 @@ public class IOActivity extends AppCompatActivity {
     //从 assets目录读取文本(推荐做法): 字符流读取
     private void test_1() {
         try {
+            // TODO: 2019-08-30 StreamDecoder源码查看
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.getAssets().open("lixi")));
             StringBuilder stringBuilder = new StringBuilder();
             String temp;

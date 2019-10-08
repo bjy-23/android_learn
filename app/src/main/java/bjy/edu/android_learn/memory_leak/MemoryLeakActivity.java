@@ -1,6 +1,5 @@
 package bjy.edu.android_learn.memory_leak;
 
-import android.graphics.ImageDecoder;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;

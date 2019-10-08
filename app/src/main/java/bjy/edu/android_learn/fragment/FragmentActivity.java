@@ -8,10 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import bjy.edu.android_learn.R;
-import bjy.edu.android_learn.widget.view.TabGroup;
 
 public class FragmentActivity extends AppCompatActivity {
-    TabGroup tabGroup;
 
     private int num = 1;
 
@@ -19,10 +17,12 @@ public class FragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        test_1();
-
-        // backstack
-        test_2();
+        int pos = 2;
+        switch (pos){
+            case 2:
+                test_2();
+                break;
+        }
     }
 
     private void test_1(){
@@ -38,13 +38,6 @@ public class FragmentActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction().add(R.id.layout_container, fragment_1).commit();
 //        fragmentManager.beginTransaction().add(R.id.layout_container, fragment_1).commit();
-        tabGroup = findViewById(R.id.tab_group);
-        tabGroup.setOnSelectListener(new TabGroup.OnSelectListener() {
-            @Override
-            public void onSelect(int position) {
-                fragmentManager.beginTransaction().add(R.id.layout_container, fragment_1).commit();
-            }
-        });
     }
 
     private void test_2(){

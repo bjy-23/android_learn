@@ -8,11 +8,6 @@
     tools:context=".fragment.FragmentActivity">
 
 
-    <bjy.edu.android_learn.widget.view.TabGroup
-        android:id="@+id/tab_group"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
     <FrameLayout
         android:id="@+id/layout_container"
         android:layout_width="match_parent"
