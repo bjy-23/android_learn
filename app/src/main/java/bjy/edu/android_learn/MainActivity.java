@@ -84,6 +84,7 @@ import bjy.edu.android_learn.socket.SocketActivity;
 import bjy.edu.android_learn.sqlite.SqliteActivity;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
 import bjy.edu.android_learn.textview.TextViewActivity;
+import bjy.edu.android_learn.thread.ThreadActivity;
 import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
 import bjy.edu.android_learn.util.ResUtil;
@@ -127,8 +128,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                int position = 37;
+                int position = 8;
                 switch (position){
+                    case 38:
+                        //thread
+                        test_38();
+                        break;
                     case 37:
                         //permission
                         test_37();
@@ -180,7 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PhonePropertyActivity.class));
             }
         });
+
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -205,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_37(){
         startActivity(new Intent(MainActivity.this, PermissionActivity.class));
+    }
+
+    public void test_38(){
+        startActivity(new Intent(MainActivity.this, ThreadActivity.class));
     }
 
     public void test_1() {
