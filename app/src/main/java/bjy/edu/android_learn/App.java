@@ -22,6 +22,8 @@ public class App extends Application {
 
         app = this;
 
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+
         Hawk.init(this).build();
         SpUtil.init(this);
 

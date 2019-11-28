@@ -17,10 +17,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import bjy.edu.android_learn.R;
 
 public class WebViewActivity extends AppCompatActivity {
+    public static final String TAG = WebViewActivity.class.getSimpleName();
+
     //    private static final String URL = "https://mh5.sogukz.com/question/index.html?type=protocol";
     private static final String URL = "https://mh5.sogukz.com/question/index.html?type=video";
 //    private static final String URL = "http://www.baidu.com/";
@@ -47,10 +50,8 @@ public class WebViewActivity extends AppCompatActivity {
 
         //1.websetting
         final WebSettings webSettings = webView.getSettings();
-
         //如果访问的页面中要与Javascript交互（有<script>标签），则webview必须设置支持Javascript;)
         webSettings.setJavaScriptEnabled(true);
-
         webSettings.setDomStorageEnabled(true);
         webSettings.setUseWideViewPort(true);//支持html<meta>标签 viewport
         webSettings.setLoadWithOverviewMode(true);//内容适应屏幕大小
@@ -63,7 +64,6 @@ public class WebViewActivity extends AppCompatActivity {
 // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
 ////支持插件
 //        webSettings.setPluginsEnabled(true);
-
 ////其他细节操作
 //        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
 //        webSettings.setAllowFileAccess(true); //设置可以访问文件
@@ -71,7 +71,6 @@ public class WebViewActivity extends AppCompatActivity {
 //        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
 //        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
 //        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
 
 
 //        String data = "<!DOCTYPE html>\n" +
@@ -91,18 +90,23 @@ public class WebViewActivity extends AppCompatActivity {
 //                "</html>\n";
 
 
-
         //webView js和android交互
         StringBuilder bodyBuilder = new StringBuilder();
         bodyBuilder.append("<p> my name is <input type=\"text\" id=\"input_1\" value=\"bbbjy\"/> </p>")
-                    //js调用android
-                    .append("<input type=\"button\" value=\"点我\" onclick=\"android.clickNow2(333)\" />")
-                    .append("<script type=\"text/javascript\"> " +
-                            "function changeText(){ " +
-                            "document.getElementById(\"input_1\").value = \"jjjjjj\";" +
-                            "return \"修改成功了\"" +
-                            "} " +
-                            "</script>");
+                //js调用android
+                .append("<input type=\"button\" value=\"点我\" onclick=\"android.clickNow2(333)\" />")
+                .append("<br><br><br>")
+                .append("<a href=http://www.baidu.com>超链接</a>")
+                .append("<br><br><br>")
+                .append("<a href=https://www.baidu.com>超链接</a>")
+                .append("<br><br><br>")
+                .append("<a href=spdbbank://wap.spdb.com.cn>超链接2</a>")
+                .append("<script type=\"text/javascript\"> " +
+                        "function changeText(){ " +
+                        "document.getElementById(\"input_1\").value = \"jjjjjj\";" +
+                        "return \"修改成功了\"" +
+                        "} " +
+                        "</script>");
         htmlBuilder.append("<html>")
                 .append(headBuilder)
                 .append(style)
@@ -115,9 +119,10 @@ public class WebViewActivity extends AppCompatActivity {
         webView.addJavascriptInterface(new MyJs(WebViewActivity.this), "android");
 //        webView.addJavascriptInterface(new WebViewActivity(), "tag1"); todo 调用失败，alertdialog为什么弹出失败？？？
 
-        new Handler().postDelayed(new Runnable() {
+        TextView tv_js = findViewById(R.id.tv_js);
+        tv_js.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View v) {
                 //todo api 19
                 //webview主动调用js
                 webView.evaluateJavascript("javascript:changeText()", new ValueCallback<String>() {
@@ -126,11 +131,11 @@ public class WebViewActivity extends AppCompatActivity {
                         Log.i("value", value);
                     }
                 });
+
+                // TODO: 2019-10-15
+//                webView.loadUrl("javascript:changeText()");
             }
-        }, 3000);
-
-
-
+        });
 
         //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
 //        webView.loadData(data, "text/html", "UTF-8");
@@ -138,26 +143,27 @@ public class WebViewActivity extends AppCompatActivity {
 //        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
 
         webView.setWebViewClient(new WebViewClient() {
+
+            //默认值 return false: webView继续加载当前url；return true:webView停止加载当前url
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                Log.i(TAG, "shouldOverrideUrlLoading:  " + url);
+
+                boolean result = true;
+                if (url.contains("https"))
+                    result = false;
+
+                return result;
             }
-            //            /**
-//             * @param view  和 webView是一个对象
-//             * @param request
-//             * @return
-//             */
+
+            // TODO: 2019-11-04  方法失效？？？
+            //return false : 在当前webView继续加载新网址
+            //return true : 默认不处理，交给用户来处理
 //            @Override
 //            @TargetApi(21)
 //            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//
-//                //return false : 在当前webView继续加载新网址
-//
-//                //return true : 默认不处理，交给用户来处理
-//
-//                view.loadUrl(request.getUrl().toString());
-//                return super.shouldOverrideUrlLoading(view, request);
+//                Log.i(TAG, "shouldOverrideUrlLoading 2:  " + request.getUrl().toString());
+//                return true;
 //            }
         });
 
@@ -177,26 +183,24 @@ public class WebViewActivity extends AppCompatActivity {
 //            }
 //        });
 
-//        final String url = "http://view.officeapps.live.com/op/view.aspx?src=http://sogu-kskd.oss-cn-hangzhou.aliyuncs.com/backend/home_file/lijiafei/07854a2d121096d42a9c6524e7618a3b.docx";
-//        webView.loadUrl(url);
     }
 
     @JavascriptInterface
-    public void clickNow(){
+    public void clickNow() {
         Log.i("clickNow", Thread.currentThread().getName());
-       new Handler(Looper.getMainLooper()).post(new Runnable() {
-           @Override
-           public void run() {
-               Context context = WebViewActivity.this;
-               if (context == null){
-                   Log.i("111", "context == null");
-                   return;
-               }
-               new AlertDialog.Builder(context)
-                       .setTitle("点我")
-                       .setMessage("来自html的点击事件")
-                       .show();
-           }
-       });
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Context context = WebViewActivity.this;
+                if (context == null) {
+                    Log.i("111", "context == null");
+                    return;
+                }
+                new AlertDialog.Builder(context)
+                        .setTitle("点我")
+                        .setMessage("来自html的点击事件")
+                        .show();
+            }
+        });
     }
 }

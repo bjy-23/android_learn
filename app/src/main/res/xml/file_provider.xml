@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--external-path标签代表了Environment.getExternalStorageDirectory()这个路径-->
+    <external-path
+        name="external"
+        path="." /> <!--path . 代表了当前目录下所有路径包括子目录-->
+    <external-path
+        name="external"
+        path="bjy.edu.android_learn" /> <!-- path 代表了bjy.edu.android_learn目录下的所有文件，包括子目录-->
+
+    <!-- context.getFilesDir() -->
+    <files-path
+        name="files"
+        path="/"/>
+
+    <!-- context.getExternalFilesDir()-->
+    <external-files-path
+        name="bbjy"
+        path="."/>
+
+    <external-cache-path
+        name="bb"
+        path="."/>
+</paths>

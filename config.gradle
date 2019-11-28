@@ -1,14 +1,14 @@
 ext {
     // app 相关版本控制
     versions = [
-            sdkMinVersion     : 15,
-            sdkTargetVersion  : 26,
+            minSdkVersion     : 15,
+            targetSdkVersion  : 29,
 
-            sdkCompileVersion : 28,
-            toolsBuildVersion : "28.0.2",
+            sdkCompileVersion : 29,
+            toolsBuildVersion : "29.0.2",
 
-            appVersionCode    : 520,
-            appVersionName    : "1.0.0",
+            versionCode    : 520,
+            versionName    : "1.0.0",
 
             support_version : "28.0.0"
     ]

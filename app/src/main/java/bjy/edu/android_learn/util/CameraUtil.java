@@ -7,9 +7,11 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import bjy.edu.android_learn.App;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraUtil {
     private static Context sContext = App.getInstance();
 

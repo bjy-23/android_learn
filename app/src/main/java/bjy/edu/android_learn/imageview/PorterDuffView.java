@@ -35,17 +35,37 @@ public class PorterDuffView extends View {
 
         int width = Math.min(getWidth(), getHeight());
 
-        //dst
+        paint.setFilterBitmap(false);
+        paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLUE);
-        canvas.drawRect(0, 0, width/2, width/2, paint);
+        Bitmap dstBitmap = Bitmap.createBitmap(width/2, width/2, Bitmap.Config.ARGB_8888);
+        Canvas dstCanvas = new Canvas(dstBitmap);
+        dstCanvas.drawRect(0, 0, width/2, width/2, paint);
 
-        //src
+        paint.setColor(Color.GREEN);
+        Bitmap srcBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+        Canvas srcCanvas = new Canvas(srcBitmap);
+        srcCanvas.drawCircle(width/2, width/2, width/2, paint);
+
+        canvas.drawBitmap(dstBitmap, 0, 0, paint);
+//        canvas.drawBitmap(srcBitmap, 0, 0, paint);
         if (mode != null)
             paint.setXfermode(new PorterDuffXfermode(mode));
-        paint.setColor(Color.GREEN);
-        canvas.drawCircle(width/2, width/2, width/2, paint);
+        canvas.drawBitmap(srcBitmap, 0, 0, paint);
+        paint.setXfermode(null);
 
-
+//        //dst
+//        paint.setColor(Color.BLUE);
+//        canvas.drawRect(0, 0, width/2, width/2, paint);
+//
+//        //src
+//        if (mode != null)
+//            paint.setXfermode(new PorterDuffXfermode(mode));
+//        paint.setColor(Color.GREEN);
+//        canvas.drawCircle(width/2, width/2, width/2, paint);
+//
+//        //onDraw会多次调用，所以需要还原状态
+//        paint.setXfermode(null);
 
 
 //        Bitmap bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);

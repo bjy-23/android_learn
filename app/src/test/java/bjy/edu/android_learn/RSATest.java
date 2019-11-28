@@ -3,6 +3,8 @@ package bjy.edu.android_learn;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -12,6 +14,10 @@ import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -25,6 +31,35 @@ import javax.crypto.NoSuchPaddingException;
 public class RSATest {
 
     static final String CHARSET = "utf-8";
+
+    @Test
+    public void test_cer(){
+        //cer文件路径
+        String filePath = "/Users/bjy1229/StudioProjects/company/lifeandroid/SPD_Bank_Per_Living/aescoderlib/spdb_mb.cer";
+
+        CertificateFactory cf = null;
+        try {
+            cf = CertificateFactory.getInstance("X.509");
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }
+        X509Certificate cert = null;
+        try {
+            cert = (X509Certificate)cf.generateCertificate(new FileInputStream(filePath));
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PublicKey publicKey = cert.getPublicKey();
+        System.out.println("字节数组 转 字符串： " + new String(publicKey.getEncoded(), Charset.forName("utf-8")));
+        String publicKeyString = new String(Base64.getEncoder().encode(publicKey.getEncoded()));
+        System.out.println("-----------------公钥--------------------");
+        System.out.println(publicKeyString);
+        System.out.println("-----------------公钥--------------------");
+    }
 
     @Test
     public void test(){

@@ -52,4 +52,5 @@ public class ResUtil {
     public static Drawable getDrawable(int resId) {
         return context.getResources().getDrawable(resId);
     }
+
 }

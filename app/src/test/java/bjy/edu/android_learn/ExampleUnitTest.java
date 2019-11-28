@@ -1,5 +1,9 @@
 package bjy.edu.android_learn;
 
+import android.net.Uri;
+import android.util.Log;
+import android.util.Patterns;
+
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -28,6 +32,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.SortedMap;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -42,10 +47,33 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        //正则
+        String pattern = "spdbbank://wap.spdb.com.cn/pay?Plain=.*&Signature=.*";
+
+        String s1 = "spdbbank://wap.spdb.com.cn/pay?Plain=k&Signature=f";
+        String s2 = "spdbbank://wap.spdb.com.cn/pay?Plain2=jfjjkksk%3nsk&Signature=%%%jjdsskkkk&name=jsjnn";
+        String s3 = "spdbbank://wap.spdb.com.cn/pay?Signature=%%%jjdsskkkk&name=jsjnn&Plain2=jfjjkksk%3nsk&&";
+
+
+        System.out.println(Pattern.matches(pattern, s1));
+        System.out.println(Pattern.matches(pattern, s2));
+        System.out.println(Pattern.matches(pattern, s3));
+
+        Uri uri = Uri.parse(s1);
+        System.out.println("scheme: " + uri.getScheme());
+        System.out.println("host: " + uri.getHost());
+        System.out.println("path: " + uri.getPath());
     }
 
+
+
     public static void main(String[] args) {
+
+        int a = 65;
+        char c = (char) a;
+        String s = new String(new char[]{c});
+        Log.e("65", s);
+
         Writer writer;
         OutputStream outputStream;
         InputStream inputStream;

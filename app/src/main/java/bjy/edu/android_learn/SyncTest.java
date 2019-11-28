@@ -8,7 +8,6 @@ public class SyncTest {
                 for (int i=0; i<10; i++){
                     fun_1();
 
-
                     try {
 //                        Thread.sleep(2000);
 

@@ -10,10 +10,11 @@ import bjy.edu.android_learn.R;
 
 /**
  * 给未绑定Activity的fragment提供一个容器Activity
+ *
+ * fragment通过反射来生成；参数通过
  */
 public class FragmentContainerActivity extends AppCompatActivity {
     public static final String NAME = "name";
-    public static final String BUNDLE = "bundle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,9 @@ public class FragmentContainerActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(name)){
             try {
                 Fragment fragment = (Fragment) Class.forName(name).newInstance();
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null)
+                    fragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
             } catch (InstantiationException e) {
                 e.printStackTrace();

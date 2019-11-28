@@ -1,6 +1,8 @@
 package bjy.edu.android_learn.permission;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,9 @@ public class PermissionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
+
+        // 是否危险权限
+        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:990009")));
 
         // 通常写法
 //        RxPermissions rxPermissions = new RxPermissions(this);

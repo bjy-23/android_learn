@@ -126,16 +126,39 @@ public class DisplayUtil {
         return stringBuilder.toString();
     }
 
-    // TODO: 2019/1/16  
     public static String getIMEI(){
+        String imei = "";
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            if (telephonyManager != null)
-                return telephonyManager.getDeviceId();
+            if (telephonyManager != null){
+                imei = telephonyManager.getDeviceId();
+            }
+        }
+        return imei;
+    }
 
-            telephonyManager.getImei();
-            telephonyManager.getMeid();
+    public static String getIMEI2(){
+        String imei = "";
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (telephonyManager != null){
+                if (Build.VERSION.SDK_INT >= 26){
+                    telephonyManager.getImei();
+                    telephonyManager.getMeid();
+                }
+            }
+            return telephonyManager.getDeviceId();
+
+
         }
         return "";
+    }
+
+
+    /**
+     * @return AndroidId
+     */
+    public static String getAndroidId(){
+        return Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
     }
 }

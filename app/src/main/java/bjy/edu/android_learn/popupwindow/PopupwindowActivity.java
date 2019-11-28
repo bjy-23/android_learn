@@ -5,6 +5,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ public class PopupwindowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_popupwindow);
 
         final TextView textView = findViewById(R.id.tv);
+
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,8 +41,16 @@ public class PopupwindowActivity extends AppCompatActivity {
 
                 //显示在某个view下方, 并设置 x、y方向的偏移值，左负右正
 //                popupWindow.showAsDropDown(textView, 50, 0);
+
+                //需要手动修改activity对应的window的透明度
+                Window window = PopupwindowActivity.this.getWindow();
+                WindowManager.LayoutParams layoutParams = window.getAttributes();
+                System.out.println("alpla 修改前：" + layoutParams.alpha);
+                layoutParams.alpha = 0.5f;
+                window.setAttributes(layoutParams);
+
             }
         });
-
     }
+
 }

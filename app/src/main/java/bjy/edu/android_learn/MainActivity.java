@@ -1,63 +1,34 @@
 package bjy.edu.android_learn;
 
-import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.UriMatcher;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.orhanobut.hawk.Hawk;
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import bbbjy.edu.bbbjy_support.util.LoadingDialog;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
+import bjy.edu.android_learn.camera.CameraActivity;
 import bjy.edu.android_learn.contentprovider.ContentProviderActivity;
 import bjy.edu.android_learn.dialog.DialogActivity;
 import bjy.edu.android_learn.drawable.DrawableActivity;
@@ -69,6 +40,7 @@ import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
+import bjy.edu.android_learn.keystore.KeyStoreActivity;
 import bjy.edu.android_learn.memory.MemoryActivity;
 import bjy.edu.android_learn.memory_leak.MemoryLeakActivity;
 import bjy.edu.android_learn.notification.NotifyActivity;
@@ -78,8 +50,6 @@ import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.reflect.ReflectActivity;
 import bjy.edu.android_learn.rxjava.RxJavaActivity;
 import bjy.edu.android_learn.service.ServiceActivity;
-import bjy.edu.android_learn.service.ServiceUtil;
-import bjy.edu.android_learn.service.TestService;
 import bjy.edu.android_learn.socket.SocketActivity;
 import bjy.edu.android_learn.sqlite.SqliteActivity;
 import bjy.edu.android_learn.stackoverflow.StackActivity;
@@ -87,7 +57,6 @@ import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.thread.ThreadActivity;
 import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
-import bjy.edu.android_learn.util.ResUtil;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.util.ToastUtil;
 import bjy.edu.android_learn.util.ToastUtil2;
@@ -96,11 +65,10 @@ import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 import bjy.edu.android_learn.websocket.WebSocketActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import bjy.edu.android_learn.zxing.ZxingActivity;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
     public static final List<Activity> activities = new ArrayList<>();
     public static int notif_id = 1;
     private volatile int tag = 0;
@@ -112,24 +80,75 @@ public class MainActivity extends AppCompatActivity {
 
         activities.add(this);
 
-        final Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            boolean hh = bundle.getBoolean("hh");
-        }
+        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        //uri 匹配
+        String url = "spdbbank://wap.spdb.com.cn/pay?Plain=TranAbbr=IPER|MasterID=2006512137|MercDtTm=20191107195950|TermSsn=071959503621|OSttDate=|OAcqSsn=|MercCode=983708160001601|TermCode=00000000|TranAmt=66.0|Remark1=%CF%DF%CF%C2%B8%B6%BF%EE-%B2%E2%CA%D4%D6%A7%B8%B6|Remark2=%B6%A9%B5%A5%BA%C5%A3%BA1911071959503621|MercUrl=https://paymenttest.dragonpass.com.cn/spdpay/pageRetUrl|Ip=121.14.200.51|SubMercFlag=0|SubMercName=%C1%FA%CC%DA%B3%F6%D0%D0|SubMercGoodsName=%CF%DF%CF%C2%B8%B6%BF%EE-%B2%E2%CA%D4%D6%A7%B8%B6MerAccountType=|BackUrl=https://paymenttest.dragonpass.com.cn/spdpay/bgRetUrl|&Signature=17275a797915233e0b7c7e8ae4822dc396e944f6170aabcf973c982efdd22792a8c87388ada86b9bb9726bd6d5aef2415291b92da20652e46b9968c99f0287f5ac7a5fed99a77902ab64052ae5394bd983d623aa2a494c6ad8d9a9daa57d101cd0f265b0e14392f0773bd0b3a0aea9d473dc7f12dd61c75536e1e08d0a2e7bfb";
+        Uri uri_1 = Uri.parse(url);
+        Log.i(TAG, "uri_1: " + uri_1.getScheme() + "://" + uri_1.getAuthority());
+        String url_2 = url.replace("spdbbank", "content");
+        Uri uri_2 = Uri.parse(url_2);
+        Log.i(TAG, "uri_2: " + uri_2.getScheme() + "://" + uri_2.getAuthority());
+        //自定义toast
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast toast = new Toast(MainActivity.this);
+//                final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.toast_1, null, false);
+//                TextView tv = view.findViewById(R.id.tv);
+//                tv.setText("在一般的android开发中我们一般弹出一些提示信息，例如 已打开蓝牙，wifi之类的提示，我们都是会选择Toast进行弹出。今天我们的客户提出们应用弹出提示太小，用户不注意的情况下，容易被忽略掉，要弹出的宽度填充整个屏幕，首先想到是不是需要自定义");
+//                tv.setMaxEms(10);
+//                // TODO: 2019-10-25 toast的最大宽度怎么设置
+//                toast.setView(view);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.setDuration(Toast.LENGTH_LONG);
+//
+//                view.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//                    @Override
+//                    public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                        Log.i("view", "onGlobalFocusChanged");
+//                        Log.i("view", "width: " + view.getWidth());
+//                    }
+//                });
+//                toast.show();
+//            }
+//        }, 3000);
 
-        int a = 65;
-        char c = (char) a;
-        String s = new String(new char[]{c});
-        Log.e("65", s);
+        //隐式启动
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent();
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.addCategory(Intent.CATEGORY_DEFAULT);
+//                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//                intent.setData(Uri.parse("spdbbank://wap.spdb.com.cn"));
+//
+//                startActivity(intent);
+//            }
+//        }, 3000);
 
+        String s = "spdbbank://wap.spdb.com.cn/pay? Plain=fff&Signature=fff";
+        Uri uri = Uri.parse(s);
+        System.out.println("uri: " + s);
+        System.out.println("scheme: " + uri.getScheme());
+        System.out.println("host: " + uri.getHost());
+        System.out.println("path: " + uri.getPath());
 
         final TextView textView = findViewById(R.id.text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int position = 8;
+                int position = 13;
                 switch (position){
+                    case 40:
+                        //zxing扫码
+                        test_40();
+                        break;
+                    case 39:
+                        //KeyStore
+                        test_39();
+                        break;
                     case 38:
                         //thread
                         test_38();
@@ -142,9 +161,21 @@ public class MainActivity extends AppCompatActivity {
                         //rxjava
                         test_36();
                         break;
+                    case 34:
+                        //相机
+                        test_34();
+                        break;
+                    case 23:
+                        //popupwindow
+                        test_23();
+                        break;
                     case 15:
                         //fragment
                         test_15();
+                        break;
+                    case 13:
+                        //dialog
+                        test_13();
                         break;
                     case 8:
                         //图片测试
@@ -166,12 +197,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //手机cpu架构
-//        String[] array = Build.SUPPORTED_ABIS;
-//        for (String s : array) {
-//            Log.e("abi", s + "\n");
-//        }
-
         //隐式启动app
 //        Intent intent = new Intent();
 ////        intent.setAction("stockalert");
@@ -188,6 +213,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -216,6 +245,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_38(){
         startActivity(new Intent(MainActivity.this, ThreadActivity.class));
+    }
+
+    private void test_39(){
+        startActivity(new Intent(MainActivity.this, KeyStoreActivity.class));
+    }
+
+    private void test_40(){
+        startActivity(new Intent(MainActivity.this, ZxingActivity.class));
     }
 
     public void test_1() {
@@ -342,9 +379,10 @@ public class MainActivity extends AppCompatActivity {
     public void test_15() {
         Intent intent = new Intent(this, FragmentContainerActivity.class);
         intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
-//        startActivity(intent);
-
-        startActivity(new Intent(this, FragmentActivity.class));
+        Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
+        startActivity(intent);
+//        startActivity(new Intent(this, FragmentActivity.class));
     }
 
     public void test_16() {
