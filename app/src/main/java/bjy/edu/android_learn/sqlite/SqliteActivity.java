@@ -31,16 +31,20 @@ public class SqliteActivity extends AppCompatActivity {
         btn_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = sqlHelper.getWritableDatabase();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SQLiteDatabase db = sqlHelper.getWritableDatabase();
+                        //SQL语句
+                        db.execSQL("insert into huoying(name, position) values ('千手柱间', '初代火影')");
 
-                //SQL语句
-                db.execSQL("insert into huoying(name, position) values ('千手柱间', '初代火影')");
-
-                //原生API
+                        //原生API
 //                ContentValues v1 = new ContentValues();
 //                v1.put("name", "千手柱间");
 //                v1.put("position", "初代火影");
 //                db.insert("huoying", null, v1);
+                    }
+                }).start();
             }
         });
 

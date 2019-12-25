@@ -23,6 +23,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -35,30 +36,57 @@ public class RSATest {
     @Test
     public void test_cer(){
         //cer文件路径
-        String filePath = "/Users/bjy1229/StudioProjects/company/lifeandroid/SPD_Bank_Per_Living/aescoderlib/spdb_mb.cer";
+        String filePath = "/Users/bjy1229/Downloads/111/spdb_mb.cer";
 
         CertificateFactory cf = null;
-        try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        }
         X509Certificate cert = null;
         try {
+            cf = CertificateFactory.getInstance("X.509");
             cert = (X509Certificate)cf.generateCertificate(new FileInputStream(filePath));
         } catch (CertificateException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        if (cert == null){
+            System.out.println("cert == null");
+            return;
         }
         PublicKey publicKey = cert.getPublicKey();
         System.out.println("字节数组 转 字符串： " + new String(publicKey.getEncoded(), Charset.forName("utf-8")));
         String publicKeyString = new String(Base64.getEncoder().encode(publicKey.getEncoded()));
-        System.out.println("-----------------公钥--------------------");
+        System.out.println("---------公钥---------");
         System.out.println(publicKeyString);
-        System.out.println("-----------------公钥--------------------");
+        System.out.println("");
+
+        System.out.println("---------版本--------");
+        System.out.println(cert.getVersion());
+        System.out.println();
+
+        System.out.println("---------序列号---------");
+        System.out.println(cert.getSerialNumber().toString());
+        System.out.println();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("---------证书生效日期---------");
+        System.out.println(simpleDateFormat.format(cert.getNotBefore()));
+        System.out.println();
+
+        System.out.println("---------证书失效日期---------");
+        System.out.println(simpleDateFormat.format(cert.getNotAfter()));
+        System.out.println();
+
+        System.out.println("---------证书拥有者---------");
+        System.out.println(cert.getSubjectDN().getName());
+        System.out.println();
+
+        System.out.println("---------证书颁发者---------");
+        System.out.println(cert.getIssuerDN().getName());
+        System.out.println();
+
+        System.out.println("---------证书签名算法---------");
+        System.out.println(cert.getSigAlgName());
+        System.out.println();
     }
 
     @Test
@@ -71,7 +99,6 @@ public class RSATest {
         String message = "2019年8月25日，北京某超市五花肉标价25.8元每斤，售货员表示这已经是“最低价”，正常应该每斤卖30多元。\n" +
                 "近期，猪肉价格明显上涨，一些老百姓觉得“菜篮子”沉了。据商务部监测，8月份猪肉平均批发价格为每公斤29.58元，同比上涨47.8%。\n" +
                 "猪肉价格既关系到消费者的“小账”，又关系着经济运行的“大账”。百姓餐桌上的肉有保障吗？有关部门采取了哪些举措恢复生猪生产？未来猪肉价格走势如何？";
-
 
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");

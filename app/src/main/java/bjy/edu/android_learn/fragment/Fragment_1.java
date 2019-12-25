@@ -20,6 +20,7 @@ import bjy.edu.android_learn.R;
 import bjy.edu.android_learn.socket.SocketActivity;
 
 public class Fragment_1  extends Fragment{
+    private Bundle bundle;
     public static final String TAG = Fragment_1.class.getSimpleName();
     String tag = "";
 
@@ -39,6 +40,10 @@ public class Fragment_1  extends Fragment{
         super.onAttach(context);
 
 //        tag = getArguments().getString(TAG);
+
+        bundle = getArguments();
+        if (bundle != null)
+            tag = bundle.getString("tag");
     }
 
     @Nullable

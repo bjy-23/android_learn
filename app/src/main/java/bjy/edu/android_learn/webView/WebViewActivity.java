@@ -2,6 +2,7 @@ package bjy.edu.android_learn.webView;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -24,6 +26,7 @@ import bjy.edu.android_learn.R;
 public class WebViewActivity extends AppCompatActivity {
     public static final String TAG = WebViewActivity.class.getSimpleName();
 
+    private WebView webView;
     //    private static final String URL = "https://mh5.sogukz.com/question/index.html?type=protocol";
     private static final String URL = "https://mh5.sogukz.com/question/index.html?type=video";
 //    private static final String URL = "http://www.baidu.com/";
@@ -46,7 +49,7 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        final WebView webView = findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
 
         //1.websetting
         final WebSettings webSettings = webView.getSettings();
@@ -89,8 +92,74 @@ public class WebViewActivity extends AppCompatActivity {
 //                "</body>\n" +
 //                "</html>\n";
 
+        int position = 2;
+        switch (position){
+            case 1:
+                //js 和 android交互
+                test_1();
+                break;
+            case 2:
+                test_2();
+                break;
+        }
 
-        //webView js和android交互
+        //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
+//        webView.loadData(data, "text/html", "UTF-8");
+//        webView.loadData("<html>", "text/html; charset=UTF-8", null);
+//        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
+
+        webView.setWebViewClient(new WebViewClient() {
+
+            //默认值 return false: webView继续加载当前url；return true:webView停止加载当前url
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.i(TAG, "shouldOverrideUrlLoading:  " + url);
+
+                boolean result = true;
+                if (url.contains("https"))
+                    result = false;
+
+                return result;
+            }
+
+            // TODO: 2019-11-04  方法失效？？？
+            //return false : 在当前webView继续加载新网址
+            //return true : 默认不处理，交给用户来处理
+//            @Override
+//            @TargetApi(21)
+//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                Log.i(TAG, "shouldOverrideUrlLoading 2:  " + request.getUrl().toString());
+//                return true;
+//            }
+
+
+            //https证书验证失败
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+            }
+        });
+
+//        webView.setWebChromeClient(new WebChromeClient());
+
+        //响应按键回退网页
+//        webView.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                //按返回键操作并且能回退网页
+//                if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+//                    //后退
+//                    webView.goBack();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+
+    }
+
+    //webView js和android交互
+    public void test_1(){
         StringBuilder bodyBuilder = new StringBuilder();
         bodyBuilder.append("<p> my name is <input type=\"text\" id=\"input_1\" value=\"bbbjy\"/> </p>")
                 //js调用android
@@ -136,53 +205,6 @@ public class WebViewActivity extends AppCompatActivity {
 //                webView.loadUrl("javascript:changeText()");
             }
         });
-
-        //loadData的三种方式，推荐第三种loadDataWithBaseURL，其他的可能会造成乱码
-//        webView.loadData(data, "text/html", "UTF-8");
-//        webView.loadData("<html>", "text/html; charset=UTF-8", null);
-//        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
-
-        webView.setWebViewClient(new WebViewClient() {
-
-            //默认值 return false: webView继续加载当前url；return true:webView停止加载当前url
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.i(TAG, "shouldOverrideUrlLoading:  " + url);
-
-                boolean result = true;
-                if (url.contains("https"))
-                    result = false;
-
-                return result;
-            }
-
-            // TODO: 2019-11-04  方法失效？？？
-            //return false : 在当前webView继续加载新网址
-            //return true : 默认不处理，交给用户来处理
-//            @Override
-//            @TargetApi(21)
-//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//                Log.i(TAG, "shouldOverrideUrlLoading 2:  " + request.getUrl().toString());
-//                return true;
-//            }
-        });
-
-//        webView.setWebChromeClient(new WebChromeClient());
-
-        //响应按键回退网页
-//        webView.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                //按返回键操作并且能回退网页
-//                if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-//                    //后退
-//                    webView.goBack();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-
     }
 
     @JavascriptInterface
@@ -200,6 +222,20 @@ public class WebViewActivity extends AppCompatActivity {
                         .setTitle("点我")
                         .setMessage("来自html的点击事件")
                         .show();
+            }
+        });
+    }
+
+    //验证https
+    public void test_2(){
+        webView.loadUrl(URL);
+
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                Log.i(TAG, "onReceivedSslError");
+                super.onReceivedSslError(view, handler, error);
+
             }
         });
     }

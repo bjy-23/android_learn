@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.app.CoreComponentFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                int position = 13;
+                int position = 33;
                 switch (position){
                     case 40:
                         //zxing扫码
@@ -164,6 +165,13 @@ public class MainActivity extends AppCompatActivity {
                     case 34:
                         //相机
                         test_34();
+                        break;
+                    case 33:
+                        //sqlite
+                        test_33();
+                        break;
+                    case 24:
+                        test_24();
                         break;
                     case 23:
                         //popupwindow
@@ -380,6 +388,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FragmentContainerActivity.class);
         intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
         Bundle bundle = new Bundle();
+        bundle.putString("tag", "1229");
         intent.putExtras(bundle);
         startActivity(intent);
 //        startActivity(new Intent(this, FragmentActivity.class));
