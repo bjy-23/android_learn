@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.UriMatcher;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.CoreComponentFactory;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -135,12 +138,13 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("host: " + uri.getHost());
         System.out.println("path: " + uri.getPath());
 
+
         final TextView textView = findViewById(R.id.text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                int position = 33;
+                int position = 37;
                 switch (position){
                     case 40:
                         //zxing扫码
@@ -169,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
                     case 33:
                         //sqlite
                         test_33();
+                        break;
+                        //edittext
+                    case 25:
+                        test_25();
                         break;
                     case 24:
                         test_24();

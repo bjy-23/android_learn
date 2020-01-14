@@ -45,6 +45,16 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    @Test
+    public void test(){
+       int a = 10;
+       int b = a;
+
+       a = 12;
+       System.out.println(b);
+    }
+
     @Test
     public void addition_isCorrect() throws Exception {
         //正则
@@ -64,8 +74,6 @@ public class ExampleUnitTest {
         System.out.println("host: " + uri.getHost());
         System.out.println("path: " + uri.getPath());
     }
-
-
 
     public static void main(String[] args) {
 

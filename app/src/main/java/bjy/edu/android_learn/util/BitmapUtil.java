@@ -40,6 +40,7 @@ public class BitmapUtil {
         options.inJustDecodeBounds = true;
 
         Rect rect = new Rect(0, 0, reqWidth, reqHeight);
+        // TODO: 2020-01-10  decodeStream之后inputStream应该被关闭了，导致再次调用时为空
         Bitmap temp = BitmapFactory.decodeStream(inputStream);
 
         options.outWidth = temp.getWidth();

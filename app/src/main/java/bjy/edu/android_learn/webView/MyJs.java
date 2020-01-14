@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 public class MyJs {
     private Activity activity;
@@ -38,6 +39,16 @@ public class MyJs {
                         .setTitle("点我")
                         .setMessage("来自html的点击事件")
                         .show();
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void alertinfo(final String confirmStr, final String callbackFun) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(activity, confirmStr, Toast.LENGTH_SHORT).show();
             }
         });
     }

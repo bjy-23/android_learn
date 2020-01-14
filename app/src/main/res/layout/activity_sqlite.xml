@@ -1,58 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".sqlite.SqliteActivity">
 
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_db"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="数据库" />
+        android:padding="10dp"
+        android:text="数据库: 查询所有数据"
+        android:background="#d5d5d5"/>
 
-    <Button
-        android:id="@+id/btn_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="insert：千手柱间 初代火影"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginTop="10dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_query"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="query：第一条数据"
-        app:layout_constraintTop_toBottomOf="@+id/btn_insert"
-        android:layout_marginTop="10dp"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_query"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="鸣人"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/btn_query"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/btn_query"
-        app:layout_constraintTop_toTopOf="@id/btn_query"/>
+            <Button
+                android:id="@+id/btn_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="insert：千手柱间 初代火影"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="delete：表中所有数据"
-        app:layout_constraintTop_toBottomOf="@+id/btn_query"
-        android:layout_marginTop="10dp"/>
+            <Button
+                android:id="@+id/btn_query_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="query：初代火影"
+                app:layout_constraintTop_toBottomOf="@+id/btn_insert"
+                android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/btn_insert_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="insert：大量数据"
-        app:layout_constraintTop_toBottomOf="@+id/btn_delete"
-        android:layout_marginTop="10dp"/>
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_query_4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_query_4"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_query_4"
+                app:layout_constraintTop_toTopOf="@id/btn_query_4"/>
+
+            <Button
+                android:id="@+id/btn_query_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="query：初代火影（distinct）"
+                app:layout_constraintTop_toBottomOf="@+id/btn_query_4"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_query_5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_query_5"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_query_5"
+                app:layout_constraintTop_toTopOf="@id/btn_query_5"/>
+
+            <Button
+                android:id="@+id/btn_query_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="query：初代火影（group by）"
+                app:layout_constraintTop_toBottomOf="@+id/btn_query_5"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_query_6"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_query_6"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_query_6"
+                app:layout_constraintTop_toTopOf="@id/btn_query_6"/>
+
+
+            <Button
+                android:id="@+id/btn_query_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="query：（limit）"
+                app:layout_constraintTop_toBottomOf="@+id/btn_query_6"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_query_7"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_query_7"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_query_7"
+                app:layout_constraintTop_toTopOf="@id/btn_query_7"/>
+
+            <Button
+                android:id="@+id/btn_query_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="query：（order by）"
+                app:layout_constraintTop_toBottomOf="@+id/btn_query_7"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_query_8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_query_8"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_query_8"
+                app:layout_constraintTop_toTopOf="@id/btn_query_8"/>
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delete：所有数据"
+                app:layout_constraintTop_toBottomOf="@+id/btn_query_8"
+                android:layout_marginTop="10dp"/>
+
+            <Button
+                android:id="@+id/btn_delete_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delete：初代火影"
+                app:layout_constraintTop_toBottomOf="@+id/btn_delete"
+                android:layout_marginTop="10dp"/>
+
+            <Button
+                android:id="@+id/btn_insert_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="insert：大量数据"
+                app:layout_constraintTop_toBottomOf="@+id/btn_delete_2"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_insert_more"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_insert_more"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_insert_more"
+                app:layout_constraintTop_toTopOf="@id/btn_insert_more"/>
+
+            <Button
+                android:id="@+id/btn_insert_more2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="insert：大量数据(事务)"
+                app:layout_constraintTop_toBottomOf="@+id/tv_insert_more"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_insert_more2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:text="鸣人"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toRightOf="@+id/btn_insert_more2"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_insert_more2"
+                app:layout_constraintTop_toTopOf="@id/btn_insert_more2"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

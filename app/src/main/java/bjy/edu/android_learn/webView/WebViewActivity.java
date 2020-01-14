@@ -1,21 +1,29 @@
 package bjy.edu.android_learn.webView;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,9 +63,19 @@ public class WebViewActivity extends AppCompatActivity {
         final WebSettings webSettings = webView.getSettings();
         //如果访问的页面中要与Javascript交互（有<script>标签），则webview必须设置支持Javascript;)
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);//支持html<meta>标签 viewport
-        webSettings.setLoadWithOverviewMode(true);//内容适应屏幕大小
+//        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSettings.setBuiltInZoomControls(true);
+//        webSettings.setDisplayZoomControls(false);
+//        webSettings.setDomStorageEnabled(true);
+//        webSettings.setAllowFileAccess(false);
+//        webSettings.setAllowContentAccess(false);
+//        webSettings.setAllowFileAccessFromFileURLs(false);
+//        webSettings.setAllowUniversalAccessFromFileURLs(false);
+
+
+//        webSettings.setDomStorageEnabled(true);
+//        webSettings.setUseWideViewPort(true);//支持html<meta>标签 viewport
+//        webSettings.setLoadWithOverviewMode(true);//内容适应屏幕大小
 //        //缩放操作 --------------
 //        webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
 //        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
@@ -92,14 +110,19 @@ public class WebViewActivity extends AppCompatActivity {
 //                "</body>\n" +
 //                "</html>\n";
 
-        int position = 2;
+        int position = 3;
         switch (position){
             case 1:
                 //js 和 android交互
                 test_1();
                 break;
             case 2:
+                //https
                 test_2();
+                break;
+                //
+            case 3:
+                test_3();
                 break;
         }
 
@@ -108,37 +131,37 @@ public class WebViewActivity extends AppCompatActivity {
 //        webView.loadData("<html>", "text/html; charset=UTF-8", null);
 //        webView.loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);//
 
-        webView.setWebViewClient(new WebViewClient() {
-
-            //默认值 return false: webView继续加载当前url；return true:webView停止加载当前url
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.i(TAG, "shouldOverrideUrlLoading:  " + url);
-
-                boolean result = true;
-                if (url.contains("https"))
-                    result = false;
-
-                return result;
-            }
-
-            // TODO: 2019-11-04  方法失效？？？
-            //return false : 在当前webView继续加载新网址
-            //return true : 默认不处理，交给用户来处理
+//        webView.setWebViewClient(new WebViewClient() {
+//
+//            //默认值 return false: webView继续加载当前url；return true:webView停止加载当前url
 //            @Override
-//            @TargetApi(21)
-//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//                Log.i(TAG, "shouldOverrideUrlLoading 2:  " + request.getUrl().toString());
-//                return true;
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                Log.i(TAG, "shouldOverrideUrlLoading:  " + url);
+//
+//                boolean result = true;
+//                if (url.contains("https"))
+//                    result = false;
+//
+//                return result;
 //            }
-
-
-            //https证书验证失败
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                super.onReceivedSslError(view, handler, error);
-            }
-        });
+//
+//            // TODO: 2019-11-04  方法失效？？？
+//            //return false : 在当前webView继续加载新网址
+//            //return true : 默认不处理，交给用户来处理
+////            @Override
+////            @TargetApi(21)
+////            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+////                Log.i(TAG, "shouldOverrideUrlLoading 2:  " + request.getUrl().toString());
+////                return true;
+////            }
+//
+//
+//            //https证书验证失败
+//            @Override
+//            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                super.onReceivedSslError(view, handler, error);
+//            }
+//        });
 
 //        webView.setWebChromeClient(new WebChromeClient());
 
@@ -236,6 +259,64 @@ public class WebViewActivity extends AppCompatActivity {
                 Log.i(TAG, "onReceivedSslError");
                 super.onReceivedSslError(view, handler, error);
 
+            }
+        });
+    }
+
+    public void test_3(){
+        webView.loadUrl("http://121.41.43.94/klrq/phone/test/pay_result");
+        webView.setWebViewClient(new WebViewClient(){
+
+            /*
+            * 监听url
+            * */
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.i(TAG, "shouldInterceptRequest: " + request.getUrl());
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                return super.onRenderProcessGone(view, detail);
+            }
+
+            /*
+             *  可以监听到css、js等资源的获取
+             *  1.可以在这里设置资源文件从缓存中读取，减少时间
+             * */
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                Log.i(TAG, "shouldInterceptRequest: " + request.getUrl());
+                return super.shouldInterceptRequest(view, request);
+            }
+
+            /*
+            * 只在SSL验证失败时调用
+            * handler.proceed()
+            * handler.cancel()
+            * */
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+            }
+
+            /*
+            * 页面资源加载错误时调用；默认只监听了MainFrame
+            * */
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
             }
         });
     }

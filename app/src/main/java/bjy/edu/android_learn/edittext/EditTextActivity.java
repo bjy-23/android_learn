@@ -32,7 +32,9 @@ public class EditTextActivity extends AppCompatActivity {
 
 //        method_1();
 
-        method_2();
+//        method_2();
+
+        method_3();
     }
 
     private void method_1(){
@@ -109,6 +111,12 @@ public class EditTextActivity extends AppCompatActivity {
         tv_1.setMovementMethod(LinkMovementMethod.getInstance());
         tv_1.setHighlightColor(Color.TRANSPARENT); //消除点击后的高亮显示
         tv_1.setText(spannableString);
+
+    }
+
+    public void method_3(){
+        setContentView(R.layout.activity_edit_text_3);
+
 
     }
 
