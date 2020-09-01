@@ -1,5 +1,7 @@
 package bjy.edu.android_learn.io;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -36,23 +38,23 @@ public class IOActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_io);
 
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+            || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(IOActivity.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    , android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+            return;
+        }
 
-        Character character;
-        Charset charset;
-        InputStream inputStream;
-        OutputStream outputStream;
-        System.out.println("ok");
-        RandomAccessFile randomAccessFile;
-//        test_1();
-
-//        test_2();
-
-//        test_3();
-
-//        test_4();
-
-        test_5();
+        int position = 6;
+        switch (position){
+            case 6:
+                test_6();
+                break;
+            case 3:
+                test_3();
+                position = 3;
+                break;
+        }
     }
 
     //从 assets目录读取文本(推荐做法): 字符流读取
@@ -106,7 +108,7 @@ public class IOActivity extends AppCompatActivity {
 
     // 向文件里写数据 - 字节流
     private void test_3() {
-        File file = new File(Environment.getExternalStorageDirectory(), "20190131.txt");
+        File file = new File(Environment.getExternalStorageDirectory(), "202000728.txt");
 
         String text = "柏建宇1229";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(text.getBytes());
@@ -177,5 +179,45 @@ public class IOActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void test_6(){
+        File dir = getExternalFilesDir("test");
+        File file = new File(dir, "test.txt");
+        if (!file.exists()){
+            System.out.println("file 不存在");
+            try {
+                file.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                String text1 = "你好,";
+                fileOutputStream.write(text1.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        File dir2 = getExternalFilesDir("test");
+        File file2 = new File(dir2, "test.txt");
+
+        if (!file2.exists()){
+            System.out.println("file2 不存在");
+            try {
+                file2.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file2, true);
+            String text2 = "\n 柏建宇";
+            fileOutputStream.write(text2.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -4,9 +4,12 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,9 +29,16 @@ public class FullScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
+        //修复8.0系统的问题：Only fullscreen activities can request orientation
+        // manifest文件里不能固定屏幕方向
+        if (Build.VERSION.SDK_INT != 26){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
 
         //屏幕设置
-        method_1();
+//        method_1();
 
         //屏幕亮度调节
 //        method_2();

@@ -28,7 +28,7 @@ public class PermissionActivity extends AppCompatActivity {
         test_1();
 
         //rxpermission
-        test_2();
+//        test_2();
     }
 
     @Override
@@ -36,46 +36,33 @@ public class PermissionActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == 1001){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Log.i(TAG, "相机: PERMISSION_GRANTED");
-            }else{
-                Log.i(TAG, "相机: PERMISSION_DENIED");
-                //在申请一次权限后使用此方法，用来判断是否禁止再次询问
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(PermissionActivity.this, permissions[0])){
-                    Log.i(TAG, "相机: 禁止再次询问");
-                }else {
-                    Log.i(TAG, "相机: 可以再次询问");
-                }
-            }
-
-            if (grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                Log.i(TAG, "存储: PERMISSION_GRANTED");
-            }else{
-                Log.i(TAG, "存储: PERMISSION_DENIED");
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(PermissionActivity.this, permissions[0])){
-                    Log.i(TAG, "存储: 禁止再次询问");
-                }else {
-                    Log.i(TAG, "存储: 可以再次询问");
-                }
-            }
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                Log.i(TAG, "相机: PERMISSION_GRANTED");
+//            }else{
+//                Log.i(TAG, "相机: PERMISSION_DENIED");
+//                //在申请一次权限后使用此方法，用来判断是否禁止再次询问
+//                if (!ActivityCompat.shouldShowRequestPermissionRationale(PermissionActivity.this, permissions[0])){
+//                    Log.i(TAG, "相机: 禁止再次询问");
+//                }else {
+//                    Log.i(TAG, "相机: 可以再次询问");
+//                }
+//            }
+//
+//            if (grantResults[1] == PackageManager.PERMISSION_GRANTED){
+//                Log.i(TAG, "存储: PERMISSION_GRANTED");
+//            }else{
+//                Log.i(TAG, "存储: PERMISSION_DENIED");
+//                if (!ActivityCompat.shouldShowRequestPermissionRationale(PermissionActivity.this, permissions[0])){
+//                    Log.i(TAG, "存储: 禁止再次询问");
+//                }else {
+//                    Log.i(TAG, "存储: 可以再次询问");
+//                }
+//            }
         }
     }
 
     private void test_1(){
-        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        //检查是否有权限，只能一个一个去检查
-        if (ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
-            Log.i(TAG, "相机: PERMISSION_GRANTED");
-        }else {
-            Log.i(TAG, "相机: PERMISSION_DENIED");
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, permissions[1]) == PackageManager.PERMISSION_GRANTED){
-            Log.i(TAG, "存储: PERMISSION_GRANTED");
-        }else {
-            Log.i(TAG, "存储: PERMISSION_DENIED");
-        }
+        String[] permissions = {Manifest.permission.READ_PHONE_STATE};
 
         //申请权限
         //1.同时申请多个权限，会在所有的权限都应答后再回调onRequestPermissionsResult

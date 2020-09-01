@@ -6,4 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".service.ServiceActivity">
 
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start Service"
+        android:textSize="14sp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop Service"
+        android:textSize="14sp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/btn_start"
+        app:layout_constraintTop_toTopOf="@+id/btn_start"
+        android:layout_marginLeft="20dp" />
+
+    <Button
+        android:id="@+id/btn_bind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bind Service"
+        android:textSize="14sp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_start"
+        app:layout_constraintTop_toBottomOf="@+id/btn_start"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btn_unbind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unbind Service"
+        android:textSize="14sp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/btn_bind"
+        app:layout_constraintTop_toTopOf="@+id/btn_bind"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Service"
+        android:textSize="24sp"
+        android:padding="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>

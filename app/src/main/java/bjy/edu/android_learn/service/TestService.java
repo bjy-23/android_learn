@@ -20,47 +20,60 @@ import bjy.edu.android_learn.dialog.DialogThemeActivity;
 
 import static android.app.Notification.VISIBILITY_SECRET;
 
+//测试 startService 、bindService 生命周期
 public class TestService extends Service {
-    TestReceiver testReceiver;
+    private static final String TAG = "111222";
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    TestReceiver testReceiver;
 
     @Override
     public void onCreate() {
+        Log.i(TAG, "[onCreate]" );
         super.onCreate();
-
-        Log.i("TestService", "onCreate");
-
-        testReceiver = new TestReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(testReceiver, intentFilter);
+//        testReceiver = new TestReceiver();
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+//        registerReceiver(testReceiver, intentFilter);
 //        startForeground(1, getNotificationBuilder().build());
-        startForeground(1, new Notification());
-
+//        startForeground(1, new Notification());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "[onStartCommand] [flags] " + flags + " [startId] " + startId);
+        String tag = intent.getStringExtra("tag");
+        Log.i(TAG, "tag " + tag);
 
-        new DialogThemeActivity.Builder(this)
-                .setNotice("当前网络不可用!")
-                .setButtontext("我知道了")
-                .build();
+//        new DialogThemeActivity.Builder(this)
+//                .setNotice("当前网络不可用!")
+//                .setButtontext("我知道了")
+//                .build();
 
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.i(TAG, "[onBind]");
+        String tag = intent.getStringExtra("tag");
+        Log.i(TAG, "tag " + tag);
+        return null;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.i(TAG, "[onUnbind]");
+        String tag = intent.getStringExtra("tag");
+        Log.i(TAG, "tag " + tag);
+        return super.onUnbind(intent);
+    }
+
     @Override
     public void onDestroy() {
+        Log.i(TAG, "[onDestroy]");
         super.onDestroy();
-        Log.i("TestService", "onDestroy");
-
-        unregisterReceiver(testReceiver);
+//        unregisterReceiver(testReceiver);
     }
 
     private NotificationCompat.Builder getNotificationBuilder() {

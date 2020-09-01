@@ -34,7 +34,7 @@ public class SpUtil {
     //初始化，取出之前保存的所有类型信息
     public static void init(Context context) {
         if (context == null)
-            throw new NullPointerException("context should not be null");
+            throw new NullPointerException("SpUtil: context should not be null");
 
         sp = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
         String keyValues = sp.getString(KEY, "");

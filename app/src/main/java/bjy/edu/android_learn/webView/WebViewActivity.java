@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -29,14 +30,18 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import java.io.File;
+
+import bjy.edu.android_learn.MainActivity;
 import bjy.edu.android_learn.R;
+import bjy.edu.android_learn.util.BitmapUtil;
 
 public class WebViewActivity extends AppCompatActivity {
     public static final String TAG = WebViewActivity.class.getSimpleName();
 
     private WebView webView;
     //    private static final String URL = "https://mh5.sogukz.com/question/index.html?type=protocol";
-    private static final String URL = "https://mh5.sogukz.com/question/index.html?type=video";
+    private static final String URL = "https://www.baidu.com";
 //    private static final String URL = "http://www.baidu.com/";
 
     StringBuilder headBuilder = new StringBuilder()
@@ -58,7 +63,6 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         webView = findViewById(R.id.webView);
-
         //1.websetting
         final WebSettings webSettings = webView.getSettings();
         //如果访问的页面中要与Javascript交互（有<script>标签），则webview必须设置支持Javascript;)
@@ -110,7 +114,7 @@ public class WebViewActivity extends AppCompatActivity {
 //                "</body>\n" +
 //                "</html>\n";
 
-        int position = 3;
+        int position = 2;
         switch (position){
             case 1:
                 //js 和 android交互
@@ -265,6 +269,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     public void test_3(){
         webView.loadUrl("http://121.41.43.94/klrq/phone/test/pay_result");
+        webView.goBack();
         webView.setWebViewClient(new WebViewClient(){
 
             /*
@@ -318,6 +323,10 @@ public class WebViewActivity extends AppCompatActivity {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
             }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient(){
+
         });
     }
 }

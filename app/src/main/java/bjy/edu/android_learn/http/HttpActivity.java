@@ -37,52 +37,14 @@ public class HttpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_http);
 
-
+        //对HttpURLConnection的封装
 //        test_1();
 
-        //同步调用
+        //okHttp同步调用
         test_2();
 
         //
 //        test_3();
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor())
-                .build();
-//        JSONObject jsonObject = new JSONObject();
-//        JSONArray jsonArray = new JSONArray();
-//        try {
-//            jsonArray.put("pic1");
-//            jsonArray.put("pic2");
-//            jsonObject.put("publishUserId", "1229");
-//            jsonObject.put("title", "bjy");
-//            jsonObject.put("allContent", "cool");
-//            jsonObject.put("writingType", "1");
-//            jsonObject.put("publishStatus", "1");
-//            jsonObject.put("wordContent", "cool");
-//            jsonObject.put("picContent", jsonArray);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-//
-//        Request request = new Request.Builder()
-//                .url("http://47.98.188.238:3020/writings")
-//                .addHeader("Content-type", "application/json")
-//                .post(requestBody)
-//                .build();
-//        Call call = okHttpClient.newCall(request);
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.e("1", "onFailure");
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                Log.e("1", "onResponse");
-//            }
-//        });
     }
 
     private void test_1(){
@@ -110,9 +72,7 @@ public class HttpActivity extends AppCompatActivity {
                 Call call = okHttpClient.newCall(request);
                 try {
                     Response response = call.execute();
-                    if (response != null)
-                        Log.i("response", response.body().string());
-
+                    Log.i("response", response.body().string());
                     HttpHelper.get();
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -55,7 +55,7 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int position = 14;
+        int position = 5;
         switch (position) {
             case 14:
                 //pickview
@@ -64,6 +64,9 @@ public class ViewActivity extends AppCompatActivity {
             case 13:
 //                圆图
                 view_13();
+                break;
+            case 5:
+                view_5();
                 break;
         }
         //paint

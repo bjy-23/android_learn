@@ -8,117 +8,104 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sqlite.SqlResultActivity"></activity>
-        <activity
-            android:name=".TransparentActivity"
-            android:theme="@style/transparent_activity" />
-        <activity android:name=".finger.FingerActivity" />
-        <activity android:name=".zxing.ZxingActivity" />
-        <activity android:name=".keystore.KeyStoreActivity" />
-        <activity android:name=".PhonePropertyActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="bbbjy" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".permission.PermissionActivity" />
-        <activity android:name=".rxjava.RxJavaActivity" />
-        <activity android:name=".camera.CameraActivity" />
-        <activity android:name=".contentprovider.ContentProviderActivity" />
-        <activity android:name=".thread.ThreadActivity" />
-        <activity android:name=".sqlite.SqliteActivity" />
+        <activity android:name=".imageview.GalleryActivity"/>
+        <activity android:name=".activity.MemoryTestActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="bbbjy" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="bjy.edu.android_learn" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".viewpager.ViewPagerActivity" />
+            android:name=".activity.BigWordsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape" />
+        <activity android:name=".window.WindowActivity" />
+        <activity android:name=".sqlite.SqlResultActivity" />
+        <activity android:name=".activity.SystemSettingActivity" />
+        <activity android:name=".activity.ContactActivity" /> <!-- <activity android:name=".activity.Intent2Activity"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="intent_2_bbbjy"/> -->
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW"/> -->
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- <data -->
+        <!-- android:scheme="intent2" /> -->
+        <!-- <data android:scheme="intent22" -->
+        <!-- android:mimeType="img"/> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW"/> -->
+        <!-- <category android:name="category_intent2"/> -->
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity android:name=".activity.IntentActivity" />
+        <activity android:name=".PhonePropertyActivity" /> <!-- <activity -->
+        <!-- android:name=".TransparentActivity" -->
+        <!-- android:theme="@style/transparent_activity" /> -->
+        <!-- <activity android:name=".finger.FingerActivity" /> -->
+        <!-- <activity android:name=".zxing.ZxingActivity" /> -->
+        <!-- <activity android:name=".keystore.KeyStoreActivity" /> -->
+        <activity android:name=".camera.CameraActivity" />
+        <activity android:name=".permission.PermissionActivity" /> <!-- <activity android:name=".rxjava.RxJavaActivity" /> -->
+        <activity android:name=".sqlite.SqliteActivity" /> <!-- <activity android:name=".contentprovider.ContentProviderActivity" /> -->
+        <!-- <activity android:name=".thread.ThreadActivity" /> -->
         <activity
             android:name=".webView.WebViewActivity"
-            android:hardwareAccelerated="true" />
-        <activity android:name=".recyclerView.RvActivity" /> <!-- Required SDK核心功能 -->
-        <activity
-            android:name=".widget.ViewActivity"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" /> <!-- Required SDK 核心功能 -->
-        <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <activity android:name=".http.HttpActivity" /> <!-- since 3.0.9 Required SDK 核心功能 -->
-        <activity
-            android:name=".toolbar.ToolbarActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
-        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-        <activity android:name=".imageview.ImageViewActivity" /> <!-- since 3.1.0 Required SDK 核心功能 -->
+            android:hardwareAccelerated="true" /> <!--  -->
+        <!-- <activity -->
+        <!-- android:name="cn.jpush.android.ui.PushActivity" -->
+        <!-- android:configChanges="orientation|keyboardHidden" -->
+        <!-- android:exported="false" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="cn.jpush.android.ui.PushActivity" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- <category android:name="bjy.edu.android_learn" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <!-- <activity android:name=".viewpager.ViewPagerActivity" /> -->
+        <activity android:name=".dialog.DialogActivity" /> <!-- <activity android:name=".recyclerView.RvActivity" /> &lt;!&ndash; Required SDK核心功能 &ndash;&gt; -->
+        <!-- <activity -->
+        <!-- android:name=".widget.ViewActivity" -->
+        <!-- android:configChanges="orientation|screenSize" -->
+        <!-- android:hardwareAccelerated="true" /> &lt;!&ndash; Required SDK 核心功能 &ndash;&gt; -->
+        <!-- &lt;!&ndash; 可配置android:process参数将PushService放在其他进程中 &ndash;&gt; -->
+        <!-- <activity android:name=".http.HttpActivity" /> &lt;!&ndash; since 3.0.9 Required SDK 核心功能 &ndash;&gt; -->
+        <!-- <activity -->
+        <!-- android:name=".toolbar.ToolbarActivity" -->
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> &lt;!&ndash; since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 &ndash;&gt; -->
+        <!-- &lt;!&ndash; 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 &ndash;&gt; -->
+        <!-- <activity android:name=".imageview.ImageViewActivity" /> &lt;!&ndash; since 3.1.0 Required SDK 核心功能 &ndash;&gt; -->
         <activity
             android:name=".FullScreenActivity"
             android:configChanges="orientation|screenSize" /> <!-- Required SDK核心功能 -->
-        <activity android:name=".drawable.DrawableActivity" /> <!-- Required SDK核心功能 -->
-        <activity android:name=".ScrollActivity" /> <!-- Required  . Enable it you can get statistics data with channel -->
-        <activity android:name=".dialog.DialogActivity" />
-        <activity android:name=".viewflipper.ViewFlipperActivity" /> <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name=".fragment.FragmentContainerActivity" />
-        <activity android:name=".fragment.FragmentActivity" />
-        <activity android:name=".stackoverflow.StackActivity" />
+        <!-- <activity android:name=".drawable.DrawableActivity" /> &lt;!&ndash; Required SDK核心功能 &ndash;&gt; -->
+        <!-- <activity android:name=".ScrollActivity" /> &lt;!&ndash; Required  . Enable it you can get statistics data with channel &ndash;&gt; -->
+        <activity android:name=".fragment.FragmentActivity" /> <!-- <activity android:name=".viewflipper.ViewFlipperActivity" /> &lt;!&ndash; </>值来自开发者平台取得的AppKey &ndash;&gt; -->
+        <!-- <activity android:name=".fragment.FragmentContainerActivity" /> -->
+        <activity android:name=".io.IOActivity" /> <!-- <activity android:name=".stackoverflow.StackActivity" /> -->
         <activity android:name=".broadcastreceiver.ReceiverActivity" />
         <activity android:name=".service.ServiceActivity" />
         <activity
             android:name=".dialog.DialogThemeActivity"
             android:theme="@style/dialogActivity" />
-        <activity android:name=".notification.NotifyActivity" />
-        <activity android:name=".memory.MemoryActivity" />
-        <activity android:name=".time.TimerActivity" />
-        <activity android:name=".popupwindow.PopupwindowActivity" />
-        <activity android:name=".textview.TextViewActivity" />
-        <activity
-            android:name=".edittext.EditTextActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".io.IOActivity" />
-        <activity android:name=".reflect.ReflectActivity" />
-        <activity android:name=".websocket.WebSocketActivity" />
-        <activity android:name=".socket.SocketActivity" />
-
-        <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="4f347c2308e81fe11ec6f4d8" />
-
-        <provider
-            android:name=".contentprovider.BookProvider"
-            android:authorities="bjy.book"
-            android:exported="true"
-            android:readPermission="@string/book_read_permission"
-            android:writePermission="bjy.book.WRITE_PERMISSION" />
-        <provider
-            android:name="cn.jpush.android.service.DataProvider"
-            android:authorities="bjy.edu.android_learn.DataProvider"
-            android:exported="false"
-            android:process=":pushcore" />
-        <provider
-            android:name="cn.jpush.android.service.DownloadProvider"
-            android:authorities="bjy.edu.android_learn.DownloadProvider"
-            android:exported="true" />
+        <activity android:name=".notification.NotifyActivity" /> <!-- <activity android:name=".memory.MemoryActivity" /> -->
+        <!-- <activity android:name=".time.TimerActivity" /> -->
+        <!-- <activity android:name=".popupwindow.PopupwindowActivity" /> -->
+        <!-- <activity android:name=".textview.TextViewActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".edittext.EditTextActivity" -->
+        <!-- android:windowSoftInputMode="adjustPan" /> -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="bjy.edu.android_learn.fileProvider"
@@ -127,131 +114,55 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
-        </provider>
-
-        <receiver
-            android:name=".jpush.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="bjy.edu.android_learn" />
-            </intent-filter>
-        </receiver>
+        </provider> <!-- <activity android:name=".reflect.ReflectActivity" /> -->
+        <!-- <activity android:name=".websocket.WebSocketActivity" /> -->
+        <!-- <activity android:name=".socket.SocketActivity" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="JPUSH_CHANNEL" -->
+        <!-- android:value="developer-default" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="JPUSH_APPKEY" -->
+        <!-- android:value="4f347c2308e81fe11ec6f4d8" /> -->
+        <!-- <provider -->
+        <!-- android:name=".contentprovider.BookProvider" -->
+        <!-- android:authorities="bjy.book" -->
+        <!-- android:exported="true" -->
+        <!-- android:readPermission="@string/book_read_permission" -->
+        <!-- android:writePermission="bjy.book.WRITE_PERMISSION" /> -->
+        <!-- &lt;!&ndash;        <provider&ndash;&gt; -->
+        <!-- &lt;!&ndash;            android:name="cn.jpush.android.service.DataProvider"&ndash;&gt; -->
+        <!-- &lt;!&ndash;            android:authorities="bjy.edu.android_learn.DataProvider"&ndash;&gt; -->
+        <!-- &lt;!&ndash;            android:exported="false"&ndash;&gt; -->
+        <!-- &lt;!&ndash;            android:process=":.pushcore"&ndash;&gt; -->
+        <!-- &lt;!&ndash;            tools:replace="android:process"/>&ndash;&gt; -->
+        <!-- <provider -->
+        <!-- android:name="cn.jpush.android.service.DownloadProvider" -->
+        <!-- android:authorities="bjy.edu.android_learn.DownloadProvider" -->
+        <!-- android:exported="true" /> -->
         <receiver android:name=".broadcastreceiver.TestReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
-                <category android:name="bjy.edu.android_learn" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-            <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
         </receiver>
-        <receiver
-            android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
 
-        <service android:name=".service.TestService" />
         <service
-            android:name="cn.jpush.android.service.PushService"
-            android:exported="false"
-            android:process=":pushcore">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="cn.jpush.android.service.DaemonService"
+            android:name=".service.AidlTestService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
-
-                <category android:name="bjy.edu.android_learn" />
+                <action android:name="action_servive_aidltest" />
             </intent-filter>
         </service>
+        <service android:name=".service.TestService" />
     </application>
-    <permission
-        android:name="bjy.edu.android_learn.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
-    <permission
-        android:name="bjy.book.READ_PERMISSION"
-        android:label="read"
-        android:protectionLevel="normal" />
 
-    <permission
-        android:name="bjy.book.WRITE_PERMISSION"
-        android:label="write"
-        android:protectionLevel="normal" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="bjy.edu.android_learn.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" /> <!-- 网易云信IM权限 -->
-    <!-- 权限声明 -->
-    <!-- 访问网络状态 -->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" /> <!-- book provider 访问权限声明 -->
-    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher2.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher2.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher3.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher3.permission.WRITE_SETTINGS" />
-    <uses-permission
-        android:name="android.permission.READ_LOGS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

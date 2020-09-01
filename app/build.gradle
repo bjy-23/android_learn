@@ -9,6 +9,7 @@ android {
         targetSdkVersion versions.targetSdkVersion
         versionCode versions.versionCode
         versionName versions.versionName
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
@@ -19,13 +20,23 @@ android {
 
     }
 
-    compileOptions{
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
         abortOnError false //true: 执行lint检查，有任何的错误或者警告提示，都会终止构建;  false:关闭
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'bjy1229'
+            keyPassword 'bjy1229'
+            storePassword 'bjy1229'
+            storeFile file('bjy.keystore')
+            v2SigningEnabled true
+        }
     }
 
     buildTypes {
@@ -70,6 +81,7 @@ android {
 dependencies {
     def versions = rootProject.ext.versions
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:multidex:1.0.3"
     implementation "com.android.support:appcompat-v7:${versions.support_version}"
     implementation "com.android.support:recyclerview-v7:${versions.support_version}"
     implementation "com.android.support:design:${versions.support_version}"

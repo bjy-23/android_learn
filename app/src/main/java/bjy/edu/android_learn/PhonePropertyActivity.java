@@ -1,5 +1,6 @@
 package bjy.edu.android_learn;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
@@ -54,6 +55,12 @@ public class PhonePropertyActivity extends AppCompatActivity {
             }
             data.add(s2.toString());
         }
+
+        //内存
+        //这两个值都是大概的值，只具有参考意义
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        data.add("内存：" + activityManager.getMemoryClass() + " mb" +
+                " ; " + "最大内存：" + activityManager.getLargeMemoryClass() + " mb");
 
         recyclerView.setAdapter(new Adapter(PhonePropertyActivity.this, data));
     }

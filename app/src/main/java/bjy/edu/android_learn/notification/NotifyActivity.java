@@ -12,6 +12,8 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import bjy.edu.android_learn.MainActivity;
@@ -23,6 +25,8 @@ public class NotifyActivity extends AppCompatActivity {
     NotificationManager notificationManager;
     PendingIntent pendingIntent;
 
+    private int index = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,21 +34,31 @@ public class NotifyActivity extends AppCompatActivity {
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent();
-        intent.setAction("bbbjy");
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("hh", true);
-        intent.putExtras(bundle);
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Button btn_not = findViewById(R.id.btn_not);
+        btn_not.setText("通知");
+        btn_not.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificationManager.notify(index, getNotificationBuilder().build());
+                index++;
 
-        notificationManager.notify(1, getNotificationBuilder().build());
-        Notification notification = getNotificationBuilder().build();
+//                notification_1();
+            }
+        });
+
+//        Intent intent = new Intent();
+//        intent.setAction("bbbjy");
+//        Bundle bundle = new Bundle();
+//        bundle.putBoolean("hh", true);
+//        intent.putExtras(bundle);
+//        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
     }
 
+    //这种写法兼容低版本
     private NotificationCompat.Builder getNotificationBuilder() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("channel_id", "channel_name",
+        String channelId = "channel_id"+ (index % 2);
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel channel = new NotificationChannel(channelId, "channel_name" + (index % 2),
                     NotificationManager.IMPORTANCE_DEFAULT);
             channel.canBypassDnd();//是否绕过请勿打扰模式
             channel.enableLights(true);//闪光灯
@@ -61,9 +75,9 @@ public class NotifyActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id");
-        builder.setContentTitle("新消息来了");
-        builder.setContentText("周末到了，不用上班了");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
+        builder.setContentTitle("新消息来了_" + index);
+        builder.setContentText("周末到了，不用上班了---" + index);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setAutoCancel(true);
         builder.setContentIntent(pendingIntent);
@@ -73,6 +87,19 @@ public class NotifyActivity extends AppCompatActivity {
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
 
         return builder;
+    }
+
+    //android 8 之前的写法；已作废
+    private void notification_1(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(NotifyActivity.this)
+                .setAutoCancel(true)
+                .setContentTitle("你好")
+                .setSmallIcon(getApplicationInfo().icon)
+                .setWhen(System.currentTimeMillis())
+                .setOngoing(false);
+        Notification notification = builder.getNotification();
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(1, notification);
     }
 
 }

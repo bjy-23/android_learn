@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,16 +53,25 @@ public class SqliteActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         SQLiteDatabase db = sqlHelper.getWritableDatabase();
-                        //SQL语句
-                        db.execSQL("insert into huoying(name, position) values ('" + HY_NAME[position] + "', '" + HY_POSITION[position] + "')");
+
+//                        //SQL语句
+//                        db.execSQL("insert into huoying(name, position) values ('" + HY_NAME[position] + "', '" + HY_POSITION[position] + "')");
 
                         //原生API
 //                ContentValues v1 = new ContentValues();
 //                v1.put("name", "千手柱间");
 //                v1.put("position", "初代火影");
 //                db.insert("huoying", null, v1);
+
+                        //sqliteStatement
+                        String sql = "insert into huoying (name, position) values (?, ?)";
+                        SQLiteStatement sqLiteStatement = db.compileStatement(sql);
+                        sqLiteStatement.bindString(1, HY_NAME[position]);
+                        sqLiteStatement.bindString(2, HY_POSITION[position]);
+                        sqLiteStatement.executeInsert();
+                        sqLiteStatement.clearBindings();
+                        sqLiteStatement.close();
 
                         position++;
                         if (position >= HY_NAME.length)
@@ -348,16 +358,40 @@ public class SqliteActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         SQLiteDatabase db = sqlHelper.getWritableDatabase();
-                        int num2 = num;
                         long l1 = System.currentTimeMillis();
-                        for (; num2 > 0; num2--) {
-                            ContentValues v1 = new ContentValues();
-                            v1.put("name", "旋涡鸣人"+num2);
-                            v1.put("position", "七代火影"+num2);
-                            db.insert("huoying", null, v1);
+
+                        //insert api
+//                        for (int num2 = num; num2 > 0; num2--) {
+//                            ContentValues v1 = new ContentValues();
+//                            v1.put("name", "旋涡鸣人"+num2);
+//                            v1.put("position", "七代火影"+num2);
+//                            db.insert("huoying", null, v1);
+//                        }
+
+                        //sqlitestatement
+                        // 这种写法的效率和上面的基本一致
+//                        for (int num2 = num; num2 > 0; num2--) {
+//                            SQLiteStatement sqLiteStatement = db.compileStatement("insert into huoying (name, position) values (?, ?)");
+//                            sqLiteStatement.bindString(1, "旋涡鸣人"+num2);
+//                            sqLiteStatement.bindString(2, "七代火影"+num2);
+//                            sqLiteStatement.executeInsert();
+//                            sqLiteStatement.close();
+//                        }
+
+                        //sqlitestatement
+                        //这种写法比上面的写法稍微快些
+                        SQLiteStatement sqLiteStatement = db.compileStatement("insert into huoying (name, position) values (?, ?)");
+                        for (int num2 = num; num2 > 0; num2--) {
+                            sqLiteStatement.bindString(1, "旋涡鸣人"+num2);
+                            sqLiteStatement.bindString(2, "七代火影"+num2);
+                            sqLiteStatement.executeInsert();
+                            sqLiteStatement.clearBindings();
                         }
+                        sqLiteStatement.close();
+
+
                         float l = (float)(System.currentTimeMillis() - l1) / 1000;
-                        final String s = String.format("%.1f秒", l);
+                        final String s = String.format("%.3f秒", l);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -378,21 +412,36 @@ public class SqliteActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         SQLiteDatabase db = sqlHelper.getWritableDatabase();
-                        int num2 = num;
                         long l1 = System.currentTimeMillis();
                         db.beginTransaction();
                         try{
-                            for (; num2 > 0; num2--) {
-                                ContentValues v1 = new ContentValues();
-                                v1.put("name", "旋涡鸣人"+num2);
-                                v1.put("position", "七代火影"+num2);
-                                db.insert("huoying", null, v1);
+                            //insert api
+//                            for (int num2 = num; num2 > 0; num2--) {
+//                                ContentValues v1 = new ContentValues();
+//                                v1.put("name", "旋涡鸣人"+num2);
+//                                v1.put("position", "七代火影"+num2);
+//                                db.insert("huoying", null, v1);
+//                            }
+
+                            //sqlitestatement
+                            //这种写法比上面的快
+                            SQLiteStatement sqLiteStatement = db.compileStatement("insert into huoying (name, position) values (?, ?)");
+                            for (int num2 = num; num2 > 0; num2--) {
+                                sqLiteStatement.bindString(1, "旋涡鸣人"+num2);
+                                sqLiteStatement.bindString(2, "七代火影"+num2);
+                                sqLiteStatement.executeInsert();
+                                sqLiteStatement.clearBindings();
                             }
+                            sqLiteStatement.close();
+
+                            //
+
+
                             db.setTransactionSuccessful();
                         }finally {
                             db.endTransaction();
                             float l = (float)(System.currentTimeMillis() - l1) / 1000;
-                            final String s = String.format("%.1f秒", l);
+                            final String s = String.format("%.3f秒", l);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

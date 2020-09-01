@@ -48,7 +48,6 @@ public class PopupwindowActivity extends AppCompatActivity {
                 System.out.println("alpla 修改前：" + layoutParams.alpha);
                 layoutParams.alpha = 0.5f;
                 window.setAttributes(layoutParams);
-
             }
         });
     }

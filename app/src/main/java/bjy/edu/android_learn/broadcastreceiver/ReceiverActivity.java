@@ -2,6 +2,7 @@ package bjy.edu.android_learn.broadcastreceiver;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,8 +18,8 @@ public class ReceiverActivity extends AppCompatActivity {
 
         testReceiver = new TestReceiver();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(testReceiver, intentFilter);
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+//        registerReceiver(testReceiver, intentFilter);
     }
 
     @Override
@@ -26,5 +27,6 @@ public class ReceiverActivity extends AppCompatActivity {
         super.onDestroy();
 
         unregisterReceiver(testReceiver);
+
     }
 }

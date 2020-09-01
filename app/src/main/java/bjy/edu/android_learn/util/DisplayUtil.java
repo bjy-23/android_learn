@@ -5,18 +5,18 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.ViewCompat;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -27,7 +27,7 @@ import bjy.edu.android_learn.App;
  */
 
 public class DisplayUtil {
-    private static Context context = App.getInstance();
+    private static Context sContext = App.getInstance();
 
     /**
      * @param activity
@@ -128,8 +128,8 @@ public class DisplayUtil {
 
     public static String getIMEI(){
         String imei = "";
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(sContext, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager telephonyManager = (TelephonyManager) sContext.getSystemService(Context.TELEPHONY_SERVICE);
             if (telephonyManager != null){
                 imei = telephonyManager.getDeviceId();
             }
@@ -139,8 +139,8 @@ public class DisplayUtil {
 
     public static String getIMEI2(){
         String imei = "";
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(sContext, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager telephonyManager = (TelephonyManager) sContext.getSystemService(Context.TELEPHONY_SERVICE);
             if (telephonyManager != null){
                 if (Build.VERSION.SDK_INT >= 26){
                     telephonyManager.getImei();
@@ -159,6 +159,50 @@ public class DisplayUtil {
      * @return AndroidId
      */
     public static String getAndroidId(){
-        return Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
+        return Settings.System.getString(sContext.getContentResolver(), Settings.System.ANDROID_ID);
+    }
+
+    //获取手机屏幕宽高
+    public static int[] getScreenWidthHeight(Activity activity){
+        int[] array = new int[]{0, 0};
+        if (activity == null)
+            return array;
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        array[0] = display.getWidth();
+        array[1] = display.getHeight();
+        return array;
+    }
+
+    //获取状态栏高度
+    public static int getStatusBarHeight(){
+        if (sContext == null)
+            return 0;
+        Resources resources = sContext.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
+    }
+
+    //获取标准的屏幕密度；使用场景：textView的字体大小不随系统字体设置而改变
+    //部分手机 displayMetrics.densityDpi 、displayMetrics.density 会随着显示字体的大小而变化
+    // 如果获取失败，返回值为-1，可以考虑将 dpi 默认设置为 320
+    public static int getDisplayDpi(){
+        int dpi = -1;
+        if (Build.VERSION.SDK_INT >= 24){
+            dpi = DisplayMetrics.DENSITY_DEVICE_STABLE;
+        }else {
+            DisplayMetrics displayMetrics = sContext.getResources().getDisplayMetrics();
+            Class clazz = DisplayMetrics.class;
+            try {
+                Field field = clazz.getDeclaredField("DENSITY_DEVICE");
+                field.setAccessible(true);
+                dpi = field.getInt(displayMetrics);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return dpi;
     }
 }

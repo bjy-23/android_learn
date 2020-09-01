@@ -1,9 +1,11 @@
 package bjy.edu.android_learn.fragment;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -17,10 +19,15 @@ public class FragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int pos = 2;
+        int pos = 1;
         switch (pos){
             case 2:
+                //入栈出栈操作
                 test_2();
+                break;
+                //验证fragment的生命周期
+            case 1:
+                test_1();
                 break;
         }
     }
@@ -28,16 +35,35 @@ public class FragmentActivity extends AppCompatActivity {
     private void test_1(){
         setContentView(R.layout.activity_fragment);
 
-        final Fragment_1 fragment_1 = new Fragment_1();
-        fragment_1.tag = "1";
-        Fragment_1 fragment_2 = new Fragment_1();
-        fragment_2.tag = "2";
-        Fragment_1 fragment_3 = new Fragment_1();
-        fragment_3.tag = "3";
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction().add(R.id.layout_container, fragment_1).commit();
-//        fragmentManager.beginTransaction().add(R.id.layout_container, fragment_1).commit();
+        Button btn_add = findViewById(R.id.btn_add);
+        final Fragment fragment_1 = new FragmentLifeCycle("bjy");
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().add(R.id.layout_container, fragment_1).commit();
+            }
+        });
+        Button btn_add2 = findViewById(R.id.btn_add2);
+        btn_add2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().add(R.id.layout_container, new FragmentLifeCycle("bjy2")).commit();
+            }
+        });
+        Button btn_remove = findViewById(R.id.btn_remove);
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().remove(fragment_1).commit();
+            }
+        });
+        Button btn_replace = findViewById(R.id.btn_replace);
+        btn_replace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, new FragmentLifeCycle("replace")).commit();
+            }
+        });
     }
 
     private void test_2(){
@@ -71,7 +97,6 @@ public class FragmentActivity extends AppCompatActivity {
                 num--;
                 fragmentManager.popBackStackImmediate();
                 fragmentManager.getFragments();
-//                System.out.println("");
 
 //                tv_add.setText("添加  " + num);
 //

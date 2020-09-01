@@ -2,7 +2,7 @@ ext {
     // app 相关版本控制
     versions = [
             minSdkVersion     : 15,
-            targetSdkVersion  : 29,
+            targetSdkVersion  : 23,
 
             sdkCompileVersion : 29,
             toolsBuildVersion : "29.0.2",

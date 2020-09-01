@@ -16,7 +16,9 @@ import android.widget.Toast;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
-
+/*
+*  极光推送
+* */
 
 public class MainActivity extends InstrumentedActivity implements OnClickListener{
 

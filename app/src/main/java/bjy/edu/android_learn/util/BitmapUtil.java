@@ -1,14 +1,17 @@
 package bjy.edu.android_learn.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Base64;
+import android.view.View;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -127,5 +130,51 @@ public class BitmapUtil {
         }
 
         return file;
+    }
+
+    public static File bitmapToFile(Context context, File file, Bitmap bitmap){
+        try {
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bufferedOutputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
+    //获取Activity对应的截图
+    public static Bitmap getBitmapFromActivity(Activity activity){
+        if (activity == null)
+            return null;
+        View decorView = activity.getWindow().getDecorView();
+        //获得activity对应设置的setContentView
+        View content = decorView.findViewById(android.R.id.content);
+        return getBitmapFromView(content);
+    }
+
+    //获取Activity对应的截图
+    public static Bitmap getBitmapFromActivity_2(Activity activity){
+        if (activity == null)
+            return null;
+        View decorView = activity.getWindow().getDecorView();
+        //获得activity对应设置的setContentView
+        View content = decorView.findViewById(android.R.id.content);
+        Bitmap bitmap = Bitmap.createBitmap(content.getWidth(), content.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        decorView.draw(canvas);
+
+        return bitmap;
+    }
+
+    //通过View获取bitmap
+    //需要view已经绘制
+    public static Bitmap getBitmapFromView(View view){
+        if (view == null)
+            return null;
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+
+        return view.getDrawingCache();
     }
 }

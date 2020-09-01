@@ -39,8 +39,6 @@ public class Fragment_1  extends Fragment{
     public void onAttach(Context context) {
         super.onAttach(context);
 
-//        tag = getArguments().getString(TAG);
-
         bundle = getArguments();
         if (bundle != null)
             tag = bundle.getString("tag");
@@ -49,7 +47,7 @@ public class Fragment_1  extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Log.i(TAG, "onCreateView: " + tag);
         View view = inflater.inflate(R.layout.fragment_1, container, false);
         return view;
     }
@@ -78,35 +76,17 @@ public class Fragment_1  extends Fragment{
         TextView tv = view.findViewById(R.id.tv);
 
         tv.setText("bbbjy" + tag);
+    }
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Log.e("TimerTask1", "run  " + System.currentTimeMillis());
-            }
-        }, 0, 1000);
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Log.e("TimerTask2", "run  " + System.currentTimeMillis());
-            }
-        }, 0, 1000);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Log.e("TimerTask3", "run  " + System.currentTimeMillis());
-            }
-        }, calendar.getTime(), 1000);
+    @Override
+    public void onDestroyView() {
+        Log.i(TAG, "onDestroyView: " + tag);
+        super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
+        Log.i(TAG, "onDestroy: " + tag);
         super.onDestroy();
-
-        timer.cancel();
     }
 }

@@ -23,7 +23,8 @@
             <!--android:readPermission="bjy.book.READ_PERMISSION"-->
             <!--android:writePermission="bjy.book.WRITE_PERMISSION"/>-->
         <activity android:name=".ContentProviderActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -3,34 +3,28 @@ package bjy.edu.android_learn;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.UriMatcher;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
-import android.support.v4.app.CoreComponentFactory;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.webkit.MimeTypeMap;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import bjy.edu.android_learn.activity.BigWordsActivity;
+import bjy.edu.android_learn.activity.ContactActivity;
+import bjy.edu.android_learn.activity.IntentActivity;
+import bjy.edu.android_learn.activity.MemoryTestActivity;
+import bjy.edu.android_learn.activity.SystemSettingActivity;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
 import bjy.edu.android_learn.camera.CameraActivity;
 import bjy.edu.android_learn.contentprovider.ContentProviderActivity;
@@ -41,6 +35,7 @@ import bjy.edu.android_learn.fragment.FragmentActivity;
 import bjy.edu.android_learn.fragment.FragmentContainerActivity;
 import bjy.edu.android_learn.fragment.Fragment_1;
 import bjy.edu.android_learn.http.HttpActivity;
+import bjy.edu.android_learn.imageview.GalleryActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
@@ -53,6 +48,7 @@ import bjy.edu.android_learn.popupwindow.PopupwindowActivity;
 import bjy.edu.android_learn.recyclerView.RvActivity;
 import bjy.edu.android_learn.reflect.ReflectActivity;
 import bjy.edu.android_learn.rxjava.RxJavaActivity;
+import bjy.edu.android_learn.service.AidlTestService;
 import bjy.edu.android_learn.service.ServiceActivity;
 import bjy.edu.android_learn.socket.SocketActivity;
 import bjy.edu.android_learn.sqlite.SqliteActivity;
@@ -61,6 +57,9 @@ import bjy.edu.android_learn.textview.TextViewActivity;
 import bjy.edu.android_learn.thread.ThreadActivity;
 import bjy.edu.android_learn.time.TimerActivity;
 import bjy.edu.android_learn.toolbar.ToolbarActivity;
+import bjy.edu.android_learn.util.BitmapUtil;
+import bjy.edu.android_learn.util.DisplayUtil;
+import bjy.edu.android_learn.util.IntentUtil;
 import bjy.edu.android_learn.util.SpUtil;
 import bjy.edu.android_learn.util.ToastUtil;
 import bjy.edu.android_learn.util.ToastUtil2;
@@ -69,83 +68,97 @@ import bjy.edu.android_learn.viewpager.ViewPagerActivity;
 import bjy.edu.android_learn.webView.WebViewActivity;
 import bjy.edu.android_learn.websocket.WebSocketActivity;
 import bjy.edu.android_learn.widget.ViewActivity;
+import bjy.edu.android_learn.widget.view.DragView;
+import bjy.edu.android_learn.window.WindowActivity;
 import bjy.edu.android_learn.zxing.ZxingActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final List<Activity> activities = new ArrayList<>();
-    public static int notif_id = 1;
     private volatile int tag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         activities.add(this);
 
-        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        //uri 匹配
-        String url = "spdbbank://wap.spdb.com.cn/pay?Plain=TranAbbr=IPER|MasterID=2006512137|MercDtTm=20191107195950|TermSsn=071959503621|OSttDate=|OAcqSsn=|MercCode=983708160001601|TermCode=00000000|TranAmt=66.0|Remark1=%CF%DF%CF%C2%B8%B6%BF%EE-%B2%E2%CA%D4%D6%A7%B8%B6|Remark2=%B6%A9%B5%A5%BA%C5%A3%BA1911071959503621|MercUrl=https://paymenttest.dragonpass.com.cn/spdpay/pageRetUrl|Ip=121.14.200.51|SubMercFlag=0|SubMercName=%C1%FA%CC%DA%B3%F6%D0%D0|SubMercGoodsName=%CF%DF%CF%C2%B8%B6%BF%EE-%B2%E2%CA%D4%D6%A7%B8%B6MerAccountType=|BackUrl=https://paymenttest.dragonpass.com.cn/spdpay/bgRetUrl|&Signature=17275a797915233e0b7c7e8ae4822dc396e944f6170aabcf973c982efdd22792a8c87388ada86b9bb9726bd6d5aef2415291b92da20652e46b9968c99f0287f5ac7a5fed99a77902ab64052ae5394bd983d623aa2a494c6ad8d9a9daa57d101cd0f265b0e14392f0773bd0b3a0aea9d473dc7f12dd61c75536e1e08d0a2e7bfb";
-        Uri uri_1 = Uri.parse(url);
-        Log.i(TAG, "uri_1: " + uri_1.getScheme() + "://" + uri_1.getAuthority());
-        String url_2 = url.replace("spdbbank", "content");
-        Uri uri_2 = Uri.parse(url_2);
-        Log.i(TAG, "uri_2: " + uri_2.getScheme() + "://" + uri_2.getAuthority());
-        //自定义toast
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast toast = new Toast(MainActivity.this);
-//                final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.toast_1, null, false);
-//                TextView tv = view.findViewById(R.id.tv);
-//                tv.setText("在一般的android开发中我们一般弹出一些提示信息，例如 已打开蓝牙，wifi之类的提示，我们都是会选择Toast进行弹出。今天我们的客户提出们应用弹出提示太小，用户不注意的情况下，容易被忽略掉，要弹出的宽度填充整个屏幕，首先想到是不是需要自定义");
-//                tv.setMaxEms(10);
-//                // TODO: 2019-10-25 toast的最大宽度怎么设置
-//                toast.setView(view);
-//                toast.setGravity(Gravity.CENTER, 0, 0);
-//                toast.setDuration(Toast.LENGTH_LONG);
-//
-//                view.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-//                    @Override
-//                    public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                        Log.i("view", "onGlobalFocusChanged");
-//                        Log.i("view", "width: " + view.getWidth());
-//                    }
-//                });
-//                toast.show();
-//            }
-//        }, 3000);
-
-        //隐式启动
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addCategory(Intent.CATEGORY_DEFAULT);
-//                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//                intent.setData(Uri.parse("spdbbank://wap.spdb.com.cn"));
-//
-//                startActivity(intent);
-//            }
-//        }, 3000);
-
-        String s = "spdbbank://wap.spdb.com.cn/pay? Plain=fff&Signature=fff";
-        Uri uri = Uri.parse(s);
-        System.out.println("uri: " + s);
-        System.out.println("scheme: " + uri.getScheme());
-        System.out.println("host: " + uri.getHost());
-        System.out.println("path: " + uri.getPath());
-
-
         final TextView textView = findViewById(R.id.text);
+        textView.getTypeface();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int position = 37;
+                int position = 45;
                 switch (position){
+                    case 999:
+                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+                        break;
+                    case 48:
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryActivity.class));
+                        position = 48;
+                        break;
+                    case 47:
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, MemoryTestActivity.class));
+                        position = 47;
+                        break;
+                    case 46:
+                        startActivity(new Intent(MainActivity.this, SystemSettingActivity.class));
+                        break;
+                    case 45:
+                        startActivity(new Intent(MainActivity.this, ContactActivity.class));
+                        position = 45;
+                        break;
+                    case 44:
+                        startActivity(new Intent(MainActivity.this, BigWordsActivity.class));
+                        break;
+                    case 43:
+                        startActivity(new Intent(MainActivity.this, WindowActivity.class));
+                        break;
+                    case 42:
+                        String type = null;
+                        String url = "https://wap.spdb.com.cn/mspmk-cli-lifehome/lifeHome";
+//                        String url = "https://wap.spdb.com.cn/mspmk-cli-wealthchannelhome/static/img/bg-top@2x.8334606.png";
+//                        String url = "https://wap.spdb.com.cn/mspmk-cli-lifehome/static/js/manifest.00ae9297977b4a670057.js";
+//                        String url = "https://wap.spdb.com.cn/mspmk-cli-life/#/lifeHome?OsType=android&APP_VERSION=10.26";
+                        String extension = "png";
+                        Log.i("111222", "extension: " + extension);
+                        if (extension != null) {
+                            MimeTypeMap mime = MimeTypeMap.getSingleton();
+                            type = mime.getMimeTypeFromExtension(extension);
+                        }
+                        Log.i("111222", "type: " + type);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                                    urlConnection.setConnectTimeout(5000);
+                                    urlConnection.setReadTimeout(5000);
+                                    Map<String, List<String>> map = urlConnection.getHeaderFields();
+                                    String contentType = urlConnection.getHeaderField("Content-Type");
+                                    Log.i("111222", "Content-Type: " + contentType);
+//                                    if (map != null && !map.isEmpty()){
+//                                        for (Map.Entry<String, List<String>> entry : map.entrySet()){
+//                                            Log.i("111222", "entry: " + entry.getKey());
+//                                            List<String> list = entry.getValue();
+//                                            if (list != null && !list.isEmpty()){
+//                                                for (String s : list){
+//                                                    Log.i("111222", entry.getKey() +" : " + s);
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        }).start();
+                        break;
+                    case 41:
+                        //隐式启动
+                        test_41();
+                        break;
                     case 40:
                         //zxing扫码
                         test_40();
@@ -168,13 +181,19 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 34:
                         //相机
-                        test_34();
+                        IntentUtil.startActivity(MainActivity.this, new Intent(new Intent(MainActivity.this, CameraActivity.class)));
+                        position = 34;
                         break;
                     case 33:
                         //sqlite
-                        test_33();
+                        startActivity(new Intent(MainActivity.this, SqliteActivity.class));
+                        position = 33;
                         break;
                         //edittext
+                    case 27:
+                        startActivity(new Intent(MainActivity.this, IOActivity.class));
+                        position = 27;
+                        break;
                     case 25:
                         test_25();
                         break;
@@ -185,6 +204,19 @@ public class MainActivity extends AppCompatActivity {
                         //popupwindow
                         test_23();
                         break;
+                    case 19:
+                        //notification
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, NotifyActivity.class));
+                        position = 19;
+                        break;
+                    case 18:
+                        startActivity(new Intent(MainActivity.this, ServiceActivity.class));
+
+                        position = 18;
+                        break;
+                    case 17:
+                        test_17();
+                        break;
                     case 15:
                         //fragment
                         test_15();
@@ -192,6 +224,10 @@ public class MainActivity extends AppCompatActivity {
                     case 13:
                         //dialog
                         test_13();
+                        break;
+                    case 9:
+                        startActivity(new Intent(MainActivity.this, FullScreenActivity.class));
+                        position = 9;
                         break;
                     case 8:
                         //图片测试
@@ -202,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                         test_6();
                         break;
                     case 4:
-                        //自定义View
+                        //http
                         test_4();
                         break;
                     case 3:
@@ -213,12 +249,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //隐式启动app
-//        Intent intent = new Intent();
-////        intent.setAction("stockalert");
-//        intent.setData(Uri.parse("sogukj://stockalert"));
-//        startActivity(intent);
-
         TextView text_2 = findViewById(R.id.text_2);
         text_2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,12 +256,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PhonePropertyActivity.class));
             }
         });
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -251,25 +275,30 @@ public class MainActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
-    public void test_36(){
-        startActivity(new Intent(MainActivity.this, RxJavaActivity.class));
+    private void test_41(){
+        IntentUtil.startActivity(this, new Intent(this, IntentActivity.class));
     }
 
-    public void test_37(){
-        startActivity(new Intent(MainActivity.this, PermissionActivity.class));
-    }
-
-    public void test_38(){
-        startActivity(new Intent(MainActivity.this, ThreadActivity.class));
+    private void test_40(){
+        startActivity(new Intent(MainActivity.this, ZxingActivity.class));
     }
 
     private void test_39(){
         startActivity(new Intent(MainActivity.this, KeyStoreActivity.class));
     }
 
-    private void test_40(){
-        startActivity(new Intent(MainActivity.this, ZxingActivity.class));
+    public void test_38(){
+        startActivity(new Intent(MainActivity.this, ThreadActivity.class));
     }
+
+    public void test_37(){
+        startActivity(new Intent(MainActivity.this, PermissionActivity.class));
+    }
+
+    public void test_36(){
+        startActivity(new Intent(MainActivity.this, RxJavaActivity.class));
+    }
+
 
     public void test_1() {
         startActivity(new Intent(MainActivity.this, ViewPagerActivity.class));
@@ -363,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test_9() {
-        startActivity(new Intent(this, FullScreenActivity.class));
+
     }
 
     public void test_10() {
@@ -393,13 +422,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test_15() {
-        Intent intent = new Intent(this, FragmentContainerActivity.class);
-        intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
-        Bundle bundle = new Bundle();
-        bundle.putString("tag", "1229");
-        intent.putExtras(bundle);
-        startActivity(intent);
-//        startActivity(new Intent(this, FragmentActivity.class));
+//        Intent intent = new Intent(this, FragmentContainerActivity.class);
+//        intent.putExtra(FragmentContainerActivity.NAME, Fragment_1.class.getName());
+//        Bundle bundle = new Bundle();
+//        bundle.putString("tag", "1229");
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+        startActivity(new Intent(this, FragmentActivity.class));
     }
 
     public void test_16() {
@@ -408,16 +437,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_17() {
         startActivity(new Intent(this, ReceiverActivity.class));
-    }
-
-    public void test_18() {
-        startActivity(new Intent(this, ServiceActivity.class));
-    }
-
-    public void test_19() {
-        startActivity(new Intent(this, NotifyActivity.class));
-        notif_id++;
-
     }
 
     private void test_20() {
@@ -474,10 +493,6 @@ public class MainActivity extends AppCompatActivity {
         ToastUtil2.show(this, "不不不");
     }
 
-    private void test_27() {
-        startActivity(new Intent(this, IOActivity.class));
-    }
-
     private void test_28(){
         startActivity(new Intent(this, ReflectActivity.class));
     }
@@ -496,14 +511,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void test_32(){
 //        EventBus.getDefault().register(this);
-    }
-
-    private void test_33(){
-        startActivity(new Intent(this, SqliteActivity.class));
-    }
-
-    private void test_34(){
-        startActivity(new Intent(new Intent(this, CameraActivity.class)));
     }
 
     private void test_35() {

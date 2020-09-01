@@ -34,7 +34,7 @@
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
 #忽略警告
--ignorewarning
+#-ignorewarning
 
 #保护注解
 -keepattributes *Annotation*

@@ -1,6 +1,7 @@
 package bjy.edu.android_learn;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,12 +21,13 @@ import java.util.HashMap;
  *
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
-
+    private static final String TAG = CrashHandler.class.getSimpleName();
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd_HH:mm:ss");
 
     @Override
-    public void uncaughtException(Thread t, Throwable e) {
+    public void uncaughtException(Thread t, Throwable e){
+        Log.i(TAG, e.getMessage());
         //android手机根目录下新建目录1229
         File dir = new File(Environment.getExternalStorageDirectory(), "/1229_crash");
         if (!dir.exists())

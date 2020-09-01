@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import bjy.edu.android_learn.R;
 
@@ -61,6 +62,8 @@ public class ReflectActivity extends AppCompatActivity {
             Method getAge = clazz2.getDeclaredMethod("getAge");
             getAge.setAccessible(true);
             getAge.invoke(new Woman());
+
+            getAge.getModifiers();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -77,6 +80,9 @@ public class ReflectActivity extends AppCompatActivity {
             Field age = clazz2.getDeclaredField("age");
             age.setAccessible(true);
             Object ageInt = age.getInt(new Woman(26));
+
+            //通过modefier来判断一些属性值
+            Modifier.isPrivate(age.getModifiers());
 
             Log.i("", "");
         } catch (NoSuchFieldException e) {
@@ -107,6 +113,7 @@ public class ReflectActivity extends AppCompatActivity {
     }
 
     static class Woman {
+        public static final String TAG = "女人";
         private int age;
         public String name;
 

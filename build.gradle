@@ -37,18 +37,22 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task helloword {
-    println("hello word")
+task helloworld {
+    println("hello world")
 }
 
-//task helloword2 << {
-//    println("hellow world 2")
-//}
+task helloworld2 {
+    println("hello world 2")
+}
 
-//task bbbjy <<{
-//    println("本宝宝加油")
-//}
+task bbbjy{
+    println("本宝宝")
+}
 
-//task yyyrn(dependsOn : bbbjy) <<{
-//    println("也一样让你")
-//}
+bbbjy.doLast{
+    println("加油")
+}
+
+task yyyrn(dependsOn : bbbjy) doLast{
+    println("也一样让你")
+}
