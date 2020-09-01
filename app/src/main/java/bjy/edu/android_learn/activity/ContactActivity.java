@@ -458,7 +458,6 @@ public class ContactActivity extends AppCompatActivity {
 
     //bulkinsert
     public void addContact3(){
-        Binder
         new Thread(new Runnable() {
             @Override
             public void run() {
