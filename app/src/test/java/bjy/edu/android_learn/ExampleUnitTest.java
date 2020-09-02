@@ -65,19 +65,20 @@ public class ExampleUnitTest {
         }
 
 
-//        String phoneNum = "018616272196";
-//        String regNum = "[1,9][0,0]*";        //电话号码匹配规则
-//        Pattern pattern = Pattern.compile(regNum);
-//        Matcher matcher = pattern.matcher(phoneNum);
+        String phoneNum = "1.13501741861E11";
+//        String phoneNum = "1.11111E11";
+        String regNum = "[1-9].[0-9]*E[0-9]*";
+        Pattern pattern = Pattern.compile(regNum);
+        Matcher matcher = pattern.matcher(phoneNum);
 //        while (matcher.find()){
 //            System.out.println("匹配成功！");
 //        }
 //
-//        if (matcher.matches()){
-//            System.out.println("匹配成功！！!");
-//        }else {
-//            System.out.println("匹配失败！！!");
-//        }
+        if (matcher.matches()){
+            System.out.println("匹配成功！！!");
+        }else {
+            System.out.println("匹配失败！！!");
+        }
 
 //        int i1 = 0x00002000;
 //        System.out.println("i1: " + i1);
