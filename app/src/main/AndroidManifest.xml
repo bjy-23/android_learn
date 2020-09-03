@@ -11,7 +11,8 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".imageview.GalleryActivity"/>
+        <activity android:name=".imageview.GalleryPreviewActivity"></activity>
+        <activity android:name=".imageview.GalleryActivity" />
         <activity android:name=".activity.MemoryTestActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".MainActivity">
@@ -155,14 +156,13 @@
         </service>
         <service android:name=".service.TestService" />
     </application>
-
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>
