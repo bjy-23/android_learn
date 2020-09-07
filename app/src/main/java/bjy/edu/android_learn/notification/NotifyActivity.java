@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 
 import bjy.edu.android_learn.MainActivity;
 import bjy.edu.android_learn.R;
@@ -26,7 +27,7 @@ public class NotifyActivity extends AppCompatActivity {
     PendingIntent pendingIntent;
 
     private int index = 0;
-
+    private String notificationText = "请输入您的通知手机上收到的6位动态密码，并按“确认”键提交。绑定后通知手机号仅能在本设备上登录。\n 请输入您的通知手机上收到的6位动态密码，并按“确认”键提交。绑定后通知手机号仅能在本设备上登录。";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,8 @@ public class NotifyActivity extends AppCompatActivity {
         btn_not.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notificationManager.notify(index, getNotificationBuilder().build());
+                Notification notification = getNotificationBuilder().build();
+                notificationManager.notify(index, notification);
                 index++;
 
 //                notification_1();
@@ -77,10 +79,23 @@ public class NotifyActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
         builder.setContentTitle("新消息来了_" + index);
-        builder.setContentText("周末到了，不用上班了---" + index);
+        builder.setContentText(notificationText + "---" + index);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setAutoCancel(true);
         builder.setContentIntent(pendingIntent);
+
+        //大文本字体
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+        bigTextStyle.setBigContentTitle("新消息来了_" + index);
+        bigTextStyle.setSummaryText("").bigText(notificationText + "---" + index);
+        builder.setStyle(bigTextStyle);
+
+        //自定义布局
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_test);
+//        remoteViews.setTextViewText(R.id.tv_title, "新消息来了_" + index);
+//        remoteViews.setTextViewText(R.id.tv_content, notificationText + "---" + index);
+//        remoteViews.setImageViewResource(R.id.img_icon, R.mipmap.ic_launcher);
+//        builder.setCustomContentView(remoteViews);
 
         builder.setTicker("bbbjy"); // todo 华为NXT8.0暂时无效
 //        builder.setWhen(System.currentTimeMillis()); // 默认值就是 System.currentTimeMillis()

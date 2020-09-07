@@ -41,7 +41,6 @@ public class GalleryActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
-        RecyclerView
 
         //asset目录下需要将文件copy出来
         ThreadPoolUtil.run(new Runnable() {

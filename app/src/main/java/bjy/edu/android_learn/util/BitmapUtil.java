@@ -38,6 +38,7 @@ public class BitmapUtil {
         return BitmapFactory.decodeFile(filePath, options);
     }
 
+
     public static Bitmap decodeBitmap(InputStream inputStream, int reqWidth, int reqHeight){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

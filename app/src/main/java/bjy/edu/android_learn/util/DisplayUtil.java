@@ -24,6 +24,8 @@ import bjy.edu.android_learn.App;
 
 /**
  * Created by sogubaby on 2018/7/18.
+ *
+ * 手机屏幕参数
  */
 
 public class DisplayUtil {

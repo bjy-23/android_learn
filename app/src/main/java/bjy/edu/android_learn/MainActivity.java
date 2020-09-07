@@ -23,6 +23,7 @@ import java.util.Map;
 import bjy.edu.android_learn.activity.BigWordsActivity;
 import bjy.edu.android_learn.activity.ContactActivity;
 import bjy.edu.android_learn.activity.IntentActivity;
+import bjy.edu.android_learn.activity.LocationActivity;
 import bjy.edu.android_learn.activity.MemoryTestActivity;
 import bjy.edu.android_learn.activity.SystemSettingActivity;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
@@ -36,6 +37,7 @@ import bjy.edu.android_learn.fragment.FragmentContainerActivity;
 import bjy.edu.android_learn.fragment.Fragment_1;
 import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.GalleryActivity;
+import bjy.edu.android_learn.imageview.GalleryPreviewActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
 import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
@@ -88,13 +90,17 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = 45;
+                int position = 49;
                 switch (position){
                     case 999:
                         startActivity(new Intent(MainActivity.this, TestActivity.class));
                         break;
+                    case 49:
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, LocationActivity.class));
+                        break;
                     case 48:
-                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryActivity.class));
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryPreviewActivity.class));
+//                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryActivity.class));
                         position = 48;
                         break;
                     case 47:
