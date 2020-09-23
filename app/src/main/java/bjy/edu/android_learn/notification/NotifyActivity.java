@@ -27,7 +27,7 @@ public class NotifyActivity extends AppCompatActivity {
     PendingIntent pendingIntent;
 
     private int index = 0;
-    private String notificationText = "请输入您的通知手机上收到的6位动态密码，并按“确认”键提交。绑定后通知手机号仅能在本设备上登录。\n 请输入您的通知手机上收到的6位动态密码，并按“确认”键提交。绑定后通知手机号仅能在本设备上登录。";
+    private String notificationText = "请输入您的通知手机上收到的6位动态密码，并按“确认”键提交。绑定后通知手机号仅能在本设备上登录。";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

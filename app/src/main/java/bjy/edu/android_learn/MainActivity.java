@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = 49;
+                int position = 999;
                 switch (position){
                     case 999:
                         startActivity(new Intent(MainActivity.this, TestActivity.class));

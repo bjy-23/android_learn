@@ -1,53 +1,17 @@
 package bjy.edu.android_learn;
 
 import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
 
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.CharArrayReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509CRLSelector;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.DESedeKeySpec;
-
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -57,28 +21,32 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     public static void main(String[] args) {
 
-        String intS = "99";
-        try{
-            int value = Integer.parseInt(intS);
-        }catch (NumberFormatException e){
-            System.out.println("111222 parseInt " + e.getMessage());
-        }
+        //泛型测试
+        ArrayList<String> list = new ArrayList<>();
+        T1.getParameterType(list);
 
-
-        String phoneNum = "1.13501741861E11";
-//        String phoneNum = "1.11111E11";
-        String regNum = "[1-9].[0-9]*E[0-9]*";
-        Pattern pattern = Pattern.compile(regNum);
-        Matcher matcher = pattern.matcher(phoneNum);
-//        while (matcher.find()){
-//            System.out.println("匹配成功！");
+//        String intS = "99";
+//        try{
+//            int value = Integer.parseInt(intS);
+//        }catch (NumberFormatException e){
+//            System.out.println("111222 parseInt " + e.getMessage());
 //        }
 //
-        if (matcher.matches()){
-            System.out.println("匹配成功！！!");
-        }else {
-            System.out.println("匹配失败！！!");
-        }
+//
+//        String phoneNum = "1.13501741861E11";
+////        String phoneNum = "1.11111E11";
+//        String regNum = "[1-9].[0-9]*E[0-9]*";
+//        Pattern pattern = Pattern.compile(regNum);
+//        Matcher matcher = pattern.matcher(phoneNum);
+////        while (matcher.find()){
+////            System.out.println("匹配成功！");
+////        }
+////
+//        if (matcher.matches()){
+//            System.out.println("匹配成功！！!");
+//        }else {
+//            System.out.println("匹配失败！！!");
+//        }
 
 //        int i1 = 0x00002000;
 //        System.out.println("i1: " + i1);
