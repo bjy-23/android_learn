@@ -28,6 +28,7 @@ import bjy.edu.android_learn.activity.MemoryTestActivity;
 import bjy.edu.android_learn.activity.SystemSettingActivity;
 import bjy.edu.android_learn.broadcastreceiver.ReceiverActivity;
 import bjy.edu.android_learn.camera.CameraActivity;
+import bjy.edu.android_learn.camera.CameraCaptureActivity;
 import bjy.edu.android_learn.contentprovider.ContentProviderActivity;
 import bjy.edu.android_learn.dialog.DialogActivity;
 import bjy.edu.android_learn.drawable.DrawableActivity;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = 999;
+                int position = 34;
                 switch (position){
                     case 999:
                         startActivity(new Intent(MainActivity.this, TestActivity.class));
@@ -180,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     case 37:
                         //permission
                         test_37();
+                        position = 37;
                         break;
                     case 36:
                         //rxjava
@@ -187,7 +189,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 34:
                         //相机
-                        IntentUtil.startActivity(MainActivity.this, new Intent(new Intent(MainActivity.this, CameraActivity.class)));
+//                        IntentUtil.startActivity(MainActivity.this, new Intent(new Intent(MainActivity.this, CameraActivity.class)));
+                        IntentUtil.startActivity(MainActivity.this, new Intent(new Intent(MainActivity.this, CameraCaptureActivity.class)));
                         position = 34;
                         break;
                     case 33:

@@ -2,9 +2,13 @@ package bjy.edu.android_learn;
 
 import android.net.Uri;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -12,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.regex.Pattern;
+
+import bjy.edu.android_learn.http.HttpResult;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -22,8 +28,33 @@ public class ExampleUnitTest {
     public static void main(String[] args) {
 
         //泛型测试
-        ArrayList<String> list = new ArrayList<>();
-        T1.getParameterType(list);
+        String result = "{\"RspHeader\":{\"ResponseMsg\":\"\",\"ResponseCode\":\"AAAAAAA\"},\"RspBody\":{\"OpenFlag\":\"1\",\"RejectCount\":\"0\"}}";
+//        HttpResult<HttpResult.OpenBean> bean = new HttpResult<>();
+//        result = null;
+//        result = "null";
+//        result = "";
+//        result = "{}";
+        Gson gson = new Gson();
+        Type type = new TypeToken<HttpResult<HttpResult.OpenBean>>(){}.getType();
+        HttpResult<HttpResult.OpenBean> bean = gson.fromJson(result, type);
+
+        result = "{\"RspHeader\":{\"ResponseMsg\":\"\",\"ResponseCode\":\"AAAAAAA\"},\"RspBody\":{}}";
+        HttpResult httpResult = gson.fromJson(result, HttpResult.class);
+
+        System.out.println("OpenFlag: "+bean.getRspBody().getOpenFlag());
+
+//        ArrayList<String> list = new ArrayList<>();
+//        T1.getParameterType(list);
+//
+//        new T1<HashMap>(HashMap.class);
+//        new T1<HashMap<String, String>>(HashMap.class);
+//        new T1<HashMap<String, String>>(HashMap<String, String>.class);
+//
+//        try {
+//            Class<HashMap<String, String>> clazz = Class.forName("");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
 //        String intS = "99";
 //        try{

@@ -24,8 +24,11 @@ public class PermissionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
 
+        // TODO: 2020/9/24 id怎么设置 
+        getSupportFragmentManager().beginTransaction().add(0, new PermissionFragment()).commit();
+        Log.i("111222", "PermissionFragment");
         //常规写法
-        test_1();
+//        test_1();
 
         //rxpermission
 //        test_2();

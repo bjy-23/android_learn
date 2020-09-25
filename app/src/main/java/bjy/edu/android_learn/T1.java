@@ -16,6 +16,10 @@ public class T1<T> {
     public T1() {
     }
 
+    public <T>T1(Class<T> c){
+
+    }
+
     public static void getParameterType(Object o){
         Class clazz = o.getClass();
         Type type = clazz.getGenericSuperclass();

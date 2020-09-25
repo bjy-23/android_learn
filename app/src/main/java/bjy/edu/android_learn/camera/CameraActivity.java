@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,7 @@ import bjy.edu.android_learn.util.CameraUtil;
 import bjy.edu.android_learn.util.ReflectUtil;
 import io.reactivex.functions.Consumer;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraActivity extends AppCompatActivity {
     private static final String TAG = CameraActivity.class.getSimpleName();
     private CameraManager cameraManager;
@@ -259,49 +261,49 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (false) {
+                if (true) {
                     openCamera();
                 } else {
                     openCamera2();
                 }
 
                 //连续拍照
-//                    Runnable runnable = new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            times--;
-//                            if (times > 0) {
-//                                new Handler().postDelayed(this::run, 5000);
-//                            }
-//                            camera.startPreview();
-//                            camera.takePicture(null, null, new Camera.PictureCallback() {
-//                                @Override
-//                                public void onPictureTaken(byte[] data, Camera camera) {
-//                                    new Thread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            Log.i(TAG, "onPictureTaken jpeg");
-//                                            File dir = CameraActivity.this.getExternalFilesDir("camera_bjy");
-//                                            File file = new File(dir, System.currentTimeMillis() + "_.jpg");
-//                                            try {
-//                                                FileOutputStream fileOutputStream = new FileOutputStream(file);
-//                                                fileOutputStream.write(data);
-//                                                fileOutputStream.close();
-//                                            } catch (FileNotFoundException e) {
-//                                                e.printStackTrace();
-//                                            } catch (IOException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                            Log.i(TAG, "onPictureTaken jpeg  finish");
-//
-//                                        }
-//                                    }).start();
-//                                }
-//                            });
-//
-//                        }
-//                    };
-//                    new Handler().postDelayed(runnable, 5000);
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            times--;
+                            if (times > 0) {
+                                new Handler().postDelayed(this::run, 5000);
+                            }
+                            camera.startPreview();
+                            camera.takePicture(null, null, new Camera.PictureCallback() {
+                                @Override
+                                public void onPictureTaken(byte[] data, Camera camera) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.i(TAG, "onPictureTaken jpeg");
+                                            File dir = CameraActivity.this.getExternalFilesDir("camera_bjy");
+                                            File file = new File(dir, System.currentTimeMillis() + "_.jpg");
+                                            try {
+                                                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                                                fileOutputStream.write(data);
+                                                fileOutputStream.close();
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Log.i(TAG, "onPictureTaken jpeg  finish");
+
+                                        }
+                                    }).start();
+                                }
+                            });
+
+                        }
+                    };
+                    new Handler().postDelayed(runnable, 5000);
             }
         });
     }
@@ -314,7 +316,7 @@ public class CameraActivity extends AppCompatActivity {
 
             int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
 //                    int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-            Camera camera = Camera.open(cameraId);
+            camera = Camera.open(cameraId);
 
             camera.setPreviewDisplay(surfaceView.getHolder());
             Camera.Parameters parameters = camera.getParameters();
@@ -342,6 +344,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void openCamera2() {
         if (Build.VERSION.SDK_INT < 21)
             return;
@@ -354,7 +357,7 @@ public class CameraActivity extends AppCompatActivity {
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
                 Log.i(TAG, "[cameraId] " + cameraId + " [facing] " + facing);
                 //选取后置摄像头
-                if (facing != null && facing == cameraCharacteristics.LENS_FACING_BACK) {
+                if (facing != null && facing == CameraMetadata.LENS_FACING_BACK) {
                     cameraIdChecked = cameraId;
                 }
             }
