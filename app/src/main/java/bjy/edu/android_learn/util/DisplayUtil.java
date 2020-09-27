@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -206,5 +207,9 @@ public class DisplayUtil {
         }
 
         return dpi;
+    }
+
+    public static int dp2px(float dp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, sContext.getResources().getDisplayMetrics());
     }
 }

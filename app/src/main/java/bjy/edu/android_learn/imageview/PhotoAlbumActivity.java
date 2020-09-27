@@ -3,12 +3,10 @@ package bjy.edu.android_learn.imageview;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -16,59 +14,62 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import bjy.edu.android_learn.R;
 import bjy.edu.android_learn.util.BitmapUtil;
 import bjy.edu.android_learn.util.DisplayUtil;
 
-public class GalleryPreviewActivity extends AppCompatActivity {
+public class PhotoAlbumActivity extends AppCompatActivity {
     private static final String TAG = "111222";
     private RecyclerView recyclerView;
+
     private int previewSize;//预览图片的宽高
     private int count = 3; // 一行展示
-
-    public static final String INTENT_IMAGE_PATH = "intent_image_path";
+    private int margin = DisplayUtil.dp2px(5);//相册之前的间距
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_preview);
+        setContentView(R.layout.activity_photo_album);
 
-        String path = getIntent().getStringExtra(INTENT_IMAGE_PATH);
-        File dir = new File(path);
-        File[] files = dir.listFiles();
-        if (files == null || files.length == 0){
-            Log.i(TAG, "文件目录下无图片");
+        //相册路径
+        File dir = getExternalFilesDir("pictures");
+        if (!dir.exists()){
+            Log.i("111222", "相册不存在");
             return;
         }
-        Log.i(TAG, "文件个数： " + files.length);
+        ArrayList<File> files = new ArrayList<>();
+        File[] albums = dir.listFiles();
+        for (File file : albums){
+            if (file.isDirectory()){
+                files.add(file);
+            }
+        }
         //获取屏幕宽高
         int[] array = DisplayUtil.getScreenWidthHeight(this);
-        previewSize = array[0] / count;
-        Log.i(TAG, "[预览图片的宽高 previewSize] " + previewSize);
+        previewSize = (array[0] - (count * margin)) / count;
 
         recyclerView = findViewById(R.id.recyclerView);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(GalleryPreviewActivity.this, count, LinearLayout.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(PhotoAlbumActivity.this, count, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
-        GalleryPreviewAdapter adapter = new GalleryPreviewAdapter(this, Arrays.asList(files));
-        adapter.setOnClickListener(new OnClickListener() {
+        PhotoAlbumAdapter photoAlbumAdapter = new PhotoAlbumAdapter(PhotoAlbumActivity.this, files);
+        recyclerView.setAdapter(photoAlbumAdapter);
+        photoAlbumAdapter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
-                intent.putExtra(GalleryActivity.INTENT_IMG_PATH, dir.getAbsolutePath());
-                intent.putExtra(GalleryActivity.INTENT_IMG_POSITION, position);
+                Intent intent = new Intent(PhotoAlbumActivity.this, GalleryPreviewActivity.class);
+                intent.putExtra(GalleryPreviewActivity.INTENT_IMAGE_PATH, files.get(position).getAbsolutePath());
                 startActivity(intent);
             }
         });
-        recyclerView.setAdapter(adapter);
     }
 
-    class GalleryPreviewAdapter extends RecyclerView.Adapter{
+    class PhotoAlbumAdapter extends RecyclerView.Adapter{
         private Context context;
         private List<File> data;
 
@@ -78,7 +79,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             this.onClickListener = onClickListener;
         }
 
-        public GalleryPreviewAdapter(Context context, List<File> data) {
+        public PhotoAlbumAdapter(Context context, List<File> data) {
             this.context = context;
             this.data = data;
         }
@@ -86,22 +87,34 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = View.inflate(context, R.layout.item_gallery_preview, null);
-            return new GalleryPreviewViewHolder(view);
+            View view = View.inflate(context, R.layout.item_photo_album, null);
+            return new PhotoAlbumViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-            GalleryPreviewViewHolder holder = (GalleryPreviewViewHolder) viewHolder;
+            PhotoAlbumViewHolder holder = (PhotoAlbumViewHolder) viewHolder;
             File file = data.get(i);
-            if (file == null)
+            if (file == null || !file.isDirectory())
                 return;
-            String path = file.getAbsolutePath();
+
+            File[] files = file.listFiles();
+            String path = files[0].getAbsolutePath();
             Log.i(TAG, "file path " + path);
             holder.img_preview.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Bitmap bitmap = BitmapUtil.decodeBitmap(path, previewSize, previewSize);
             holder.img_preview.setImageBitmap(bitmap);
-            holder.img_preview.setOnClickListener(new View.OnClickListener() {
+//            holder.img_preview.setImageResource(R.drawable.dilireba);
+
+            holder.tv_name.setText(file.getName());
+            holder.tv_num.setText(files.length + "");
+            // TODO: 2020/9/5 height 的wrap_content为什么没生效,
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.img_preview.getLayoutParams();
+            layoutParams.width = previewSize;
+            layoutParams.height = previewSize;
+            holder.img_preview.setLayoutParams(layoutParams);
+
+            holder.layout_album.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onClickListener != null){
@@ -109,13 +122,6 @@ public class GalleryPreviewActivity extends AppCompatActivity {
                     }
                 }
             });
-//            holder.img_preview.setImageResource(R.drawable.dilireba);
-
-            // TODO: 2020/9/5 height 的wrap_content为什么没生效,
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.img_preview.getLayoutParams();
-            layoutParams.width = previewSize;
-            layoutParams.height = previewSize;
-            holder.img_preview.setLayoutParams(layoutParams);
         }
 
         @Override
@@ -126,13 +132,19 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         }
     }
 
-    class GalleryPreviewViewHolder extends RecyclerView.ViewHolder{
+    class PhotoAlbumViewHolder extends RecyclerView.ViewHolder{
+        View layout_album;
         ImageView img_preview;
+        TextView tv_name;
+        TextView tv_num;
 
-        public GalleryPreviewViewHolder(@NonNull View itemView) {
+        public PhotoAlbumViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            layout_album = itemView.findViewById(R.id.layout_album);
             img_preview = itemView.findViewById(R.id.img_preview);
+            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_num = itemView.findViewById(R.id.tv_num);
         }
     }
 

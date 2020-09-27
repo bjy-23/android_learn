@@ -33,6 +33,13 @@ import bjy.edu.android_learn.util.FileUtil;
 
 public class GalleryActivity extends AppCompatActivity {
     private ViewPager viewPager;
+    private String path;
+
+    private static final String TAG = "111222";
+
+    //intent 参数
+    public static final String INTENT_IMG_PATH = "intent_img_path";
+    public static final String INTENT_IMG_POSITION = "intent_img_position";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,72 +48,85 @@ public class GalleryActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
+        String path = getIntent().getStringExtra(INTENT_IMG_PATH);
+        File dir = new File(path);
+        File[] files = null;
+        if (dir.exists()){
+            files = dir.listFiles();
+        }
+        if (files == null){
+            Log.i(TAG, "files == null");
+            return;
+        }
+
+        viewPager.setAdapter(new GalleryAdapter(GalleryActivity.this, Arrays.asList(files)));
+        //设置选中的图片
+        int position = getIntent().getIntExtra(INTENT_IMG_POSITION, 0);
+        viewPager.setCurrentItem(position);
 
         //asset目录下需要将文件copy出来
-        ThreadPoolUtil.run(new Runnable() {
-            @Override
-            public void run() {
-                File dir = GalleryActivity.this.getExternalFilesDir("asset");
-                File file = new File(dir, "哈哈.zip");
-                FileUtil.copyAssetFile(GalleryActivity.this, "哈哈.zip", file);
-
-                //解压
-                long time_start = System.currentTimeMillis();
-                File dirTarget = new File(dir, "哈哈");
-                if (!dirTarget.exists())
-                    dirTarget.mkdirs();
-                ZipFile zipFile = null;
-                try {
-                    zipFile = new ZipFile(file);
-                    Enumeration<?> entries = zipFile.entries();
-                    while (entries.hasMoreElements()){
-                        ZipEntry zipEntry = (ZipEntry) entries.nextElement();
-                        Log.i("111222", "解压：" + zipEntry.getName());
-                        if (zipEntry.isDirectory()){
-
-                        }else {
-                            File targetFile = new File(dirTarget, zipEntry.getName());
-                            //保证父文件夹一定存在
-                            if (!targetFile.getParentFile().exists()){
-                                targetFile.getParentFile().mkdirs();
-                            }
-                            targetFile.createNewFile();
-                            int count = -1;
-                            byte[] bytes = new byte[1024];
-                            InputStream inputStream = zipFile.getInputStream(zipEntry);
-                            FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
-                            while ((count = inputStream.read(bytes)) != -1){
-                                fileOutputStream.write(bytes, 0, count);
-                            }
-                            fileOutputStream.close();
-                            inputStream.close();
-                        }
-                    }
-
-                    Log.i("111222", "解压耗时：" + (System.currentTimeMillis() - time_start) + " ms");
-
-                    final File[] files = dirTarget.listFiles();
-                    GalleryActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            viewPager.setAdapter(new GalleryAdapter(GalleryActivity.this, Arrays.asList(files)));
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    if (zipFile != null){
-                        try {
-                            zipFile.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-
-
+//        ThreadPoolUtil.run(new Runnable() {
+//            @Override
+//            public void run() {
+//                File dir = GalleryActivity.this.getExternalFilesDir("asset");
+//                File file = new File(dir, "哈哈.zip");
+//                FileUtil.copyAssetFile(GalleryActivity.this, "哈哈.zip", file);
+//
+//                //解压
+//                long time_start = System.currentTimeMillis();
+//                File dirTarget = new File(dir, "哈哈");
+//                if (!dirTarget.exists())
+//                    dirTarget.mkdirs();
+//                ZipFile zipFile = null;
+//                try {
+//                    zipFile = new ZipFile(file);
+//                    Enumeration<?> entries = zipFile.entries();
+//                    while (entries.hasMoreElements()){
+//                        ZipEntry zipEntry = (ZipEntry) entries.nextElement();
+//                        Log.i("111222", "解压：" + zipEntry.getName());
+//                        if (zipEntry.isDirectory()){
+//
+//                        }else {
+//                            File targetFile = new File(dirTarget, zipEntry.getName());
+//                            //保证父文件夹一定存在
+//                            if (!targetFile.getParentFile().exists()){
+//                                targetFile.getParentFile().mkdirs();
+//                            }
+//                            targetFile.createNewFile();
+//                            int count = -1;
+//                            byte[] bytes = new byte[1024];
+//                            InputStream inputStream = zipFile.getInputStream(zipEntry);
+//                            FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
+//                            while ((count = inputStream.read(bytes)) != -1){
+//                                fileOutputStream.write(bytes, 0, count);
+//                            }
+//                            fileOutputStream.close();
+//                            inputStream.close();
+//                        }
+//                    }
+//
+//                    Log.i("111222", "解压耗时：" + (System.currentTimeMillis() - time_start) + " ms");
+//
+//                    final File[] files = dirTarget.listFiles();
+//                    GalleryActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        }
+//                    });
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }finally {
+//                    if (zipFile != null){
+//                        try {
+//                            zipFile.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
     class GalleryAdapter extends PagerAdapter{

@@ -40,6 +40,7 @@ import bjy.edu.android_learn.http.HttpActivity;
 import bjy.edu.android_learn.imageview.GalleryActivity;
 import bjy.edu.android_learn.imageview.GalleryPreviewActivity;
 import bjy.edu.android_learn.imageview.ImageViewActivity;
+import bjy.edu.android_learn.imageview.PhotoAlbumActivity;
 import bjy.edu.android_learn.io.IOActivity;
 import bjy.edu.android_learn.json.TestBean;
 import bjy.edu.android_learn.keystore.KeyStoreActivity;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = 34;
+                int position = 48;
                 switch (position){
                     case 999:
                         startActivity(new Intent(MainActivity.this, TestActivity.class));
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, LocationActivity.class));
                         break;
                     case 48:
-                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryPreviewActivity.class));
+                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, PhotoAlbumActivity.class));
+//                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryPreviewActivity.class));
 //                        IntentUtil.startActivity(MainActivity.this, new Intent(MainActivity.this, GalleryActivity.class));
                         position = 48;
                         break;
