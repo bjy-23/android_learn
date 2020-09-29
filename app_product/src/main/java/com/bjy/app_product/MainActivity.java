@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bjy.app_product.contacts.ContactActivity;
+import com.bjy.app_product.joker.PhotoAlbumActivity;
+import com.bjy.app_product.view.ZoomImageView;
 
 import java.io.File;
 
@@ -38,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
         ViewGroup layout_joker = findViewById(R.id.layout_joker);
         ImageView img_joker = layout_joker.findViewById(R.id.img_menu);
-//        img_joker.setImageResource(R.drawable.icon_dianhua);
+        img_joker.setImageResource(R.drawable.joker_sally);
         TextView tv_joker = layout_joker.findViewById(R.id.tv_menu);
         tv_joker.setText("joker");
         layout_joker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MainActivity.this, PhotoAlbumActivity.class));
             }
         });
 

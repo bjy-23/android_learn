@@ -1,29 +1,40 @@
-package bjy.edu.android_learn.imageview;
+package com.bjy.app_product.joker;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bjy.app_product.R;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import bjy.edu.android_learn.R;
-
 public class GalleryActivity extends AppCompatActivity {
     private ViewPager viewPager;
+    private ImageView img_back;
+    private TextView tv_title;
+    private View layout_title;
+    private View layout_root;
+
     private String path;
+    private boolean isTitleShow = true;
+    private long time_down;
+    private long time_up;
+    private static final long TIME_OFFSET = 300L;//时间间隔在300毫秒以内的会触发点击事件
 
     private static final String TAG = "111222";
+    private File[] imgArray;
 
     //intent 参数
     public static final String INTENT_IMG_PATH = "intent_img_path";
@@ -35,6 +46,10 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
 
         viewPager = findViewById(R.id.viewPager);
+        img_back = findViewById(R.id.img_back);
+        tv_title = findViewById(R.id.tv_title);
+        layout_title = findViewById(R.id.layout_title);
+        layout_root = findViewById(R.id.layout_root);
 
         String path = getIntent().getStringExtra(INTENT_IMG_PATH);
         File dir = new File(path);
@@ -42,15 +57,41 @@ public class GalleryActivity extends AppCompatActivity {
         if (dir.exists()){
             files = dir.listFiles();
         }
-        if (files == null){
-            Log.i(TAG, "files == null");
+        if (files == null || files.length == 0){
+            Log.i(TAG, "files == null ||  files.length == 0");
             return;
         }
 
-        viewPager.setAdapter(new GalleryAdapter(GalleryActivity.this, Arrays.asList(files)));
+        imgArray = files;
+        viewPager.setAdapter(new GalleryAdapter(GalleryActivity.this, Arrays.asList(imgArray)));
         //设置选中的图片
         int position = getIntent().getIntExtra(INTENT_IMG_POSITION, 0);
         viewPager.setCurrentItem(position);
+        //初始化标题
+        File file_0 = imgArray[0];
+        if (file_0 != null){
+            tv_title.setText(file_0.getName());
+        }
+        //修改标题
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                File file = imgArray[i];
+                if (file != null){
+                    tv_title.setText(file.getName());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         //asset目录下需要将文件copy出来
 //        ThreadPoolUtil.run(new Runnable() {
@@ -118,15 +159,45 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.i(TAG, "action " + event.getAction() + " dispatchTouchEvent activity");
-        return super.dispatchTouchEvent(event);
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.i(TAG, "Activity onTouchEvent  dispatchTouchEvent: " + ev.getAction());
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.i(TAG, "GalleryActivity dispatchTouchEvent ACTION_DOWN");
+                time_down = System.currentTimeMillis();
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "GalleryActivity dispatchTouchEvent ACTION_UP");
+                time_up = System.currentTimeMillis();
+                if (time_up - time_down < TIME_OFFSET){
+                    if (isTitleShow){
+                        hideTitle();
+                    }else {
+                        showTitle();
+                    }
+                    isTitleShow = !isTitleShow;
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG, "action " + event.getAction() + " onTouchEvent activity");
+        Log.i(TAG, "Activity onTouchEvent  onTouchEvent: " + event.getAction());
         return super.onTouchEvent(event);
+    }
+
+    private void showTitle(){
+        if (layout_title != null){
+            layout_title.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideTitle(){
+        if (layout_title != null){
+            layout_title.setVisibility(View.GONE);
+        }
     }
 
     class GalleryAdapter extends PagerAdapter{
@@ -155,11 +226,9 @@ public class GalleryActivity extends AppCompatActivity {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = View.inflate(context, R.layout.gallery_show, null);
             ImageView img_item = view.findViewById(R.id.img_item);
-            try {
-                img_item.setImageBitmap(BitmapFactory.decodeFile(data.get(position).getAbsolutePath()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            img_item.setImageBitmap(BitmapFactory.decodeFile(data.get(position).getAbsolutePath()));
+
             container.addView(view);
             return view;
         }

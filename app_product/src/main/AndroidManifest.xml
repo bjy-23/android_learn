@@ -20,6 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".contacts.ContactActivity"/>
+        <activity android:name=".joker.PhotoAlbumActivity"/>
+        <activity android:name=".joker.GalleryPreviewActivity"/>
+        <activity android:name=".joker.GalleryActivity"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package bjy.edu.android_learn.imageview;
+package com.bjy.app_product.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

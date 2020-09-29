@@ -13,7 +13,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
 
-    <bjy.edu.android_learn.imageview.ZoomImageView
+    <com.bjy.app_product.view.ZoomImageView
         android:id="@+id/img_item"
         android:layout_width="0dp"
         android:layout_height="0dp"
