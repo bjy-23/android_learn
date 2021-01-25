@@ -3,8 +3,24 @@ apply from: 'config.gradle'
 
 buildscript {
     repositories {
-        google()
-        jcenter()
+//        if ("true" == ext.world){
+//            google()
+//            jcenter()
+//        }else {
+//
+//        }
+
+        //jcenter()仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/jcenter/' }
+
+        //google()仓库,使用aliyun代理
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/aliyungoogle/' }
+
+        //gradle()仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/androidgradle/' }
+
+        //release仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/releases/' }
     }
 
     dependencies {
@@ -18,9 +34,35 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+//        google()
+//        jcenter()
+//        maven { url 'https://jitpack.io' }
+
+        //jcenter()仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/jcenter/' }
+
+        //google()仓库,使用aliyun代理
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/aliyungoogle/' }
+
+
+        //gradle()仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/androidgradle/' }
+
+
+        //第三方公司&&来源不可靠的jar包或者aar包存放的仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/thirdparty/' }
+
+        //apache仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/apache/' }
+
+        //maven.wso2.org仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/maven.wso2.org/' }
+
+        //maven.repository.redhat.com仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/mvnrepository/' }
+
+        //阿里云仓库
+        maven { url 'http://10.112.13.156:8081/nexus/content/repositories/aliyun/' }
     }
 }
 
@@ -55,4 +97,12 @@ bbbjy.doLast{
 
 task yyyrn(dependsOn : bbbjy) doLast{
     println("也一样让你")
+}
+
+def closure1 = {
+    println "--- closure1 ---"
+    println "this: " + this.class.name
+    println "owner: " + owner.class.name
+    println "delegate: " + delegate.class.name
+
 }

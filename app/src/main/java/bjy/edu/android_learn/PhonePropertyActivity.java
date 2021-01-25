@@ -5,12 +5,14 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -28,6 +30,8 @@ import bjy.edu.android_learn.util.DisplayUtil;
 public class PhonePropertyActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<String> data = new ArrayList<>();
+    private static final String TAG = "PhoneProperty";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,16 @@ public class PhonePropertyActivity extends AppCompatActivity {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         data.add("内存：" + activityManager.getMemoryClass() + " mb" +
                 " ; " + "最大内存：" + activityManager.getLargeMemoryClass() + " mb");
+        Log.i(TAG, "品牌： " + Build.BRAND + " " + Build.MODEL);
+        Log.i(TAG, "操作系统： Android " + Build.VERSION.RELEASE);
+
+
+        //设备标识
+        String androidId = Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
+        data.add("android_id: " + androidId);
+        Log.i(TAG, String.format("android_id [%s]", androidId));
+        String androidId2 = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i(TAG, String.format("android_id2 [%s]", androidId2));
 
         recyclerView.setAdapter(new Adapter(PhonePropertyActivity.this, data));
     }

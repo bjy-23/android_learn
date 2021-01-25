@@ -24,4 +24,13 @@
         app:layout_constraintLeft_toRightOf="@+id/layout_tel"
         android:layout_marginLeft="20dp"/>
 
+
+    <include layout="@layout/item_menu"
+        android:id="@+id/layout_notepad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/layout_joker"
+        app:layout_constraintLeft_toRightOf="@+id/layout_joker"
+        android:layout_marginLeft="20dp"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -15,7 +15,9 @@ import android.text.style.ClickableSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 

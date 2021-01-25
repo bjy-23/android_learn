@@ -30,6 +30,7 @@ public class SqliteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sqlite);
 
+
         tv_query = findViewById(R.id.tv_query);
 
         sqlHelper = SqlHelper.getInstance();
@@ -38,7 +39,21 @@ public class SqliteActivity extends AppCompatActivity {
         tv_db.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SqliteActivity.this, SqlResultActivity.class));
+//                startActivity(new Intent(SqliteActivity.this, SqlResultActivity.class));
+                //查询当前db中的表
+                SQLiteDatabase sqLiteDatabase = sqlHelper.getReadableDatabase();
+                String sql = "select * from sqlite_master where type = 'table' order by name";
+                Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+                if (cursor.moveToFirst()){
+                    String[] columns = cursor.getColumnNames();
+                    for (String s: columns){
+                        Log.i("111222", s);
+                    }
+                }
+                cursor.moveToPrevious();
+                while (cursor.moveToNext()){
+                    Log.i("111222", cursor.getString(cursor.getColumnIndex("name")));
+                }
             }
         });
 
@@ -101,10 +116,16 @@ public class SqliteActivity extends AppCompatActivity {
                         String name = "";
 
 //                        //SQL语句
-                        //一个条件
+                        //查询所有数据
+                        Cursor cursor = db.rawQuery("select * from huoying", null);
+                        if (cursor.moveToLast()){
+                            Log.i(TAG, "id:" + cursor.getInt(cursor.getColumnIndex("id")));
+                            if (true)
+                                return;
+                        }
 //                        Cursor cursor = db.rawQuery("select * from huoying where position = ?", new String[]{"初代火影"});
                         //多个条件
-                        Cursor cursor = db.rawQuery("select * from huoying where position = ? and name = ?", new String[]{HY_POSITION[0], HY_NAME[0]});
+//                        Cursor cursor = db.rawQuery("select * from huoying where position = ? and name = ?", new String[]{HY_POSITION[0], HY_NAME[0]});
                         while (cursor.moveToNext()) {
                             name += cursor.getString(cursor.getColumnIndex("name")) + "、";
                         }

@@ -15,6 +15,8 @@ import com.bjy.app_product.view.ZoomImageView;
 
 import java.io.File;
 
+import edu.bjy.plugin.notepad.NoteListActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -50,7 +52,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        ViewGroup layout_notepad = findViewById(R.id.layout_notepad);
+        ImageView img_notepad = layout_notepad.findViewById(R.id.img_menu);
+        img_notepad.setImageResource(R.drawable.icon_dianhua);
+        TextView tv_notepad = layout_notepad.findViewById(R.id.tv_menu);
+        tv_notepad.setText("记事本");
+        layout_notepad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NoteListActivity.class));
+            }
+        });
     }
 }

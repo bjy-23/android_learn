@@ -399,9 +399,9 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
                 scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
             }
             // 如果图片的宽或者高都小于屏幕，则缩放至屏幕的宽或者高
-            if (dw < width && dh < height){
-                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
-            }
+//            if (dw < width && dh < height){
+//                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+//            }
 
             //设置初始化放大参数和最大放大参数
             initScale = scale;

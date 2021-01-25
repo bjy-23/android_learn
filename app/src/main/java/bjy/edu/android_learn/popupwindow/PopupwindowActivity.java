@@ -43,11 +43,11 @@ public class PopupwindowActivity extends AppCompatActivity {
 //                popupWindow.showAsDropDown(textView, 50, 0);
 
                 //需要手动修改activity对应的window的透明度
-                Window window = PopupwindowActivity.this.getWindow();
-                WindowManager.LayoutParams layoutParams = window.getAttributes();
-                System.out.println("alpla 修改前：" + layoutParams.alpha);
-                layoutParams.alpha = 0.5f;
-                window.setAttributes(layoutParams);
+//                Window window = PopupwindowActivity.this.getWindow();
+//                WindowManager.LayoutParams layoutParams = window.getAttributes();
+//                System.out.println("alpla 修改前：" + layoutParams.alpha);
+//                layoutParams.alpha = 0.5f;
+//                window.setAttributes(layoutParams);
             }
         });
     }

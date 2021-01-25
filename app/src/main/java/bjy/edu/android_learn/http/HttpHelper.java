@@ -17,6 +17,7 @@ import javax.net.SocketFactory;
 public class HttpHelper {
     //大盘竞猜
     private String base = "http://pdtapi.sogukz.com";
+    private static final String TAG = "111222";
 
     public void get(final String path){
         new Thread(new Runnable() {
@@ -45,8 +46,9 @@ public class HttpHelper {
                     httpURLConnection.disconnect();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
+                    Log.w(TAG, e);
                 }catch (IOException e){
-
+                    Log.w(TAG, e);
                 }
             }
         }).start();

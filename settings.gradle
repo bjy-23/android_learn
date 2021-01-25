@@ -1,3 +1,7 @@
+include 'app_test:lib_skin'
+include ':plugin_notepad'
+include ':test_baby'
+include ':test_wangxiaofan'
 include ':app_product'
 include ':app', ':example', ':bbbjy_support', ':app_ipc'
 
