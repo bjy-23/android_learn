@@ -36,7 +36,7 @@
         <activity android:name=".window.WindowActivity" />
         <activity android:name=".sqlite.SqlResultActivity" />
         <activity android:name=".activity.SystemSettingActivity" />
-        <activity android:name=".activity.ContactActivity" /> <!-- <activity android:name=".activity.Intent2Activity"> -->
+<!--        <activity android:name=".activity.ContactActivity" /> &lt;!&ndash; <activity android:name=".activity.Intent2Activity"> &ndash;&gt;-->
         <!-- <intent-filter> -->
         <!-- <action android:name="intent_2_bbbjy"/> -->
         <!-- <category android:name="android.intent.category.DEFAULT"/> -->
