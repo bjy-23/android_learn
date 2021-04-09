@@ -1,4 +1,4 @@
-package com.example.test_k_line;
+package com.jys.lib_kline;
 
 import android.content.Context;
 import android.content.res.TypedArray;

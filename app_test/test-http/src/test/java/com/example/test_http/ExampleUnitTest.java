@@ -1,4 +1,4 @@
-package com.example.test_k_line;
+package com.example.test_http;
 
 import org.junit.Test;
 
@@ -13,12 +13,5 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
-    }
-
-    @Test
-    public void test_(){
-        float value = 3f;
-        String valueString = "0.00165";
-        System.out.println(": " + Util.transPercentData(valueString, 2));
     }
 }

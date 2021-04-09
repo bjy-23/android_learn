@@ -7,16 +7,4 @@
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>
-    
-    
-    <declare-styleable name="KLineView">
-        <attr name="linePaddingTop" format="dimension"/>
-        <attr name="linePaddingBottom" format="dimension"/>
-        <attr name="linePaddingTopRate" format="float"/>
-        <attr name="linePaddingBottomRate" format="float"/>
-    </declare-styleable>
-
-    <declare-styleable name="CircleView">
-        <attr name="circle_color" format="color"/>
-    </declare-styleable>
 </resources>

@@ -69,7 +69,6 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
         //画布
         Bitmap target = Bitmap.createBitmap(length, length, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(target);
-
 //        drawable.draw(c);
 
         //先绘制圆

@@ -12,13 +12,22 @@
         android:id="@+id/kline"
         android:layout_width="200dp"
         android:layout_height="100dp"
-        app:lineColor="@color/_FF9A9A"
-        app:lineWidth="2dp"
-        app:shadowEnable="true"
-        app:shadowAlpha="0.3"
-        app:shadowColorStart="@color/_FF9A9A"
-        android:background="#FFFFFF"
-        app:linePaddingTop="0dp"
-        app:linePaddingBottom="0dp"/>
+        app:linePaddingTopRate="0.25"
+        app:linePaddingBottomRate="0.25"/>
+
+
+    <com.example.test_k_line.KLineView
+        android:layout_marginTop="20dp"
+        android:id="@+id/kline2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:linePaddingTop="3dp"
+        app:linePaddingBottom="3dp"/>
+
+    <com.example.test_k_line.DoubleKLineView
+        android:id="@+id/klineDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>
