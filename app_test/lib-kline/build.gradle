@@ -1,12 +1,17 @@
-plugins {
-    id 'com.android.library'
+if (isApp == "true"){
+    apply plugin: 'com.android.application'
+}else {
+    apply plugin: 'com.android.library'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        if (isApp == "true"){
+            applicationId "com.jys.lib_kline"
+        }
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -30,9 +35,21 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    sourceSets{
+        main{
+            if (isApp == "true"){
+                manifest.srcFile 'src/main/manifest/AppManifest.xml'
+            }
+
+        }
+    }
 }
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    testImplementation 'junit:junit:4.+'
+
 }

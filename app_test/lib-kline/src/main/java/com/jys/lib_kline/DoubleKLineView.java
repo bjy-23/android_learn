@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+
 public class DoubleKLineView extends FrameLayout {
     private int tagColor1;
     private String tagName1;

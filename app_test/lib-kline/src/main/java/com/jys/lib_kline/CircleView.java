@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+
 public class CircleView extends View {
     private int vWidth;
     private int vHeight;

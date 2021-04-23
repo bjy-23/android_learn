@@ -1,5 +1,9 @@
 package bjy.edu.android_learn;
 
+import org.junit.Test;
+
+import java.lang.reflect.Field;
+
 public class AlitaTest {
     public static void main(String[] args) {
         String valueS = "99p";

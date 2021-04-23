@@ -81,7 +81,8 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <!-- <activity android:name=".viewpager.ViewPagerActivity" /> -->
-        <activity android:name=".dialog.DialogActivity" /> <!-- <activity android:name=".recyclerView.RvActivity" /> &lt;!&ndash; Required SDK核心功能 &ndash;&gt; -->
+        <activity android:name=".dialog.DialogActivity" />
+         <activity android:name=".recyclerView.RvActivity" /> <!-- Required SDK核心功能 -->
         <!-- <activity -->
         <!-- android:name=".widget.ViewActivity" -->
         <!-- android:configChanges="orientation|screenSize" -->

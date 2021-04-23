@@ -69,8 +69,10 @@ public class Util {
     }
 
     public static String transPercentData(String value, int n){
-        Float f = Float.parseFloat(value) * 100;
+        Float f1 = Float.parseFloat(value);
+        Float f = f1 * 100;
 
         return transFloat(f, n);
     }
+
 }
