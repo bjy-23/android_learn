@@ -31,10 +31,12 @@
         app:linePaddingTop="3dp"
         app:linePaddingBottom="3dp"/>
 
-    <com.jys.lib_kline.DoubleKLineView
-        android:id="@+id/klineDetail"
+    <com.jys.lib_kline.KLineView
+        android:layout_marginTop="20dp"
+        android:id="@+id/kline3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
+        android:layout_height="150dp"
+        app:linePaddingTop="3dp"
+        app:linePaddingBottom="3dp"/>
 
 </LinearLayout>

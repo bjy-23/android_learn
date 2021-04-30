@@ -9,6 +9,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,19 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        {
-            TextView tv_test = findViewById(R.id.tv_test);
-            SpannableString spannableString = new SpannableString("hello");
-            spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, 2, 0);
-            spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), 2, 5, 0);
-            tv_test.setText(spannableString);
-            tv_test.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, TestScrollActivity.class));
-                }
-            });
-        }
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(this);
+        System.out.println("getScaledTouchSlop: " + viewConfiguration.getScaledTouchSlop());
+
+        TextView textView = null;
 
         {
             KLineView kLineView = findViewById(R.id.kline);
@@ -63,18 +55,18 @@ public class MainActivity extends AppCompatActivity {
 
             {
                 //蜡烛图
-                CandleData candleData = new CandleData();
-                List<CandleData.Item> list = new ArrayList<>();
-                CandleData.Item item1 = new CandleData.Item(50, 60, 80, 30);
-                list.add(item1);
-                CandleData.Item item2 = new CandleData.Item(80, 70, 100, 50);
-                list.add(item2);
-                CandleData.Item item3 = new CandleData.Item(170, 180, 200, 150);
-                candleData.yValueMin = 0f;
-                candleData.yValueMax = 300f;
-                candleData.maxCandleWidth = dp2px(5);
-                list.add(item3);
-                candleData.itemList = list;
+//                CandleData candleData = new CandleData();
+//                List<CandleData.Item> list = new ArrayList<>();
+//                CandleData.Item item1 = new CandleData.Item(50, 60, 80, 30);
+//                list.add(item1);
+//                CandleData.Item item2 = new CandleData.Item(80, 70, 100, 50);
+//                list.add(item2);
+//                CandleData.Item item3 = new CandleData.Item(170, 180, 200, 150);
+//                candleData.yValueMin = 0f;
+//                candleData.yValueMax = 300f;
+//                candleData.maxCandleWidth = dp2px(5);
+//                list.add(item3);
+//                candleData.itemList = list;
 
 //            CandleData candleData = getTestCandleData(kLineData.kLineValues);
 //            candleData.xSpaceCount = candleData.itemList.size()-1;
@@ -116,27 +108,66 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        {
+            KLineView kLineView = findViewById(R.id.kline2);
+            KLineView kLineView3 = findViewById(R.id.kline3);
+
+            KLineData kLineData = new KLineData();
+            kLineData.kLineValues = getTestData(1,241, 300);
+            kLineData.xSpaceCount = 240;
+            kLineData.kLineColor = colorRed;
+            kLineData.kLineWidth = dp2px(1);
+            kLineView.addKLineData(kLineData);
+            kLineView.indexSpaceCount = 240;
+            kLineView.indexLineEnable = true;
+            kLineView.setIndexListenr(new KLineView.IndexListener() {
+                @Override
+                public void drawIndexStart() {
+
+                }
+
+                @Override
+                public void drawIndexEnd() {
+                    kLineView3.xIndexPosition = -1;
+                    kLineView3.requestLayout();
+                }
+
+                @Override
+                public void drawIndexPosition(int position) {
+                    kLineView3.xIndexPosition = position;
+                    kLineView3.requestLayout();
+                }
+            });
 
 
+            KLineData kLineData3 = new KLineData();
+            kLineData3.kLineValues = getTestData(2,241, 300);
+            kLineData3.xSpaceCount = 240;
+            kLineData3.kLineColor = colorRed;
+            kLineData3.kLineWidth = dp2px(1);
+            kLineView3.addKLineData(kLineData3);
+            kLineView3.requestLayout();
+            kLineView3.indexSpaceCount = 240;
+            kLineView3.indexLineEnable = true;
+            kLineView3.setIndexListenr(new KLineView.IndexListener() {
+                @Override
+                public void drawIndexStart() {
 
+                }
 
+                @Override
+                public void drawIndexEnd() {
+                    kLineView.xIndexPosition = -1;
+                    kLineView.requestLayout();
+                }
 
-
-//        {
-//            KLineView kLineView = findViewById(R.id.kline2);
-//            KLineData kLineData = new KLineData();
-//            kLineData.kLineValues = getTestData(1,241, 300);
-//            kLineData.xSpaceCount = 240;
-//            kLineData.kLineColor = colorRed;
-//            kLineData.kLineWidth = dp2px(1);
-//            kLineView.addKLineData(kLineData);
-//
-//            KLineData kLineData2 = new KLineData();
-//            kLineData2.kLineValues = new float[]{50, 250, 150, 300, 200, 250};
-//            kLineData2.kLineColor = colorGreen;
-//            kLineData2.kLineWidth = dp2px(2);
-//            kLineView.addKLineData(kLineData2);
-//        }
+                @Override
+                public void drawIndexPosition(int position) {
+                    kLineView.xIndexPosition = position;
+                    kLineView.requestLayout();
+                }
+            });
+        }
 
 
 //        {

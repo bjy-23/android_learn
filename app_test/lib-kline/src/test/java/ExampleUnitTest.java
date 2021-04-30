@@ -164,8 +164,11 @@ public class ExampleUnitTest {
 //        BigDecimal bigDecimal = new BigDecimal(v1);
 //        System.out.println(bigDecimal.setScale(3, RoundingMode.HALF_UP).toPlainString());
 
-        String s = "hello 你好 nihao";
-        String[] a = s.split(" ");
-        System.out.println(a.length);
+//        String s = "hello 你好 nihao";
+//        String[] a = s.split(" ");
+//        System.out.println(a.length);
+
+        float value = -2.5f;
+        System.out.println(Math.pow(value, 2));
     }
 }

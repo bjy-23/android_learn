@@ -10,13 +10,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class KLineView extends View {
     private static final String TAG = KLineView.class.getSimpleName();
-    private static final String TAG_TOUCH = "KLineView_touch";
+    private static final String TAG_TEST = "112233";
     private Context context;
     private Paint linePaint;
     private Path linePath;
@@ -53,7 +54,7 @@ public class KLineView extends View {
 
     //长按 十字线
     public int indexSpaceCount;
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(Looper.getMainLooper());
     public static int TIME_LONG_PRESS = 1000;
     public static int TIME_INDEX_DISMISS = 1000;
     public boolean indexLineEnable = false;
@@ -61,8 +62,13 @@ public class KLineView extends View {
     public int colorIndex = Color.BLACK;
     public boolean indexByPoint = true;
     private boolean beginIndexPress = false;
+    private float xDown;
+    private float yDown;
     private float xIndex;
     private float yIndex;
+    private int minTouchSlop;
+    private double minTouchSlopPow2;
+    public int xIndexPosition = -1;
 
     //背景线
     public boolean xBgLineEnable = false;
@@ -70,9 +76,6 @@ public class KLineView extends View {
 
     public boolean yBgLineEnable = false;
     public float[] yBgLineArray;
-
-
-    private GestureDetector gestureDetector;
 
     public KLineView(Context context) {
         super(context);
@@ -99,68 +102,9 @@ public class KLineView extends View {
         //初始化path，用于绘制阴影
         linePath = new Path();
 
-
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onSingleTapUp " + e.getAction());
-                return super.onSingleTapUp(e);
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onLongPress " + e.getAction());
-                super.onLongPress(e);
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                Log.i(TAG_TOUCH, "onScroll " + e1.getAction());
-                return super.onScroll(e1, e2, distanceX, distanceY);
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.i(TAG_TOUCH, "onFling " + e1.getAction());
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onShowPress " + e.getAction());
-                super.onShowPress(e);
-            }
-
-            @Override
-            public boolean onDown(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onDown " + e.getAction());
-                return super.onDown(e);
-            }
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onDoubleTap " + e.getAction());
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onDoubleTapEvent(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onDoubleTapEvent " + e.getAction());
-                return super.onDoubleTapEvent(e);
-            }
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onSingleTapConfirmed " + e.getAction());
-                return super.onSingleTapConfirmed(e);
-            }
-
-            @Override
-            public boolean onContextClick(MotionEvent e) {
-                Log.i(TAG_TOUCH, "onContextClick " + e.getAction());
-                return super.onContextClick(e);
-            }
-        });
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
+        minTouchSlop = viewConfiguration.getScaledTouchSlop();
+        minTouchSlopPow2 = Math.pow(minTouchSlop, 2);
     }
 
     @Override
@@ -194,25 +138,29 @@ public class KLineView extends View {
 
         drawIndex(canvas);
 
+        drawIndexByPosition(canvas);
+
         canvas.restore();
         Log.i(TAG, "onDraw - canvas.restore()");
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        gestureDetector.onTouchEvent(event);
         if (indexLineEnable){
-            Log.i(TAG_TOUCH, "onTouchEvent : " + event.getAction());
             //在指定时间内只要有滑动就取消绘制十字线
             if (event.getAction() == MotionEvent.ACTION_DOWN){
                 beginIndexPress = true;
             }else {
-                beginIndexPress = false;
+                if (Math.pow(xIndex-xDown, 2) + Math.pow(yIndex-yDown, 2) > minTouchSlopPow2){
+                    beginIndexPress = false;
+                }
             }
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
-                    xIndex = event.getX();
-                    yIndex = event.getY();
+                    xDown = event.getX();
+                    yDown = event.getY();
+                    xIndex = xDown;
+                    yIndex = yDown;
 
                     //长按监听
                     handler.postDelayed(new Runnable() {
@@ -269,19 +217,11 @@ public class KLineView extends View {
         pillarDataList.add(pillarData);
     }
 
-    @Deprecated
     public void clearAllData(){
         kLineDataList.clear();
         candleDataList.clear();
         pillarDataList.clear();
-    }
 
-    public void reset(){
-        kLineDataList.clear();
-        candleDataList.clear();
-        pillarDataList.clear();
-
-        indexListener = null;
         indexSpaceCount = 0;
     }
 
@@ -529,7 +469,7 @@ public class KLineView extends View {
 
         if (xBgLineEnable && xBgLineArray != null && xBgLineArray.length != 0){
             for (float value : xBgLineArray){
-                canvas.drawLine(value*drawWidth, -linePaddingBottom, value*drawWidth, linePaddingTop-drawHeight, linePaint);
+                canvas.drawLine(value*drawWidth, 0, value*drawWidth, -drawHeight, linePaint);
             }
 
             for (float value : yBgLineArray){
@@ -718,6 +658,8 @@ public class KLineView extends View {
         if (!drawIndexLineEnable)
             return;
 
+        initIndexPaint();
+
         //计算
         float xIndexOffset = xIndex - getPaddingLeft() - linePaddingLeft;
 
@@ -735,15 +677,31 @@ public class KLineView extends View {
         }
     }
 
+
+    private void drawIndexByPosition(Canvas canvas){
+        if (!indexLineEnable)
+            return;
+
+        if (xIndexPosition <0 || xIndexPosition > indexSpaceCount)
+            return;
+
+        initIndexPaint();
+
+        float xValue =  drawWidth / indexSpaceCount * xIndexPosition;
+        canvas.drawLine(xValue, 0f, xValue, -drawHeight, linePaint);
+    }
+
+
     private void cancelIndex(){
+        beginIndexPress = false;
         drawIndexLineEnable = false;
-        if (indexListener != null){
-            indexListener.drawIndexEnd();
-        }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 invalidate();
+                if (indexListener != null){
+                    indexListener.drawIndexEnd();
+                }
             }
         }, TIME_INDEX_DISMISS);
     }
@@ -756,6 +714,18 @@ public class KLineView extends View {
         linePaint.setColor(Color.BLACK);
         linePaint.setStrokeWidth(1);
     }
+
+    private void initIndexPaint(){
+        if (linePaint == null)
+            linePaint = new Paint();
+
+        linePaint.reset();
+        linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        linePaint.setDither(true);
+        linePaint.setColor(colorIndex);
+        linePaint.setStrokeWidth(1);
+    }
+
 
     public interface IndexListener{
         void drawIndexStart();
@@ -771,5 +741,6 @@ public class KLineView extends View {
     public void setIndexListenr(IndexListener indexListener){
         this.indexListener = indexListener;
     }
+
 
 }
