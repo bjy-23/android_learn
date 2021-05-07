@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestNestActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#098765"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#982314"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
+
+<!--        <include-->
+<!--            android:id="@+id/layout_top_fs"-->
+<!--            layout="@layout/fragment_stock_price_top"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--        <include-->
+<!--            android:id="@+id/layout_mq"-->
+<!--            layout="@layout/fragment_f_s_mq"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.example.x_test.MyWebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

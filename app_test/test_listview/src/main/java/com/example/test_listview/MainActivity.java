@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         tv_hello.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, VpActivity.class));
+//                startActivity(new Intent(MainActivity.this, VpActivity.class));
+                startActivity(new Intent(MainActivity.this, CoordinaryTestActivity.class));
             }
         });
 

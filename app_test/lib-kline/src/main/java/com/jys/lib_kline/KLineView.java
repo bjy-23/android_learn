@@ -636,6 +636,11 @@ public class KLineView extends View {
        if (rectDataList == null || rectDataList.isEmpty())
            return;
 
+       //todo ceshi
+//        for (int i=0; i<rectDataList.size()&& i<10; i++){
+//            Log.i("drawRect-test-" + i, "width " + (rectDataList.get(i).item.right - rectDataList.get(i).item.left));
+//        }
+
        //设置画笔
        for(RectData rectData : rectDataList){
            if (rectData == null || rectData.item == null)

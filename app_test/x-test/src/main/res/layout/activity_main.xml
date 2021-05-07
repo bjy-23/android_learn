@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#987654"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#356894"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--        >-->
+
+    <!--        <FrameLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--            >-->
+
+    <com.example.x_test.MyWebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--        </FrameLayout>-->
+
+
+    <!--    </androidx.core.widget.NestedScrollView>-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:text="123456789"-->
+    <!--        android:textSize="30sp"-->
+    <!--        android:layout_alignParentBottom="true"/>-->
+    <!--</RelativeLayout>-->

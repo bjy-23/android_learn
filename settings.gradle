@@ -1,3 +1,4 @@
+include ':app_test:x-test'
 include ':app_test:test_listview'
 include ':app_test:test-http'
 include ':app_test:lib-kline'

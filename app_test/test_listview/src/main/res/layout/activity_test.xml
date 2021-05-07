@@ -2,22 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Test">
 
     <HorizontalScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
         <LinearLayout
+            android:id="@+id/layout_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_1"
                 android:layout_width="600dp"
                 android:layout_height="match_parent"
                 android:text="111"/>
@@ -31,30 +33,26 @@
 
     </HorizontalScrollView>
 
-    <com.jys.lib_kline.KLineView
-        android:id="@+id/kline"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        app:linePaddingTop="0dp"
-        app:linePaddingBottom="0dp"
-        app:linePaddingLeft="10dp"
-        app:linePaddingRight="10dp" />
-
-
-    <com.jys.lib_kline.KLineView
-        android:layout_marginTop="20dp"
-        android:id="@+id/kline2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:linePaddingTop="3dp"
-        app:linePaddingBottom="3dp"/>
+        android:layout_height="match_parent">
 
-    <com.jys.lib_kline.KLineView
-        android:layout_marginTop="20dp"
-        android:id="@+id/kline3"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:linePaddingTop="3dp"
-        app:linePaddingBottom="3dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#098765"/>
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
