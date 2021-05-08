@@ -5,10 +5,10 @@ include ':app_test:lib-kline'
 include ':app_test:test_k_line'
 include 'app_test:lib_skin'
 include ':plugin_notepad'
-include ':test_baby'
-include ':test_wangxiaofan'
 include ':app_product'
-include ':app', ':example', ':bbbjy_support', ':app_ipc'
+include ':app'
+include ':bbbjy_support'
+include ':app_ipc'
 
 println "In posdevice, gradle id is " +gradle.hashCode()
 println "Home Dir:" + gradle.gradleHomeDir
