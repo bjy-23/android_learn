@@ -5,7 +5,7 @@ import java.util.List;
 public class PillarData {
     public List<Item> list;
     public int xSpaceCount;//x轴分割块数
-    public int xPositionStart;//
+    public int xSpaceOffset;//x轴绘制的偏移位置
     public float pillarWidthRate;
     public float pillarWidthMax;
     public float yValueMin;//y轴方向的数据计算起始位置，对应y轴起始位置

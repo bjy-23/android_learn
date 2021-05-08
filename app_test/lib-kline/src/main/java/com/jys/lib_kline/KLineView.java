@@ -225,6 +225,11 @@ public class KLineView extends View {
         indexSpaceCount = 0;
     }
 
+    //重新计算所有数据
+    public void refreshAllData(){
+        makeKLineData();
+    }
+
     //配置k线画笔
     private void setKLinePaint(KLineData kLineData){
         if (linePaint == null || kLineData == null)
@@ -285,40 +290,9 @@ public class KLineView extends View {
         drawWidth = vWidth - linePaddingLeft - linePaddingRight;
         drawHeight = vHeight - linePaddingTop - linePaddingBottom;
 
-        //计算具体坐标
-        for (KLineData kLineData : kLineDataList){
-            if (kLineData == null || kLineData.kLineValues == null || kLineData.kLineValues.length < 2)
-                continue;
 
-            kLineData.points = new KLineData.Point[kLineData.kLineValues.length];
-
-            //设置x轴分割个数
-            int spaceCount = (kLineData.xSpaceCount > 0) ? kLineData.xSpaceCount : kLineData.kLineValues.length -1;
-            float offsetX = drawWidth / spaceCount;
-
-            //计算y轴数据的间距差
-            float minValue = kLineData.yValueMin;
-            float maxValue = kLineData.yValueMax;
-            if (minValue == maxValue){
-                float[] min_max = Util.minMaxValue(kLineData.kLineValues);
-                minValue = min_max[0];
-                maxValue = min_max[1];
-            }
-            float offsetY = maxValue - minValue;
-            // TODO: 2021/4/15  
-            if (offsetY < 2 * OFFSET_Y_DEFAULT){
-                minValue -= OFFSET_Y_DEFAULT;
-                offsetY += OFFSET_Y_DEFAULT * 2;
-            }
-
-            for (int i=0; i<kLineData.kLineValues.length; i++){
-                KLineData.Point point = new KLineData.Point();
-                point.x = i * offsetX;
-                point.y = (kLineData.kLineValues[i] - minValue) / offsetY * drawHeight;
-
-                kLineData.points[i] = point;
-            }
-        }
+        //计算k线的数据
+        calculateKData();
 
         //计算蜡烛图的数据
         calculateCandleData();
@@ -379,6 +353,43 @@ public class KLineView extends View {
         result[1] = listTemp.get(listTemp.size()-1).top;
 
         return result;
+    }
+
+    private void calculateKData(){
+        //计算具体坐标
+        for (KLineData kLineData : kLineDataList){
+            if (kLineData == null || kLineData.kLineValues == null || kLineData.kLineValues.length < 2)
+                continue;
+
+            kLineData.points = new KLineData.Point[kLineData.kLineValues.length];
+
+            //设置x轴分割个数
+            int spaceCount = (kLineData.xSpaceCount > 0) ? kLineData.xSpaceCount : kLineData.kLineValues.length -1;
+            float offsetX = drawWidth / spaceCount;
+
+            //计算y轴数据的间距差
+            float minValue = kLineData.yValueMin;
+            float maxValue = kLineData.yValueMax;
+            if (minValue == maxValue){
+                float[] min_max = Util.minMaxValue(kLineData.kLineValues);
+                minValue = min_max[0];
+                maxValue = min_max[1];
+            }
+            float offsetY = maxValue - minValue;
+            // TODO: 2021/4/15
+            if (offsetY < 2 * OFFSET_Y_DEFAULT){
+                minValue -= OFFSET_Y_DEFAULT;
+                offsetY += OFFSET_Y_DEFAULT * 2;
+            }
+
+            for (int i=0; i<kLineData.kLineValues.length; i++){
+                KLineData.Point point = new KLineData.Point();
+                point.x = (i + kLineData.xSpaceOffset) * offsetX;
+                point.y = (kLineData.kLineValues[i] - minValue) / offsetY * drawHeight;
+
+                kLineData.points[i] = point;
+            }
+        }
     }
 
     //计算矩形图数据
@@ -496,13 +507,8 @@ public class KLineView extends View {
                 setKLinePaint(kLineData);
                 //画k线
                 linePath.reset();
-                //k线起始位置
-                int xStart = Math.max(kLineData.xStartPosition, 0);
-                if (xStart >= kLineData.points.length){
-                    continue;
-                }
-                linePath.moveTo(kLineData.points[xStart].x, -kLineData.points[xStart].y);
-                for (int i=xStart+1; i<kLineData.points.length; i++) {
+                linePath.moveTo(kLineData.points[0].x, -kLineData.points[0].y);
+                for (int i=1; i<kLineData.points.length; i++) {
                     linePath.lineTo(kLineData.points[i].x, -kLineData.points[i].y);
                 }
                 canvas.drawPath(linePath, linePaint);
@@ -589,7 +595,7 @@ public class KLineView extends View {
             int spaceCount = (pillarData.xSpaceCount > 0) ? pillarData.xSpaceCount : list.size() -1;
             float offsetX = drawWidth / spaceCount;
             //x轴起始点位置
-            int positionStart = Math.max(pillarData.xPositionStart, 0);
+            int positionStart = Math.max(pillarData.xSpaceOffset, 0);
 
             //y轴间距
             float minValue = pillarData.yValueMin;
@@ -637,9 +643,9 @@ public class KLineView extends View {
            return;
 
        //todo ceshi
-//        for (int i=0; i<rectDataList.size()&& i<10; i++){
-//            Log.i("drawRect-test-" + i, "width " + (rectDataList.get(i).item.right - rectDataList.get(i).item.left));
-//        }
+        for (int i=0; i<rectDataList.size(); i++){
+            Log.i("drawRect-test-" + i, "width " + (rectDataList.get(i).item.right - rectDataList.get(i).item.left));
+        }
 
        //设置画笔
        for(RectData rectData : rectDataList){

@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 pillarData.list = pillarItemList;
                 pillarData.pillarWidthMax = dp2px(5);
                 pillarData.xSpaceCount = 5;
-                pillarData.xPositionStart = 1;
                 pillarData.yValueMax = 400f;
 //                kLineView.addPillarData(pillarData);
             }

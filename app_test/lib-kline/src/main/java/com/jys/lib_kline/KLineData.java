@@ -8,7 +8,7 @@ public class KLineData {
     public int kLineColor; // k线颜色
     public int kLineWidth; //k线宽度
     public int xSpaceCount;//x轴分割块数
-    public int xStartPosition;//x轴起始绘制位置, 从0计数
+    public int xSpaceOffset;//x轴起始绘制位置的偏移量, 默认是0
     public float yValueMin;//y轴方向的数据计算起始位置，对应y轴起始位置
     public float yValueMax;//y轴方向的数据计算终点位置，对应y轴可绘制区域的最高位置
     public boolean shadowEnable; // 是否允许绘制阴影
