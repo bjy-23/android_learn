@@ -23,19 +23,6 @@
             android:background="#982314"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
 
-<!--        <include-->
-<!--            android:id="@+id/layout_top_fs"-->
-<!--            layout="@layout/fragment_stock_price_top"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <include-->
-<!--            android:id="@+id/layout_mq"-->
-<!--            layout="@layout/fragment_f_s_mq"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.example.x_test.MyWebView

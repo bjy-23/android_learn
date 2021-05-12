@@ -3,6 +3,7 @@ package com.example.x_test;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ public class MyWebView extends WebView implements NestedScrollingChild {
 
     private NestedScrollingChildHelper mChildHelper;
 
+    private VelocityTracker velocityTracker; // 速度检测
+
     public MyWebView(@NonNull Context context) {
         this(context, null);
     }
@@ -40,6 +43,8 @@ public class MyWebView extends WebView implements NestedScrollingChild {
     private void init(){
         mChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
+
+        velocityTracker = VelocityTracker.obtain();
     }
 
     @Override
@@ -91,11 +96,16 @@ public class MyWebView extends WebView implements NestedScrollingChild {
             case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                velocityEnd(event);
                 stopNestedScroll();
                 result = super.onTouchEvent(event);
                 break;
         }
         return result;
+    }
+
+    private void velocityEnd(MotionEvent motionEvent){
+        velocityTracker.addMovement(motionEvent);
     }
 
     @Override

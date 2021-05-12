@@ -75,7 +75,7 @@ public class KLineView extends View {
     public float[] xBgLineArray;
 
     public boolean yBgLineEnable = false;
-    public float[] yBgLineArray;
+    public float[] yBgLineArray;//按照比例设置y轴虚线
 
     public KLineView(Context context) {
         super(context);
@@ -290,7 +290,6 @@ public class KLineView extends View {
         drawWidth = vWidth - linePaddingLeft - linePaddingRight;
         drawHeight = vHeight - linePaddingTop - linePaddingBottom;
 
-
         //计算k线的数据
         calculateKData();
 
@@ -479,12 +478,18 @@ public class KLineView extends View {
         initBgPaint();
 
         if (xBgLineEnable && xBgLineArray != null && xBgLineArray.length != 0){
-            for (float value : xBgLineArray){
-                canvas.drawLine(value*drawWidth, 0, value*drawWidth, -drawHeight, linePaint);
+            if (xBgLineArray != null && xBgLineArray.length != 0){
+                for (float value : xBgLineArray){
+                    canvas.drawLine(value*drawWidth, 0, value*drawWidth, -drawHeight, linePaint);
+                }
             }
+        }
 
-            for (float value : yBgLineArray){
-                canvas.drawLine(0, -value*drawHeight, drawWidth, -value*drawHeight, linePaint);
+        if (yBgLineEnable && yBgLineArray != null && yBgLineArray.length != 0){
+            if (yBgLineArray != null && yBgLineArray.length != 0){
+                for (float value : yBgLineArray){
+                    canvas.drawLine(0, -value*drawHeight, drawWidth, -value*drawHeight, linePaint);
+                }
             }
         }
     }
@@ -684,7 +689,8 @@ public class KLineView extends View {
         canvas.drawLine(xIndexOffset, 0f, xIndexOffset, -drawHeight, linePaint);
 
         if (indexListener != null){
-            indexListener.drawIndexPosition(x_index_position);
+            float yRate = Math.abs((yIndex-drawHeight) / drawHeight);
+            indexListener.drawIndexPosition(x_index_position, yRate);
         }
     }
 
@@ -744,7 +750,7 @@ public class KLineView extends View {
         void drawIndexEnd();
 
         //返回当前十字线对应的点的位置
-        void drawIndexPosition(int position);
+        void drawIndexPosition(int position, float yRate);
     }
 
     private IndexListener indexListener;

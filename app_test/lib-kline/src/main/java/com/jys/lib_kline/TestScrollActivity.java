@@ -52,7 +52,7 @@ public class TestScrollActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void drawIndexPosition(int position) {
+                    public void drawIndexPosition(int position, float rates) {
 
                     }
                 });

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.OverScroller;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,5 +51,6 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("http://beta.zgjys.com/newsStock?id=SH600237");
 
         startActivity(new Intent(this, TestNestActivity.class));
+
     }
 }

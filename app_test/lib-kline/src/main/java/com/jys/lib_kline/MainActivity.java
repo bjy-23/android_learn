@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void drawIndexPosition(int position) {
+                public void drawIndexPosition(int position, float rate) {
                     kLineView3.xIndexPosition = position;
                     kLineView3.requestLayout();
                 }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void drawIndexPosition(int position) {
+                public void drawIndexPosition(int position, float rate) {
                     kLineView.xIndexPosition = position;
                     kLineView.requestLayout();
                 }
@@ -197,6 +197,11 @@ public class MainActivity extends AppCompatActivity {
 //
 //            klineDetail.refresh();
 //        }
+
+
+        IndexView indexView = findViewById(R.id.indexView);
+        indexView.indexLineEnable = true;
+        indexView.indexSpaceCount = 240;
 
     }
 
