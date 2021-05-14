@@ -86,9 +86,9 @@ public class KLineView extends View {
 
         //获取自定义属性，设置默认值
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.KLineView);
-        linePaddingTop = typedArray.getDimensionPixelOffset(R.styleable.KLineView_linePaddingTop, dp2px(3));
+        linePaddingTop = typedArray.getDimensionPixelOffset(R.styleable.KLineView_linePaddingTop, 0);
         linePaddingTopRate = typedArray.getFloat(R.styleable.KLineView_linePaddingTopRate, 0);
-        linePaddingBottom = typedArray.getDimensionPixelOffset(R.styleable.KLineView_linePaddingBottom, dp2px(3));
+        linePaddingBottom = typedArray.getDimensionPixelOffset(R.styleable.KLineView_linePaddingBottom, 0);
         linePaddingBottomRate = typedArray.getFloat(R.styleable.KLineView_linePaddingBottomRate, 0);
         linePaddingLeft = typedArray.getDimensionPixelOffset(R.styleable.KLineView_linePaddingLeft, 0);
         linePaddingLeftRate = typedArray.getFloat(R.styleable.KLineView_linePaddingLeftRate, 0);
@@ -223,6 +223,8 @@ public class KLineView extends View {
         pillarDataList.clear();
 
         indexSpaceCount = 0;
+        yBgLineEnable = false;
+        xBgLineEnable = false;
     }
 
     //重新计算所有数据

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("getScaledTouchSlop: " + viewConfiguration.getScaledTouchSlop());
 
         TextView textView = null;
-
         {
             KLineView kLineView = findViewById(R.id.kline);
             {
@@ -202,6 +202,27 @@ public class MainActivity extends AppCompatActivity {
         IndexView indexView = findViewById(R.id.indexView);
         indexView.indexLineEnable = true;
         indexView.indexSpaceCount = 240;
+
+        indexView.leftValueListenr = new IndexView.TextValueListener() {
+            @Override
+            public String getTextValue(int xPosition, float yRate, float yValue) {
+                return String.valueOf(100 * (1-yRate));
+            }
+        };
+
+        indexView.rightValueListenr = new IndexView.TextValueListener() {
+            @Override
+            public String getTextValue(int xPosition, float yRate, float yValue) {
+                return String.valueOf((1-yRate));
+            }
+        };
+
+        indexView.XValueListenr = new IndexView.TextValueListener() {
+            @Override
+            public String getTextValue(int xPosition, float yRate, float yValue) {
+                return String.valueOf(xPosition);
+            }
+        };
 
     }
 

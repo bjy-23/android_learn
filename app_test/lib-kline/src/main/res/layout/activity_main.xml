@@ -34,7 +34,8 @@
     <com.jys.lib_kline.IndexView
         android:id="@+id/indexView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="300dp"
+        android:background="#e3e3e3"/>
 
     <com.jys.lib_kline.KLineView
         android:id="@+id/kline"
