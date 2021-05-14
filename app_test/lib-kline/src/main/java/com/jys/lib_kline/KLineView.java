@@ -123,7 +123,6 @@ public class KLineView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        Log.i(TAG, "onDraw - canvas.save()");
 
         canvas.translate(linePaddingLeft, vHeight-linePaddingBottom);
 
@@ -141,7 +140,6 @@ public class KLineView extends View {
         drawIndexByPosition(canvas);
 
         canvas.restore();
-        Log.i(TAG, "onDraw - canvas.restore()");
     }
 
     @Override
