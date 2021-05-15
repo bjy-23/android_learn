@@ -199,9 +199,16 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
+
         IndexView indexView = findViewById(R.id.indexView);
         indexView.indexLineEnable = true;
         indexView.indexSpaceCount = 240;
+        indexView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("111222", "indexView.setOnClickListener");
+            }
+        });
 
         indexView.leftValueListenr = new IndexView.TextValueListener() {
             @Override

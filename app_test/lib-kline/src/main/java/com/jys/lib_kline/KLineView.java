@@ -53,14 +53,15 @@ public class KLineView extends View {
 
 
     //长按 十字线
-    public int indexSpaceCount;
+    public int indexColor = Color.BLACK;
+    public int indexWidth = 1;
     private Handler handler = new Handler(Looper.getMainLooper());
-    public static int TIME_LONG_PRESS = 1000;
-    public static int TIME_INDEX_DISMISS = 1000;
+    public static int TIME_LONG_PRESS = 500; //长按n秒后开始绘制
+    public static int TIME_INDEX_DISMISS = 1000;//手指离开n秒后消失
+
+    public int indexSpaceCount;
     public boolean indexLineEnable = false;
     private boolean drawIndexLineEnable = false;
-    public int colorIndex = Color.BLACK;
-    public boolean indexByPoint = true;
     private boolean beginIndexPress = false;
     private float xDown;
     private float yDown;
@@ -70,12 +71,17 @@ public class KLineView extends View {
     private double minTouchSlopPow2;
     public int xIndexPosition = -1;
 
+    //十字线，随k线点变化
+    int index_k_position = 0; //随第n条k线变化而变化，默认第一条
+
     //背景线
     public boolean xBgLineEnable = false;
     public float[] xBgLineArray;
+    public List<BgLineItem> xBgLines = new ArrayList<>();
 
     public boolean yBgLineEnable = false;
     public float[] yBgLineArray;//按照比例设置y轴虚线
+    public List<BgLineItem> yBgLines = new ArrayList<>();
 
     public KLineView(Context context) {
         super(context);
@@ -174,7 +180,8 @@ public class KLineView extends View {
                             }
                         }
                     }, TIME_LONG_PRESS);
-                    return true;
+                    break;
+//                    return true;
                 case MotionEvent.ACTION_MOVE:
                     xIndex = event.getX();
                     yIndex = event.getY();
@@ -477,6 +484,21 @@ public class KLineView extends View {
     private void drawBgLine(Canvas canvas){
         initBgPaint();
 
+        if (xBgLineEnable){
+            for (BgLineItem bgLineItem : xBgLines){
+                initBgLinePaint(bgLineItem);
+                canvas.drawLine(bgLineItem.rate*drawWidth, 0, bgLineItem.rate*drawWidth, -drawHeight, linePaint);
+            }
+        }
+
+        if (yBgLineEnable){
+            for (BgLineItem bgLineItem : yBgLines){
+                initBgLinePaint(bgLineItem);
+                canvas.drawLine(0, -bgLineItem.rate*drawHeight, drawWidth, -bgLineItem.rate*drawHeight, linePaint);
+            }
+        }
+
+
         if (xBgLineEnable && xBgLineArray != null && xBgLineArray.length != 0){
             if (xBgLineArray != null && xBgLineArray.length != 0){
                 for (float value : xBgLineArray){
@@ -502,6 +524,18 @@ public class KLineView extends View {
         linePaint.setColor(Color.parseColor("#E4E4E4"));
         linePaint.setStrokeWidth(dp2px(1f));
         linePaint.setPathEffect(new DashPathEffect(new float[]{dp2px(2), dp2px(1)}, 0));
+    }
+
+    private void initBgLinePaint(BgLineItem bgLineItem){
+        linePaint.reset();
+        linePaint.setDither(true);
+        linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setColor(bgLineItem.color);
+        linePaint.setStrokeWidth(bgLineItem.width);
+        if (bgLineItem.style == BgLineItem.STYLE_DOTED){
+            linePaint.setPathEffect(new DashPathEffect(new float[]{dp2px(3), dp2px(2)}, 0));
+        }
     }
 
     private void drawLines(Canvas canvas){
@@ -739,8 +773,8 @@ public class KLineView extends View {
         linePaint.reset();
         linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         linePaint.setDither(true);
-        linePaint.setColor(colorIndex);
-        linePaint.setStrokeWidth(1);
+        linePaint.setColor(indexColor);
+        linePaint.setStrokeWidth(indexWidth);
     }
 
 
@@ -759,5 +793,20 @@ public class KLineView extends View {
         this.indexListener = indexListener;
     }
 
+    public static class BgLineItem{
+        float rate; //x轴或者y轴的比例
+        int color;
+        int width;
+        int style = STYLE_STRAIGHT;
 
+        public BgLineItem(float rate, int color, int width, int style) {
+            this.rate = rate;
+            this.color = color;
+            this.width = width;
+            this.style = style;
+        }
+
+        public static final int STYLE_STRAIGHT  = 0;//直线
+        public static final int STYLE_DOTED = 1;//虚线
+    }
 }

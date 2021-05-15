@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -83,6 +84,7 @@ public class IndexView extends View {
             }
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
+                    setClickable(true);
                     xDown = event.getX();
                     yDown = event.getY();
                     xIndex = xDown;
@@ -99,13 +101,14 @@ public class IndexView extends View {
                             }
                         }
                     }, TIME_LONG_PRESS);
-                    return true;
+                    break;
                 case MotionEvent.ACTION_MOVE:
                     xIndex = event.getX();
                     yIndex = event.getY();
+                    setClickable(false);
                     if (drawIndexLineEnable){
                         invalidate();
-                        return true;
+//                        return true;
                     }
 
                     break;
@@ -117,7 +120,10 @@ public class IndexView extends View {
                     break;
             }
         }
-        return super.onTouchEvent(event);
+
+        boolean result = super.onTouchEvent(event);
+//        Log.i("111222", "event: " + event.getAction()+ "  result: " +result);
+        return result;
     }
 
     @Override
@@ -154,7 +160,7 @@ public class IndexView extends View {
         canvas.drawLine(0f, yIndex, drawWidth, yIndex, linePaint);
         canvas.drawLine(xIndexOffset, 0f, xIndexOffset, drawHeight, linePaint);
 
-        //文字背景
+        //文字
         textPaint.setTextSize(textSize);
 
         int xPosition = x_index_position;
@@ -168,6 +174,7 @@ public class IndexView extends View {
                 //线左边的文字背景,注意y轴方向不超过上下边距
                 float top = Math.max(0, Math.min(drawHeight-rectHeight, yIndex- rectHeight/2));
                 textPaint.setColor(bgColor);
+                textPaint.bgColor = bgColor;
                 canvas.drawRect(0, top, rectWidth, top+rectHeight, textPaint);
                 //左边文字
                 //基线以左下角为准
@@ -187,6 +194,7 @@ public class IndexView extends View {
                 float top = Math.max(0, Math.min(drawHeight-rectHeight, yIndex- rectHeight/2));
                 //右边文字背景
                 textPaint.setColor(bgColor);
+                textPaint.bgColor = bgColor;
                 canvas.drawRect(drawWidth-rectWidth, top, drawWidth, top+rectHeight, textPaint);
                 textPaint.setColor(textColor);
                 canvas.drawText(textRight, drawWidth-rectWidth+leftOffset, top+rectHeight-bottomOffset, textPaint);
@@ -202,14 +210,15 @@ public class IndexView extends View {
                 int textWidth = textRect.right - textRect.left;
                 int textHeight = textRect.bottom - textRect.top;
                 //默认背景区域
-                rectHeight = textHeight + topOffset + bottomOffset;
-                rectWidth = textWidth + leftOffset + rightOffset;
+                rectHeight = textHeight + textX.topMargin + textX.bottomMargin;
+                rectWidth = textWidth + textX.leftMargin + textX.rightMargin;
                 //参数中读取
                 rectHeight = textX.bgHeight > 0 ? textX.bgHeight : rectHeight;
                 rectWidth = textX.bgWidth > 0 ? textX.bgWidth : rectWidth;
 
                 float left = Math.max(0, Math.min(drawWidth-rectWidth, xIndexOffset-rectWidth/2));
                 textPaint.setColor(textX.bgColor);
+                textPaint.bgColor = textX.bgColor;
                 canvas.drawRect(left, textX.textXOffset, left+rectWidth, textX.textXOffset+rectHeight, textPaint);
 
                 float offsetX = 0f;
@@ -269,6 +278,10 @@ public class IndexView extends View {
         public int bgColor = Color.WHITE;
 
         public int bgWidth;
+        public int leftMargin;
+        public int rightMargin;
+        public int topMargin;
+        public int bottomMargin;
         public int bgHeight;
     }
 }
