@@ -41,6 +41,23 @@ public class IndexView extends View {
     private double minTouchSlopPow2;
     public int xIndexPosition = -1;
 
+    public int indexStyle = INDEX_STYLE_LIMIT;
+    public static final int INDEX_STYLE_FREE = 0;
+    public static final int INDEX_STYLE_LIMIT = 1;
+
+    //十字线随数据改变
+    public float yMax;
+    public float yMin;
+    public float yHeight;
+    public float[] yValues;
+    public int xStartPosition;
+    public int xEndPosition;
+    public boolean drawEnable = true;
+    public int xDrawPosition; // 十字线对应的x轴具体位置
+    public int xSpaceOffset; //对应KLineData的xSpaceOffset
+    public float xDraw; // 十字线对应的x轴具体位置
+    public float yDraw; // 十字线对应的y轴具体位置
+
     public int bgColor = Color.parseColor("#FA6029");
     public int textColor = Color.WHITE;
     public int textSize = 20;
@@ -97,7 +114,14 @@ public class IndexView extends View {
                             if (beginIndexPress){
                                 //处于长按状态，则允许绘制十字线
                                 drawIndexLineEnable = true;
-                                invalidate();
+                                getIndexState();
+                                if (drawEnable){
+                                    if (indexListener != null){
+                                        indexListener.drawIndexStart(xDrawPosition);
+                                    }
+                                    invalidate();
+                                }
+
                             }
                         }
                     }, TIME_LONG_PRESS);
@@ -107,7 +131,13 @@ public class IndexView extends View {
                     yIndex = event.getY();
                     setClickable(false);
                     if (drawIndexLineEnable){
-                        invalidate();
+                        getIndexState();
+                        if (drawEnable){
+                            if (indexListener != null){
+                                indexListener.drawIndex(xDrawPosition);
+                            }
+                            invalidate();
+                        }
 //                        return true;
                     }
 
@@ -144,35 +174,26 @@ public class IndexView extends View {
         if (!drawIndexLineEnable)
             return;
 
+        if (!drawEnable)
+            return;
+
         initIndexPaint();
 
-        //计算
-        float xIndexOffset = xIndex - getPaddingLeft();
-
-        int x_index_position = 0;
-        if (indexSpaceCount != 0){
-            x_index_position = (int) (xIndexOffset / drawWidth * indexSpaceCount);
-            xIndexOffset = x_index_position * (drawWidth / indexSpaceCount);
-        }
-
-
         //线
-        canvas.drawLine(0f, yIndex, drawWidth, yIndex, linePaint);
-        canvas.drawLine(xIndexOffset, 0f, xIndexOffset, drawHeight, linePaint);
+        canvas.drawLine(0f, yDraw, drawWidth, yDraw, linePaint);
+        canvas.drawLine(xDraw, 0f, xDraw, drawHeight, linePaint);
 
         //文字
         textPaint.setTextSize(textSize);
 
-        int xPosition = x_index_position;
-        float yRate = yIndex/drawHeight;
         if (leftValueListenr != null){
-            String textLeft = leftValueListenr.getTextValue(xPosition, yRate, yIndex);
+            String textLeft = leftValueListenr.getTextValue(xDrawPosition);
             if (!TextUtils.isEmpty(textLeft)){
                 textPaint.getTextBounds(textLeft, 0, textLeft.length(), textRect);
                 rectHeight = textRect.bottom - textRect.top + topOffset + bottomOffset;
                 rectWidth = textRect.right - textRect.left + leftOffset + rightOffset;
                 //线左边的文字背景,注意y轴方向不超过上下边距
-                float top = Math.max(0, Math.min(drawHeight-rectHeight, yIndex- rectHeight/2));
+                float top = Math.max(0, Math.min(drawHeight-rectHeight, yDraw- rectHeight/2));
                 textPaint.setColor(bgColor);
                 textPaint.bgColor = bgColor;
                 canvas.drawRect(0, top, rectWidth, top+rectHeight, textPaint);
@@ -184,14 +205,14 @@ public class IndexView extends View {
         }
 
         if (rightValueListenr != null){
-            String textRight = rightValueListenr.getTextValue(xPosition, yRate, yIndex);
+            String textRight = rightValueListenr.getTextValue(xDrawPosition);
             if (!TextUtils.isEmpty(textRight)){
                 //右边文字
                 textPaint.getTextBounds(textRight, 0, textRight.length(), textRect);
                 rectHeight = textRect.bottom - textRect.top + topOffset + bottomOffset;
                 rectWidth = textRect.right - textRect.left + leftOffset + rightOffset;
                 //线左边的文字背景,注意y轴方向不超过上下边距
-                float top = Math.max(0, Math.min(drawHeight-rectHeight, yIndex- rectHeight/2));
+                float top = Math.max(0, Math.min(drawHeight-rectHeight, yDraw- rectHeight/2));
                 //右边文字背景
                 textPaint.setColor(bgColor);
                 textPaint.bgColor = bgColor;
@@ -202,7 +223,7 @@ public class IndexView extends View {
         }
 
         if (XValueListenr != null && textX != null){
-            String xText = XValueListenr.getTextValue(xPosition, yRate, yIndex);
+            String xText = XValueListenr.getTextValue(xDrawPosition);
             if (!TextUtils.isEmpty(xText)){
                 //绘制x轴方向上的文字展示
                 textPaint.getTextBounds(xText, 0, xText.length(), textRect);
@@ -216,7 +237,7 @@ public class IndexView extends View {
                 rectHeight = textX.bgHeight > 0 ? textX.bgHeight : rectHeight;
                 rectWidth = textX.bgWidth > 0 ? textX.bgWidth : rectWidth;
 
-                float left = Math.max(0, Math.min(drawWidth-rectWidth, xIndexOffset-rectWidth/2));
+                float left = Math.max(0, Math.min(drawWidth-rectWidth, xDraw-rectWidth/2));
                 textPaint.setColor(textX.bgColor);
                 textPaint.bgColor = textX.bgColor;
                 canvas.drawRect(left, textX.textXOffset, left+rectWidth, textX.textXOffset+rectHeight, textPaint);
@@ -247,6 +268,33 @@ public class IndexView extends View {
         linePaint.setStrokeWidth(1);
     }
 
+    //当前十字线的位置和状态
+    private void getIndexState(){
+        //计算手指处x轴的位置
+        xDraw = xIndex - getPaddingLeft();
+
+        //x轴位置
+        xDrawPosition = 0;
+        if (indexSpaceCount != 0){
+            xDrawPosition = (int) (xDraw / drawWidth * indexSpaceCount);
+            xDraw = xDrawPosition * (drawWidth / indexSpaceCount);
+        }
+
+        if (indexStyle == INDEX_STYLE_LIMIT){
+            if (yHeight <=0 || yMax-yMin == 0 || xDrawPosition < xStartPosition || xDrawPosition > xEndPosition){
+                drawEnable = false;
+                return;
+            }
+
+            drawEnable = true;
+            if (yValues != null && xDrawPosition < yValues.length && (yMax-yMin != 0)){
+                yDraw = yHeight * (1 - (yValues[xDrawPosition-xSpaceOffset] - yMin) / (yMax-yMin));
+            }
+
+            Log.i("111222", "xDrawPosition: " +xDrawPosition + "  xDraw: " + xDraw + " yDraw" + yDraw);
+        }
+    }
+
     private void cancelIndex(){
         beginIndexPress = false;
         drawIndexLineEnable = false;
@@ -261,7 +309,7 @@ public class IndexView extends View {
 
     public interface TextValueListener{
         //返回x轴的位置 和 y轴方向上距顶部的比例和距顶部的值
-        String getTextValue(int xPosition, float yRate, float yValue);
+        String getTextValue(int xPosition);
     }
 
     public TextValueListener leftValueListenr;
@@ -284,4 +332,15 @@ public class IndexView extends View {
         public int bottomMargin;
         public int bgHeight;
     }
+
+    //返回当前十字线对应的点的位置
+    public interface IndexListener{
+        void drawIndexStart(int posotion);
+
+        void drawIndexEnd(int posotion);
+
+        void drawIndex(int position);
+    }
+
+    public IndexListener indexListener;
 }

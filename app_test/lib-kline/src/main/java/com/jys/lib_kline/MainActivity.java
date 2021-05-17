@@ -203,6 +203,16 @@ public class MainActivity extends AppCompatActivity {
         IndexView indexView = findViewById(R.id.indexView);
         indexView.indexLineEnable = true;
         indexView.indexSpaceCount = 240;
+        indexView.xEndPosition = 120;
+        indexView.yHeight = 120;
+        float[] yValues = new float[120];
+        for (int i=0; i< 120; i++){
+            yValues[i] = i;
+        }
+        indexView.yValues = yValues;
+
+        indexView.yMax = 120;
+        indexView.yMin = 0;
         indexView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,21 +222,25 @@ public class MainActivity extends AppCompatActivity {
 
         indexView.leftValueListenr = new IndexView.TextValueListener() {
             @Override
-            public String getTextValue(int xPosition, float yRate, float yValue) {
-                return String.valueOf(100 * (1-yRate));
+            public String getTextValue(int xPosition) {
+//                return String.valueOf(100 * (1-yRate));
+
+                if (xPosition < yValues.length)
+                    return String.valueOf(yValues[xPosition]);
+                return "--";
             }
         };
 
         indexView.rightValueListenr = new IndexView.TextValueListener() {
             @Override
-            public String getTextValue(int xPosition, float yRate, float yValue) {
-                return String.valueOf((1-yRate));
+            public String getTextValue(int xPosition) {
+                return String.valueOf((xPosition));
             }
         };
 
         indexView.XValueListenr = new IndexView.TextValueListener() {
             @Override
-            public String getTextValue(int xPosition, float yRate, float yValue) {
+            public String getTextValue(int xPosition) {
                 return String.valueOf(xPosition);
             }
         };

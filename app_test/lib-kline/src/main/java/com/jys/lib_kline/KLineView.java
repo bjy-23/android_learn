@@ -60,6 +60,7 @@ public class KLineView extends View {
     public static int TIME_INDEX_DISMISS = 1000;//手指离开n秒后消失
 
     public int indexSpaceCount;
+    @Deprecated
     public boolean indexLineEnable = false;
     private boolean drawIndexLineEnable = false;
     private boolean beginIndexPress = false;
