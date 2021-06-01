@@ -13,9 +13,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 public class IndexView extends View {
+    private static final String TAG = "IndexView";
     Paint linePaint;
     TextPaint textPaint;
     Rect textRect; //文字背景
@@ -69,6 +72,16 @@ public class IndexView extends View {
     public int topOffset = 5;
     public int bottomOffset = 5;
 
+
+    //允许滑动展示数据，作用于KlineView
+    public boolean scrollEnable;
+    public Rect scrollRect; //在这个区间内滑动
+
+    //缩放监听
+    private ScaleGestureDetector mScaleGestureDetector;
+    private boolean isScale;
+
+
     public IndexView(Context context) {
         this(context, null);
     }
@@ -76,20 +89,56 @@ public class IndexView extends View {
     public IndexView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        init();
+        init(context);
     }
 
-    private void init(){
+    private void init(Context context){
         linePaint = new Paint();
         linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         linePaint.setDither(true);
 
         textPaint = new TextPaint();
         textRect = new Rect();
+
+        minTouchSlop =  ViewConfiguration.get(context).getScaledTouchSlop();
+        minTouchSlopPow2 = Math.pow(minTouchSlop, 2);
+
+        mScaleGestureDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.OnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                float scaleFactor = detector.getScaleFactor();
+                Log.i(TAG, "onScale scaleFactor: " + scaleFactor);
+                if (scaleListener != null){
+                    scaleListener.onScale(scaleFactor);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onScaleBegin(ScaleGestureDetector detector) {
+                Log.i(TAG, "onScaleBegin");
+                isScale = true;
+                if (scaleListener != null){
+                    scaleListener.scaleStart();
+                }
+                return true;
+            }
+
+            @Override
+            public void onScaleEnd(ScaleGestureDetector detector) {
+                isScale = false;
+                Log.i(TAG, "onScaleEnd");
+                if (scaleListener != null){
+                    scaleListener.scaleEnd();
+                }
+            }
+        });
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        mScaleGestureDetector.onTouchEvent(event);
+
         if (indexLineEnable){
             //在指定时间内只要有滑动就取消绘制十字线
             if (event.getAction() == MotionEvent.ACTION_DOWN){
@@ -97,6 +146,8 @@ public class IndexView extends View {
             }else {
                 if (Math.pow(xIndex-xDown, 2) + Math.pow(yIndex-yDown, 2) > minTouchSlopPow2){
                     beginIndexPress = false;
+
+                    setClickable(false);
                 }
             }
             switch (event.getAction()){
@@ -114,6 +165,7 @@ public class IndexView extends View {
                             if (beginIndexPress){
                                 //处于长按状态，则允许绘制十字线
                                 drawIndexLineEnable = true;
+                                setClickable(false);
                                 getIndexState();
                                 if (drawEnable){
                                     if (indexListener != null){
@@ -125,11 +177,16 @@ public class IndexView extends View {
                             }
                         }
                     }, TIME_LONG_PRESS);
+
+                    if (scrollEnable && scrollListener != null){
+                        if (canScroll(yDown))
+                            scrollListener.scrollStart();
+                    }
                     break;
+//                    return false;
                 case MotionEvent.ACTION_MOVE:
                     xIndex = event.getX();
                     yIndex = event.getY();
-                    setClickable(false);
                     if (drawIndexLineEnable){
                         getIndexState();
                         if (drawEnable){
@@ -141,18 +198,28 @@ public class IndexView extends View {
 //                        return true;
                     }
 
+                    //滑动监听
+                    //有十字线时不监听滑动
+                    if (scrollEnable && !drawIndexLineEnable && scrollListener != null){
+                        if (canScroll(yIndex) && !isScale){
+                            scrollListener.scrollOffset(event.getX() - xDown, event.getY() - yDown);
+                        }
+                    }
+
                     break;
                 case MotionEvent.ACTION_UP:
                     cancelIndex();
+                    cancelScroll();
                     break;
                 case MotionEvent.ACTION_CANCEL:
                     cancelIndex();
+                    cancelScroll();
                     break;
             }
         }
 
         boolean result = super.onTouchEvent(event);
-//        Log.i("111222", "event: " + event.getAction()+ "  result: " +result);
+//        Log.i("111222", "index : event: " + event.getAction()+ "  result: " +result);
         return result;
     }
 
@@ -281,7 +348,8 @@ public class IndexView extends View {
         }
 
         if (indexStyle == INDEX_STYLE_LIMIT){
-            if (yHeight <=0 || yMax-yMin == 0 || xDrawPosition < xStartPosition || xDrawPosition > xEndPosition){
+            if (yHeight <= 0 || yMax - yMin == 0 || xDrawPosition < xStartPosition || xDrawPosition > xEndPosition
+                    || xDrawPosition - xSpaceOffset < 0) {
                 drawEnable = false;
                 return;
             }
@@ -291,7 +359,6 @@ public class IndexView extends View {
                 yDraw = yHeight * (1 - (yValues[xDrawPosition-xSpaceOffset] - yMin) / (yMax-yMin));
             }
 
-            Log.i("111222", "xDrawPosition: " +xDrawPosition + "  xDraw: " + xDraw + " yDraw" + yDraw);
         }
     }
 
@@ -306,6 +373,25 @@ public class IndexView extends View {
         }, TIME_INDEX_DISMISS);
     }
 
+    private void cancelScroll(){
+        if (scrollEnable){
+            if (scrollListener != null){
+                scrollListener.scrollEnd();
+            }
+        }
+    }
+
+    //手指区域是否在可滑动的区域内
+    private boolean canScroll(float yValue){
+        boolean canScroll = true;
+        if (scrollRect != null){
+            if (scrollRect.bottom < yValue){
+                canScroll = false;
+            }
+        }
+
+        return canScroll;
+    }
 
     public interface TextValueListener{
         //返回x轴的位置 和 y轴方向上距顶部的比例和距顶部的值
@@ -343,4 +429,27 @@ public class IndexView extends View {
     }
 
     public IndexListener indexListener;
+
+    public interface ScrollListener{
+        // >0 ,向右滑；<0,向左滑
+        void scrollOffset(float deltaX, float deltaY);
+
+        //down事件时触发
+        void scrollStart();
+        
+        void scrollEnd();
+    }
+
+    public ScrollListener scrollListener;
+
+
+    public interface ScaleListener{
+        void scaleStart();
+
+        void onScale(float scale);
+
+        void scaleEnd();
+    }
+
+    public ScaleListener scaleListener;
 }

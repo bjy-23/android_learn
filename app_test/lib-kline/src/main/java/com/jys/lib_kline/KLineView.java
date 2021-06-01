@@ -133,14 +133,17 @@ public class KLineView extends View {
 
         canvas.translate(linePaddingLeft, vHeight-linePaddingBottom);
 
+        //背景线
         drawBgLine(canvas);
-        //绘制线
-        drawLines(canvas);
+
         //绘制蜡烛图
         drawCandle(canvas);
 
         //绘制柱形图
         drawRect(canvas);
+
+        //绘制线
+        drawLines(canvas);
 
         drawIndex(canvas);
 
@@ -151,56 +154,10 @@ public class KLineView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (indexLineEnable){
-            //在指定时间内只要有滑动就取消绘制十字线
-            if (event.getAction() == MotionEvent.ACTION_DOWN){
-                beginIndexPress = true;
-            }else {
-                if (Math.pow(xIndex-xDown, 2) + Math.pow(yIndex-yDown, 2) > minTouchSlopPow2){
-                    beginIndexPress = false;
-                }
-            }
-            switch (event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    xDown = event.getX();
-                    yDown = event.getY();
-                    xIndex = xDown;
-                    yIndex = yDown;
+        boolean result = super.onTouchEvent(event);
 
-                    //长按监听
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (beginIndexPress){
-                                //处于长按状态，则允许绘制十字线
-                                drawIndexLineEnable = true;
-                                if (indexListener != null){
-                                    indexListener.drawIndexStart();
-                                }
-                                invalidate();
-                            }
-                        }
-                    }, TIME_LONG_PRESS);
-                    break;
-//                    return true;
-                case MotionEvent.ACTION_MOVE:
-                    xIndex = event.getX();
-                    yIndex = event.getY();
-                    if (drawIndexLineEnable){
-                        invalidate();
-                        return true;
-                    }
-
-                    break;
-                case MotionEvent.ACTION_UP:
-                    cancelIndex();
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                    cancelIndex();
-                    break;
-            }
-        }
-        return super.onTouchEvent(event);
+//        Log.i("111222", "Kline : event: " + event.getAction()+ "  result: " +result);
+        return result;
     }
 
     public void addKLineData(KLineData kLineData){
@@ -583,14 +540,15 @@ public class KLineView extends View {
                         continue;
 
                     int paintColor = Color.BLACK;
-                    if (item.start - item.end > 0){
-                        paintColor = Color.parseColor("#00A846"); // TODO: 2021/4/14
+                    if (item.drawColor != 0)
+                        paintColor = item.drawColor;
+                    linePaint.setColor(paintColor);
+
+                    if (item.style == CandleData.Item.STYLE_DEFAULT){
                         linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                    }else if (item.start - item.end < 0){
-                        paintColor = Color.parseColor("#EE3F3C"); // TODO: 2021/4/14
+                    }else {
                         linePaint.setStyle(Paint.Style.STROKE);
                     }
-                    linePaint.setColor(paintColor); // TODO: 2021/4/14
 
                     Point[] points = item.points;
                     canvas.drawLine(points[0].x, -points[0].y, points[1].x, -points[1].y, linePaint);
@@ -666,6 +624,8 @@ public class KLineView extends View {
 
                 RectData rectData = new RectData();
                 rectData.drawColor = item.color;
+                rectData.lineWidth = item.lineWidth;
+                rectData.style = item.style;
                 RectData.Item rectItem = new RectData.Item();
                 rectItem.left = (positionStart+i) * offsetX - pillarWidth/2;
                 rectItem.right = (positionStart+i) * offsetX + pillarWidth/2;
@@ -683,20 +643,27 @@ public class KLineView extends View {
            return;
 
        //todo ceshi
-        for (int i=0; i<rectDataList.size(); i++){
-            Log.i("drawRect-test-" + i, "width " + (rectDataList.get(i).item.right - rectDataList.get(i).item.left));
-        }
+//        for (int i=0; i<rectDataList.size(); i++){
+//            Log.i("drawRect-test-" + i, "width " + (rectDataList.get(i).item.right - rectDataList.get(i).item.left));
+//        }
 
-       //设置画笔
+        //设置画笔
+        initPaint();
+
        for(RectData rectData : rectDataList){
            if (rectData == null || rectData.item == null)
                continue;
 
-           initPaint();
            if (rectData.drawColor != 0)
                 linePaint.setColor(rectData.drawColor);
            if (rectData.lineWidth != 0)
                linePaint.setStrokeWidth(rectData.lineWidth);
+
+           if (rectData.style == PillarData.Item.STYLE_DEFAULT){
+               linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+           }else {
+               linePaint.setStyle(Paint.Style.STROKE);
+           }
 
             canvas.drawRect(rectData.item.left, -rectData.item.top, rectData.item.right, -rectData.item.bottom, linePaint);
        }

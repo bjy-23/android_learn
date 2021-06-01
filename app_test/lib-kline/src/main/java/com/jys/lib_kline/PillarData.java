@@ -16,5 +16,10 @@ public class PillarData {
         public float bottom;
 
         public int color;
+        public float lineWidth;
+
+        public int style = STYLE_DEFAULT;
+        public static final int STYLE_DEFAULT = 1;//实心
+        public static final int STYLE_2 = 2;//空心
     }
 }

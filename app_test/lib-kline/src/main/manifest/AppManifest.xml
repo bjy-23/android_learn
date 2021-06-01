@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TestScrollActivity"></activity>
+        <activity android:name=".TestScrollActivity"/>
+        <activity android:name=".VpTestActivity"/>
     </application>
 
 </manifest>

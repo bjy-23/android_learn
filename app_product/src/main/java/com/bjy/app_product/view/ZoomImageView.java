@@ -147,44 +147,6 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
     }
 
     /**
-     * 对图片进行缩放的控制，首先进行缩放范围的判断，然后设置mScaleMatrix的scale值
-     * @param detector
-     * @return
-     */
-    @SuppressLint("NewApi")
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        float scale = getScale();
-        float scaleFactor = detector.getScaleFactor();
-
-        if (getDrawable() == null)
-            return true;
-
-        /**
-         * 缩放的范围控制
-         */
-        if ((scale < scaleMax && scaleFactor > 1.0f) || (scale > initScale && scaleFactor < 1.0f)) {
-            /**
-             * 最大值最小值判断
-             */
-            if (scaleFactor * scale < initScale) {
-                scaleFactor = initScale / scale;
-            }
-            if (scaleFactor * scale > scaleMax) {
-                scaleFactor = scaleMax / scale;
-            }
-            /**
-             * 设置缩放比例
-             */
-            mScaleMatrix.postScale(scaleFactor, scaleFactor, detector.getFocusX(), detector.getFocusY());
-
-            checkBorderAndCenterWhenScale();
-            setImageMatrix(mScaleMatrix);
-        }
-        return true;
-    }
-
-    /**
      * 在缩放时，进行图片显示范围的控制
      */
     private void checkBorderAndCenterWhenScale() {
@@ -243,6 +205,44 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
+        return true;
+    }
+
+    /**
+     * 对图片进行缩放的控制，首先进行缩放范围的判断，然后设置mScaleMatrix的scale值
+     * @param detector
+     * @return
+     */
+    @SuppressLint("NewApi")
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        float scale = getScale();
+        float scaleFactor = detector.getScaleFactor();
+
+        if (getDrawable() == null)
+            return true;
+
+        /**
+         * 缩放的范围控制
+         */
+        if ((scale < scaleMax && scaleFactor > 1.0f) || (scale > initScale && scaleFactor < 1.0f)) {
+            /**
+             * 最大值最小值判断
+             */
+            if (scaleFactor * scale < initScale) {
+                scaleFactor = initScale / scale;
+            }
+            if (scaleFactor * scale > scaleMax) {
+                scaleFactor = scaleMax / scale;
+            }
+            /**
+             * 设置缩放比例
+             */
+            mScaleMatrix.postScale(scaleFactor, scaleFactor, detector.getFocusX(), detector.getFocusY());
+
+            checkBorderAndCenterWhenScale();
+            setImageMatrix(mScaleMatrix);
+        }
         return true;
     }
 

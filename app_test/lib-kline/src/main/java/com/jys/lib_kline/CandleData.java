@@ -22,6 +22,9 @@ public class CandleData {
         public float max; //最高价
         public float min;//最低价
         public int drawColor;//绘制颜色
+        public int style = STYLE_DEFAULT;
+        public static final int STYLE_DEFAULT = 1;
+        public static final int STYLE_2 = 2;
         public float candleMaxWidth;// 蜡烛图矩形最大宽度
         public int candleWidthRate;//
 
