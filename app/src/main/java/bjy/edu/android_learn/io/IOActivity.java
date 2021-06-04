@@ -220,4 +220,40 @@ public class IOActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+    //往一个文件里连续写数据
+    private void test_7(File file, String sth){
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file.getAbsolutePath(), true);
+
+            fileWriter.write("------------------------------------");
+            fileWriter.write("\r\n");
+            fileWriter.write(sth);
+            fileWriter.write("\r\n");
+            fileWriter.write("\r\n");
+
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        FileOutputStream fileOutputStream = null;
+//        try {
+//            fileOutputStream = new FileOutputStream(file, true);
+//            fileOutputStream.write("-------------------".getBytes());
+//            fileOutputStream.write("\r\n".getBytes());
+//            fileOutputStream.write(sth.getBytes());
+//            fileOutputStream.write("\r\n".getBytes());
+//            fileOutputStream.write("\r\n".getBytes());
+//
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+//        }catch (IOException e){
+//
+//        }
+    }
+
 }

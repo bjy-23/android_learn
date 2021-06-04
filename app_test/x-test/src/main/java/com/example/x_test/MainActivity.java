@@ -47,45 +47,42 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 
-        new Handler().postDelayed(new Runnable() {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new RecyclerView.ViewHolder(new FrameLayout(MainActivity.this)){};
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                FrameLayout frameLayout = (FrameLayout) holder.itemView;
+                frameLayout.removeAllViews();
+                TextView textView = new TextView(MainActivity.this);
+                textView.setText("position: " + position);
+                textView.setTextSize(16f);
+                frameLayout.addView(textView);
+            }
+
+            @Override
+            public int getItemCount() {
+                return 150;
+            }
+        });
+
+        recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                FileUtil.writeSth(new File(MainActivity.this.getExternalFilesDir("1369"), "fenshi.txt"), "baijy_" + count);
-                count++;
-                if (count >=10)
-                    return;
-                new Handler().postDelayed(this, 1000);
+                Log.i("111222", " recyclerView.getHeight()" + recyclerView.getHeight());
             }
-        }, 1000);
+        });
 
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//        recyclerView.setAdapter(new RecyclerView.Adapter() {
-//            @NonNull
-//            @Override
-//            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                return new RecyclerView.ViewHolder(new FrameLayout(MainActivity.this)){};
-//            }
-//
-//            @Override
-//            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//                FrameLayout frameLayout = (FrameLayout) holder.itemView;
-//                TextView textView = new TextView(MainActivity.this);
-//                textView.setText("position: " + position);
-//                textView.setTextSize(16f);
-//                frameLayout.addView(textView);
-//            }
-//
-//            @Override
-//            public int getItemCount() {
-//                return 50;
-//            }
-//        });
-
-        WebView webView = findViewById(R.id.webView);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("http://beta.zgjys.com/newsStock?id=SH600237");
+//        WebView webView = findViewById(R.id.webView);
+//        WebSettings webSettings = webView.getSettings();
+//        webSettings.setJavaScriptEnabled(true);
+//        webView.loadUrl("http://beta.zgjys.com/newsStock?id=SH600237");
 
 //        startActivity(new Intent(this, TestNestActivity.class));
 

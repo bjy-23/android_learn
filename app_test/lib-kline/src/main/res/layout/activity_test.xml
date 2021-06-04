@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".test.TestActivity">
+
+    <com.jys.lib_kline.KLineView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/_00A846"/>
+
+    <com.jys.lib_kline.IndexView
+        android:id="@+id/index"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#921229"/>
+
+</FrameLayout>

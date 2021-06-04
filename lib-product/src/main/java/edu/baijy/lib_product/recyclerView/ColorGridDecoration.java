@@ -1,11 +1,12 @@
-package com.example.test_listview;
+package edu.baijy.lib_product.recyclerView;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ColorGridDecoration extends RecyclerView.ItemDecoration {
     private Paint paint;
@@ -18,6 +19,9 @@ public class ColorGridDecoration extends RecyclerView.ItemDecoration {
     public static final int VERTICAL = 1;
 
     public ColorGridDecoration(int spaceCount, int orientation, int color, int offsetL, int offsetT) {
+        if (spaceCount <= 0 ){
+            throw new IllegalArgumentException("param 'spaceCount' must be positive!");
+        }
         this.spaceCount = spaceCount;
         this.orientation = orientation;
         this.color = color;

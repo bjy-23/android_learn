@@ -13,15 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_learn"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CoordinaryTestActivity"></activity>
+        <activity android:name=".RefreshActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".CoordinaryTestActivity" />
         <activity android:name=".Test" />
         <activity android:name=".VpActivity" />
         <activity android:name=".RvActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

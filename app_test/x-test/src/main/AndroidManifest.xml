@@ -3,7 +3,6 @@
     package="com.example.x_test">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -14,15 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_learn"
         android:usesCleartextTraffic="true">
-        <activity android:name=".nest.NestedActivity">
-
-        </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".testClick.TestClickActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".nest.NestedActivity"></activity>
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".TestNestActivity" />
     </application>

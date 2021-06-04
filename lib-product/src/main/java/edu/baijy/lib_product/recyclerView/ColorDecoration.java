@@ -1,11 +1,13 @@
-package com.example.test_listview;
+package edu.baijy.lib_product.recyclerView;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 /*
 * 适用于垂直和水平LayoutManager
 *
