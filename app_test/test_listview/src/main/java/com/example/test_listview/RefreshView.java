@@ -72,7 +72,7 @@ public class RefreshView extends FrameLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "up getScrollY " + getScrollY());
-                scroller.startScroll(0, getScrollY(), 0, -getScrollY(), 500);
+                scroller.startScroll(0, getScrollY(), 0, -getScrollY(), 800);
                 invalidate();
 //                scrollBy(0, -getScrollY());
 //                scrollTo(0, 0);
